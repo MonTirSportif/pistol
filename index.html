@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MonTirSportif – Les techniques du pistolet ISSF</title>
+<link rel="icon" type="image/png" href="img/coeur.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#e9ecf0; --bg2:#f4f6f8; --card:#ffffff; --line:#d3d9e1;
+    --txt:#1b2430; --mut:#5a6676; --acc:#e0601f; --acc2:#a87400; --ok:#12938a;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 Inter,system-ui,sans-serif}
+  h1,h2,h3{font-family:"Barlow Condensed",sans-serif;letter-spacing:.02em;line-height:1.1;margin:0 0 .5em}
+  h2{font-size:2.1rem}
+  h3{font-size:1.35rem;color:var(--acc)}
+  p{margin:0 0 1em}
+  a{color:var(--acc)}
+  header{position:sticky;top:0;z-index:10;background:rgba(233,236,240,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .bar{max-width:1100px;margin:auto;display:flex;align-items:center;gap:1rem;padding:.6rem 1rem}
+  .logo{display:flex;align-items:center;gap:.5rem;font-family:"Barlow Condensed";font-weight:700;font-size:1.45rem;color:var(--txt);text-decoration:none;white-space:nowrap}
+  .logo span span{color:var(--acc)}
+  nav{display:flex;gap:.3rem;overflow-x:auto;scrollbar-width:none;flex:1}
+  nav::-webkit-scrollbar{display:none}
+  nav a{color:var(--mut);text-decoration:none;font-size:.9rem;padding:.35rem .65rem;border-radius:99px;white-space:nowrap}
+  nav a:hover,nav a.on{background:var(--card);color:var(--txt)}
+  .hero{max-width:1100px;margin:auto;padding:4rem 1rem 3rem;display:grid;grid-template-columns:1.3fr 1fr;gap:2rem;align-items:center}
+  .hero h1{font-size:clamp(2.6rem,7vw,4.4rem)}
+  .hero h1 em{font-style:normal;color:var(--acc)}
+  .lead{font-size:1.15rem;color:var(--mut)}
+  .pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+  .pills a{background:var(--card);border:1px solid var(--line);color:var(--txt);text-decoration:none;padding:.45rem .9rem;border-radius:99px;font-size:.9rem}
+  .pills a:hover{border-color:var(--acc)}
+  section{max-width:1100px;margin:auto;padding:3.5rem 1rem;border-top:1px solid var(--line);scroll-margin-top:60px}
+  .kicker{color:var(--acc);font-weight:600;text-transform:uppercase;font-size:.8rem;letter-spacing:.12em;margin-bottom:.4rem}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  .card{box-shadow:0 1px 2px rgba(27,36,48,.06);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.2rem 1.3rem}
+  .card h3{margin-bottom:.35em}
+  .card p:last-child{margin:0}
+  .fig{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:1rem;text-align:center}
+  .fig svg{width:100%;height:auto;max-width:440px}
+  .fig figcaption{color:var(--mut);font-size:.85rem;margin-top:.5rem}
+  ul.check{list-style:none;padding:0;margin:0 0 1em}
+  ul.check li{padding-left:1.6rem;position:relative;margin-bottom:.45rem}
+  ul.check li::before{content:"";position:absolute;left:0;top:.5em;width:.7rem;height:.7rem;border-radius:50%;border:2px solid var(--acc)}
+  .tip{border-left:4px solid var(--acc2);background:#fff7e3;padding:.8rem 1rem;border-radius:0 10px 10px 0;margin:1rem 0}
+  .tip b{color:var(--acc2)}
+  .err{border-left-color:var(--acc);background:#fff0ea}
+  .err b{color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:.95rem}
+  th,td{text-align:left;padding:.65rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-weight:500;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+  td:first-child{font-weight:600;white-space:nowrap}
+  .steps{counter-reset:s;display:grid;gap:.8rem}
+  .steps .card{position:relative;padding-left:3.6rem}
+  .steps .card::before{counter-increment:s;content:counter(s);position:absolute;left:1rem;top:1.1rem;width:1.9rem;height:1.9rem;border-radius:50%;background:var(--acc);color:#fff;font-weight:700;display:grid;place-items:center;font-family:"Barlow Condensed";font-size:1.1rem}
+  .tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+  .tabs button{background:var(--card);color:var(--mut);border:1px solid var(--line);padding:.5rem .9rem;border-radius:10px;cursor:pointer;font:inherit;font-size:.9rem}
+  .tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+  .panel{display:none}.panel.on{display:block}
+  dl{display:grid;grid-template-columns:max-content 1fr;gap:.55rem 1.2rem;margin:0}
+  dt{font-weight:600;color:var(--acc2)}
+  dd{margin:0;color:var(--txt)}
+  #bilan label{display:flex;gap:.6rem;align-items:flex-start;padding:.45rem 0;border-bottom:1px solid var(--line);cursor:pointer}
+  #bilan label:last-child{border:0}
+  #bilan input{accent-color:var(--acc);margin-top:.35rem;flex:none}
+  #reco a{display:block;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem;margin-bottom:.5rem;text-decoration:none;color:var(--txt)}
+  #reco a span{color:var(--acc);font-weight:600}
+  details.card{margin-bottom:.6rem}
+  details summary{cursor:pointer;font-weight:600;list-style:none;position:relative;padding-right:1.5rem}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"+";position:absolute;right:0;top:-.1rem;color:var(--acc);font-size:1.3rem}
+  details[open] summary::after{content:"–"}
+  details p{margin:.7rem 0 0;color:var(--mut)}
+  footer{border-top:1px solid var(--line);color:var(--mut);font-size:.85rem;text-align:center;padding:2rem 1rem 3rem}
+  @media(max-width:820px){
+    .hero,.grid2{grid-template-columns:1fr}
+    .grid3{grid-template-columns:1fr}
+    .hero{padding-top:2.5rem}
+    dl{grid-template-columns:1fr;gap:.15rem}
+    dd{margin-bottom:.6rem}
+  }
+
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
+  .fact{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem}
+  .fact small{display:block;color:var(--mut);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+  .fact b{font-size:1.02rem}
+  .tiles.disc{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+  @media(max-width:700px){.facts{grid-template-columns:1fr 1fr}}
+
+  .h1-suite{display:block;font-family:Inter,system-ui,sans-serif;font-weight:500;font-size:clamp(1.15rem,2.4vw,1.5rem);line-height:1.4;letter-spacing:0;margin-top:.7rem;color:var(--txt)}
+
+  .faq-tools{margin-bottom:.6rem}
+  #faq-search{width:100%;font:inherit;padding:.8rem 1rem;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--txt);margin-bottom:.7rem}
+  #faq-search:focus{outline:none;border-color:var(--acc)}
+  .faq-group{margin-bottom:1.6rem}
+  .faq-group h3{margin-bottom:.6rem}
+  details ul.check{margin:.7rem 0 0;color:var(--mut)}
+  details p.note{font-size:.85rem;font-style:italic}
+
+  .partner{display:grid;grid-template-columns:1.6fr 1fr;gap:2rem;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.8rem}
+  .partner-badge{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1.8rem 1.4rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.9rem;text-decoration:none}
+  .partner-badge img{width:100%;max-width:280px;height:auto}
+  .partner-badge:hover{border-color:#2ed3b7}
+  .foot-partner{margin:1.2rem 0}
+  .foot-partner img{height:34px;width:auto;margin-top:.4rem}
+  .partner-badge span{font-size:.75rem;text-transform:uppercase;letter-spacing:.14em;color:#c6302c;font-weight:600}
+  .partner-badge small{color:var(--mut)}
+  @media(max-width:820px){.partner{grid-template-columns:1fr}}
+
+  .links{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.7rem}
+  .links a{display:block;text-decoration:none;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;padding:.8rem 1rem;color:var(--txt)}
+  .links a:hover{border-color:var(--acc)}
+  .links a b{display:block}
+  .links a small{color:var(--mut);font-size:.82rem}
+  .foot-links a{color:var(--mut)}
+
+  .logo img{height:42px;width:auto;display:block}
+  .herologo{margin:0;display:flex;justify-content:center;align-items:center}
+  .herologo img{width:100%;max-width:440px;height:auto}
+  .hero h1 em{color:var(--acc)}
+  .footlogo{height:64px;width:auto;margin-bottom:.8rem}
+  @media(max-width:820px){.herologo{order:-1}.herologo img{max-width:260px}.logo img{height:36px}}
+
+  .view{display:none}.view.on{display:block}
+  section.first{border-top:0}
+  .theme-head{max-width:1100px;margin:auto;padding:3rem 1rem 1.5rem}
+  .theme-head h1{font-size:clamp(2.4rem,6vw,3.6rem);color:var(--acc)}
+  .theme-head .num{display:inline-block;font-family:"Barlow Condensed";font-weight:700;background:var(--acc);color:#fff;border-radius:8px;padding:.1rem .55rem;margin-right:.5rem}
+  .chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem}
+  .chips a{font-size:.85rem;text-decoration:none;color:var(--txt);border:1px solid var(--line);background:var(--card);border-radius:99px;padding:.35rem .8rem}
+  .chips a:hover{border-color:var(--acc)}
+  .tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:.9rem}
+  .tile{display:flex;flex-direction:column;gap:.4rem;text-decoration:none;color:var(--txt);background:var(--card);border:1px solid var(--line);border-top:4px solid var(--t);border-radius:14px;padding:1.1rem}
+  .tile:hover{transform:translateY(-2px);border-color:var(--t)}
+  .tile b{font-family:"Barlow Condensed";font-size:1.35rem;color:var(--t);line-height:1.1}
+  .tile small{color:var(--mut);font-size:.85rem;line-height:1.45}
+  .tile .n{font-family:"Barlow Condensed";font-weight:700;font-size:2rem;color:var(--t);opacity:.5;line-height:1}
+  nav a.on{color:#fff!important;background:var(--navc,var(--acc))!important}
+  .nextnav{max-width:1100px;margin:auto;padding:1rem 1rem 3rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  .nextnav a{flex:1;min-width:220px;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem;color:var(--txt)}
+  .nextnav a small{display:block;color:var(--mut);font-size:.8rem}
+  .nextnav a b{font-family:"Barlow Condensed";font-size:1.3rem;color:var(--acc)}
+  .nextnav a.r{text-align:right}
+  label.ck{display:flex;gap:.6rem;align-items:center;padding:.4rem 0;border-bottom:1px solid var(--line);cursor:pointer}
+  label.ck:last-child{border:0}
+  label.ck input,#bilan input{accent-color:var(--acc)}
+  label.ck:has(input:checked){color:var(--mut);text-decoration:line-through}
+  #planform label{display:block;font-weight:600;margin-bottom:.9rem;font-size:.95rem}
+  #planform input,#planform textarea{display:block;width:100%;margin-top:.35rem;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--txt);font:inherit;font-weight:400;padding:.6rem .75rem}
+  #planform textarea{min-height:4.2rem;resize:vertical}
+  #planform input:focus,#planform textarea:focus{outline:none;border-color:var(--acc)}
+  #planform .row{display:flex;gap:1rem;align-items:center}
+  #planform button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:.65rem 1.1rem;font:inherit;font-weight:600;cursor:pointer}
+  #copied{color:var(--mut);font-size:.9rem}
+  @media(max-width:980px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.tiles{grid-template-columns:1fr}}
+
+  .bsrc{font-size:.85rem;color:var(--mut);margin-top:1rem}
+  .bsrc a{color:var(--mut)}
+  ol.seq{margin:.4rem 0 0;padding-left:1.4rem}
+  ol.seq li{margin-bottom:.35rem}
+  details ol.seq{margin-top:.8rem}
+  .lib-group{margin-bottom:1.4rem}
+  .lib-group h3 a{color:var(--acc);text-decoration:none}
+  .note{color:var(--mut);font-size:.9rem;font-style:italic}
+  @media(max-width:820px){table{display:block;overflow-x:auto;max-width:100%}td:first-child{white-space:normal;min-width:7rem}th,td{font-size:.88rem}}
+
+  .pl-root{display:flex;justify-content:center;margin-bottom:1.4rem}
+  .pl-root span{background:#1b2430;color:#fff;font-family:"Barlow Condensed";font-weight:700;font-size:1.4rem;padding:.5rem 1.4rem;border-radius:12px}
+  .pl-tree{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;position:relative}
+  .pl-node{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--t);border-radius:14px;padding:1rem 1.1rem}
+  .pl-head{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--t);margin-bottom:.6rem}
+  .pl-head b{font-family:"Barlow Condensed";font-size:1.3rem;line-height:1.1}
+  .pl-num{background:var(--t);color:#fff;font-family:"Barlow Condensed";font-weight:700;border-radius:6px;padding:0 .45rem}
+  .pl-node ul{list-style:none;margin:0;padding:0 0 0 .8rem;border-left:2px solid var(--line)}
+  .pl-node li{position:relative;padding:.22rem 0 .22rem .6rem;font-size:.9rem}
+  .pl-node li::before{content:"";position:absolute;left:-.8rem;top:.95rem;width:.9rem;border-top:2px solid var(--line)}
+  .pl-node li a{color:var(--txt);text-decoration:none}
+  .pl-node li a:hover{color:var(--t);text-decoration:underline}
+  .pl-node li.ext{color:var(--mut);font-style:italic;font-size:.85rem}
+  @media(max-width:980px){.pl-tree{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.pl-tree{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="bar"><a class="logo" href="#accueil" aria-label="MonTirSportif — accueil"><img src="img/logo.png" alt="MonTirSportif"></a>
+<nav id="nav"><a href="#accueil" data-c="#e5473d">Accueil</a><a href="#epreuves" data-c="#2c6fb7">Disciplines</a><a href="#technique" data-c="#e0601f">Technique</a><a href="#mental" data-c="#7656d6">Mental</a><a href="#materiel" data-c="#12938a">Matériel</a><a href="#physique" data-c="#3d8f2a">Physique</a><a href="#tactique" data-c="#b07a00">Tactique</a><a href="#infos" data-c="#5a6676">Infos pratiques</a><a href="#faq" data-c="#e5473d">Questions fréquentes</a><a href="#plan" data-c="#e5473d">Plan du site</a></nav></div></header>
+<main class="view" id="accueil" style="--acc:#e5473d">
+<div class="hero">
+  <div>
+    <div class="kicker">Pistolet ISSF · 10 m · 25 m · 50 m</div>
+    <h1>Un bon tir, c'est <em>un geste simple</em>, répété parfaitement&nbsp;:<span class="h1-suite">il n'y a qu'à aligner le canon avec le centre de la cible et faire un beau lâcher.</span></h1>
+    <p class="lead">MonTirSportif vous accompagne pas à pas à travers les 5 grands thèmes de la préparation du tireur : technique, mental, matériel, physique et tactique.</p>
+    <div class="pills">
+      <a href="#parcours">Faire le point</a>
+      <a href="#technique">Commencer par la technique</a>
+      <a href="#securite">Règles de sécurité</a>
+    </div>
+  </div>
+  <figure class="herologo"><img src="img/logo.png" alt="Logo MonTirSportif"></figure>
+</div>
+<section id="themes" class="first">
+  <div class="kicker">Les 5 piliers</div>
+  <h2>Les 5 grands thèmes de la préparation</h2>
+  <p>Un tireur progresse quand il travaille ces cinq dimensions, chacun à son rythme.</p>
+  <div class="tiles"><a class="tile" href="#technique" style="--t:#e0601f"><span class="n">1</span><b>Préparation technique</b><small>Position, prise en main, visée, respiration et lâcher : les gestes qui font partir un bon coup.</small></a><a class="tile" href="#mental" style="--t:#7656d6"><span class="n">2</span><b>Préparation mentale</b><small>Concentration, gestion du stress et confiance : apprendre à tirer avec sa tête autant qu'avec son bras.</small></a><a class="tile" href="#materiel" style="--t:#12938a"><span class="n">3</span><b>Préparation matérielle</b><small>Choisir, régler et entretenir son pistolet et son équipement pour qu'ils travaillent pour vous.</small></a><a class="tile" href="#physique" style="--t:#3d8f2a"><span class="n">4</span><b>Préparation physique</b><small>Tenir l'arme, rester stable et durer tout un match : la condition physique du pistolier.</small></a><a class="tile" href="#tactique" style="--t:#b07a00"><span class="n">5</span><b>Préparation tactique</b><small>Gérer son temps, ses essais et les imprévus : bien se préparer pour la compétition.</small></a></div>
+</section>
+<section id="parcours">
+  <div class="kicker">Par où commencer ?</div>
+  <h2>Faire le point sur ma pratique</h2>
+  <p>Cochez ce qui vous arrive au tir : les rubriques à travailler en priorité s'affichent, dans l'ordre.</p>
+  <div class="grid2">
+    <div>
+      <div class="card" id="bilan">
+          <label><input type="checkbox" data-s="visee"> Je regarde la cible plutôt que le guidon.</label>
+          <label><input type="checkbox" data-s="lacher"> J'appuie d'un coup quand je passe au centre.</label>
+          <label><input type="checkbox" data-s="lacher"> Mes impacts partent souvent en bas à gauche (droitier).</label>
+          <label><input type="checkbox" data-s="prise"> Je serre l'arme très fort.</label>
+          <label><input type="checkbox" data-s="respiration"> Je vise longtemps en retenant mon souffle.</label>
+          <label><input type="checkbox" data-s="position"> Ma position change d'un coup à l'autre.</label>
+          <label><input type="checkbox" data-s="routine"> Je n'ai pas d'ordre précis pour préparer chaque coup.</label>
+          <label><input type="checkbox" data-s="mental"> Je regarde chaque impact et je m'énerve sur les mauvais.</label>
+          <label><input type="checkbox" data-s="reglages"> Mes coups sont groupés mais décalés, je ne sais pas régler mon arme.</label>
+          <label><input type="checkbox" data-s="physique"> Mon bras fatigue vite, je tremble de plus en plus au fil de la série.</label>
+          <label><input type="checkbox" data-s="tactique"> En compétition, je tire trop vite ou je perds mes moyens.</label>
+        </div>
+    </div>
+    <div class="card">
+      <h3>Mon programme</h3>
+      <div id="reco"><p style="color:var(--mut)">Cochez une ou plusieurs cases : les rubriques à travailler en priorité s’afficheront ici.</p></div>
+      <div class="tip"><b>À retenir :</b> on progresse en travaillant une chose à la fois. Le <a href="#entrainement">tir à sec</a> est l'outil idéal pour construire ou corriger un geste, sans la pression du résultat.</div>
+    </div>
+  </div>
+</section><section id="premiers-pas">
+  <div class="kicker">Au club</div>
+  <h2>La séance découverte</h2>
+  <div class="grid3">
+    <div class="card"><h3>Avant</h3><p>Contactez un club de tir proche de chez vous. La plupart proposent une séance découverte et prêtent le matériel pour la découverte : <b>inutile d'acheter quoi que ce soit au départ</b>. Pour pratiquer régulièrement, il faudra ensuite prendre une licence fédérale.</p></div>
+    <div class="card"><h3>Pendant</h3><p>Un initiateur vous présente les règles de sécurité et l'arme, puis vous fait tirer à 10 m, souvent d'abord sans projectile (tir à sec). Il corrige votre position et votre geste au fur et à mesure.</p></div>
+    <div class="card"><h3>Après</h3><p>Les premières séances sont courtes : le bras et les yeux fatiguent vite. Notez ce que vous avez appris et ce que vous voulez travailler la prochaine fois.</p></div>
+  </div>
+  <h3 style="margin-top:1.5rem">Quoi apporter ?</h3>
+  <ul class="check">
+    <li>Des vêtements confortables et des chaussures plates et stables.</li>
+    <li>Vos lunettes de vue si vous en portez (on peut tirer avec).</li>
+    <li>Une pièce d'identité, souvent demandée à l'inscription.</li>
+    <li>Le club fournit généralement l'arme, les plombs, les cibles et les protections auditives.</li>
+  </ul>
+</section><section id="disciplines">
+  <div class="kicker">Les épreuves</div>
+  <h2>Les disciplines du pistolet ISSF</h2>
+  <p>Le règlement pistolet de l'ISSF (Fédération internationale de tir sportif) couvre six épreuves individuelles. Elles partagent les mêmes fondamentaux techniques, mais diffèrent par la distance, l'arme et le rythme de tir.</p>
+  <div class="tip"><b>Bon à savoir :</b> le pistolet 10 m (pas de recul, peu de bruit) est la discipline idéale pour découvrir le tir. Les épreuves à 25 m et 50 m viennent ensuite, une fois les bases solides.</div>
+  <table>
+    <thead><tr><th>Épreuve</th><th>Arme</th><th>Ce qui la caractérise</th></tr></thead>
+    <tbody>
+      <tr><td><a href="epreuves/pistolet-10m.html">Pistolet 10 m</a></td><td>Air comprimé, 4,5 mm</td><td>Épreuve olympique et porte d'entrée de la discipline. Tir de précision pure, en salle, à un bras.</td></tr>
+      <tr><td><a href="epreuves/pistolet-25m.html">Pistolet 25 m</a></td><td>Petit calibre (.22 LR)</td><td>Épreuve olympique combinant une partie précision et une partie « vitesse » sur cibles qui apparaissent quelques secondes.</td></tr>
+      <tr><td><a href="epreuves/vitesse-olympique.html">Pistolet 25 m vitesse olympique</a></td><td>Petit calibre (.22 LR)</td><td>Épreuve olympique : séries de 5 coups sur 5 cibles, avec des temps de plus en plus courts. Rythme et retour de visée sont décisifs.</td></tr>
+      <tr><td><a href="epreuves/pistolet-standard.html">Pistolet 25 m standard</a></td><td>Petit calibre (.22 LR)</td><td>Séries de 5 coups sur une même cible, avec des temps de plus en plus courts.</td></tr>
+      <tr><td><a href="epreuves/percussion-centrale.html">Pistolet 25 m percussion centrale</a></td><td>Gros calibre (7,62 à 9,65 mm)</td><td>Même principe que le 25 m (précision + vitesse), avec un recul bien plus marqué.</td></tr>
+      <tr><td><a href="epreuves/pistolet-50m.html">Pistolet 50 m</a></td><td>Petit calibre (.22 LR)</td><td>Précision à longue distance avec une arme à poignée enveloppante et détente très légère.</td></tr>
+    </tbody>
+  </table><p style="margin-top:.8rem">Fiches détaillées sur montirsportif.fr : <a href="https://www.montirsportif.fr/pratique-du-tir/les-disciplines/le-10-m" target="_blank" rel="noopener">le 10 m</a> · <a href="https://www.montirsportif.fr/pratique-du-tir/les-disciplines/le-25-m" target="_blank" rel="noopener">le 25 m</a> · <a href="https://www.montirsportif.fr/pratique-du-tir/les-disciplines/le-50-m" target="_blank" rel="noopener">le 50 m</a></p>
+  <p style="margin-top:.8rem"><a href="#epreuves"><b>→ Voir les pages détaillées de chaque discipline</b></a> (déroulement, règles, finales).</p><div class="tip"><b>Bon à savoir :</b> les formats de qualification et de finale évoluent régulièrement (nouveau règlement ISSF en vigueur depuis le 1<sup>er</sup> janvier 2026). Pour le détail officiel, consultez le règlement ISSF et votre fédération (en France, la FFTir).</div>
+</section>
+<section id="famille">
+  <div class="kicker">La passion du tir et du partage</div>
+  <h2>La famille MonTirSportif</h2>
+  <p>Ce site s'appuie sur les ressources des sites MonTirSportif : apprendre, progresser et partager autour du tir sportif.</p>
+  <div class="grid3">
+    <div class="card"><h3>🎯 Technique</h3><p>La précision et les fondamentaux, pas à pas.</p></div>
+    <div class="card"><h3>📚 Savoir</h3><p>Les règles, la culture du tir et la fédération.</p></div>
+    <div class="card"><h3>🤝 Partage</h3><p>Une communauté pour progresser ensemble.</p></div>
+  </div>
+  <div class="links" style="margin-top:1.2rem">
+    <a href="https://www.montirsportif.fr/" target="_blank" rel="noopener"><b>MonTirSportif.fr</b><small>Le site historique : technique, disciplines, matchs, Provence ↗</small></a>
+    <a href="https://www.montirsportif.com/" target="_blank" rel="noopener"><b>MonTirSportif.com</b><small>Préparation du tireur, QCM FFTir, cibles à imprimer ↗</small></a>
+    <a href="#bensport"><b>Bensport : « Zen tir »</b><small>Fiches pédagogiques, préparation mentale et bibliothèque d'articles</small></a><a href="https://entrainement.montirsportif.fr/" target="_blank" rel="noopener"><b>Entrainement.MonTirSportif.fr</b><small>S'entraîner au 10 m ↗</small></a>
+  </div>
+</section>
+
+<section id="partenaire">
+  <div class="kicker">Notre partenaire principal</div>
+  <div class="partner">
+    <div>
+      <h2>Sport Quantum</h2>
+      <p>Sport Quantum, entreprise française basée à Saclay, propose des <b>cibles électroniques interactives</b> pour tous les tireurs sportifs : cibles pour le tir à air comprimé à 10 m (SQ Air), pour les armes à feu (SQ Fire), systèmes de supervision et stands modulables et itinérants.</p>
+      <p>Avec une cible électronique, chaque impact s'affiche instantanément sur un écran : idéal pour analyser ses groupements, suivre ses progrès et s'entraîner dans les conditions d'une compétition.</p>
+      <div class="pills"><a href="https://sportquantum.com/" target="_blank" rel="noopener">Découvrir Sport Quantum ↗</a><a href="https://sportquantum.com/produits/" target="_blank" rel="noopener">Voir les cibles ↗</a></div>
+    </div>
+    <a class="partner-badge" href="https://sportquantum.com/" target="_blank" rel="noopener"><span>Partenaire principal</span><img src="img/sportquantum.png" alt="Sport Quantum"><small>Cibles électroniques interactives</small></a>
+  </div>
+</section>
+</main>
+<main class="view" id="technique" style="--acc:#e0601f"><div class="theme-head"><div class="kicker">Thème 1 sur 5</div><h1><span class="num">1</span>Préparation technique</h1><p class="lead">Position, prise en main, visée, respiration et lâcher : les gestes qui font partir un bon coup.</p><div class="chips"><a href="#position">La position : un socle stable et naturel</a><a href="#prise">La prise en main : la même, à chaque coup</a><a href="#position-loupe">La position à la loupe</a><a href="#visee">La visée : le guidon net, la cible floue</a><a href="#visee-erreurs">Erreur parallèle, erreur angulaire</a><a href="#respiration">La respiration : un temps calme pour tirer</a><a href="#lacher">Le lâcher : presser sans perturber</a><a href="#lacher-types">Les différents types de lâcher</a><a href="#tenue-annonce">Les vertus de la tenue et de l'annonce</a><a href="#routine">La routine de tir : chaque coup, la même séquence</a><a href="#sequence-20">Une séquence de tir complète en 20 étapes</a><a href="#erreurs">Les 6 erreurs les plus fréquentes</a><a href="#entrainement">Exercices d'entraînement</a><a href="#construire-exercices">Construire ses exercices d'entraînement</a></div></div><section id="position" class="first">
+  <div class="kicker">Fondamental n°1</div>
+  <h2>La position : un socle stable et naturel</h2>
+  <div class="grid2">
+    <div>
+      <p>La position doit permettre au bras de pointer naturellement vers la cible, sans effort musculaire pour « corriger » la direction. On cherche un équilibre stable, détendu et parfaitement reproductible.</p>
+      <ul class="check">
+        <li><b>Pieds</b> écartés environ à la largeur des épaules, poids réparti sur l'ensemble des pieds, légèrement vers l'avant.</li>
+        <li><b>Orientation</b> du corps tourné de 30 à 60° par rapport à la ligne de tir (position « ouverte » ou « semi-ouverte » selon la morphologie).</li>
+        <li><b>Jambes</b> tendues sans être verrouillées, bassin stable.</li>
+        <li><b>Bras</b> tendu dans le prolongement de l'épaule, épaule basse et relâchée.</li>
+        <li><b>Tête</b> droite, sans pencher ni rentrer dans les épaules : l'œil vient à la visée, pas l'inverse.</li>
+        <li><b>Bras libre</b> posé dans la poche, à la ceinture ou relâché le long du corps.</li>
+      </ul>
+      <div class="tip"><b>Test du point naturel :</b> mettez-vous en position, fermez les yeux, levez le bras et laissez-le se poser. Ouvrez les yeux : si vous n'êtes pas sur la cible, déplacez le <em>pied arrière</em>, pas le bras. Recommencez jusqu'à arriver dessus sans effort.</div>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 400 330" role="img" aria-label="Position vue de dessus">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#e0601f"/></marker></defs>
+        <text x="200" y="22" fill="#5a6676" font-family="Inter" font-size="13" text-anchor="middle">Vue de dessus</text>
+        <line x1="200" y1="300" x2="200" y2="40" stroke="#b9c2cd" stroke-dasharray="6 6" stroke-width="2"/>
+        <text x="208" y="52" fill="#5a6676" font-family="Inter" font-size="12">vers la cible</text>
+        <!-- feet -->
+        <g transform="translate(150 250) rotate(-50)"><ellipse rx="13" ry="30" fill="#12938a" opacity=".85"/></g>
+        <g transform="translate(240 220) rotate(-50)"><ellipse rx="13" ry="30" fill="#12938a" opacity=".85"/></g>
+        <!-- shoulders -->
+        <line x1="145" y1="205" x2="250" y2="150" stroke="#1b2430" stroke-width="10" stroke-linecap="round"/>
+        <circle cx="198" cy="178" r="22" fill="#ffffff" stroke="#1b2430" stroke-width="3"/>
+        <!-- arm -->
+        <line x1="250" y1="150" x2="208" y2="70" stroke="#e0601f" stroke-width="8" stroke-linecap="round"/>
+        <rect x="196" y="56" width="22" height="14" rx="3" fill="#a87400"/>
+        <path d="M 120 190 A 90 90 0 0 1 150 120" fill="none" stroke="#a87400" stroke-width="2"/>
+        <text x="90" y="150" fill="#a87400" font-family="Inter" font-size="13">30–60°</text>
+        <text x="270" y="250" fill="#12938a" font-family="Inter" font-size="12">pieds ≈ largeur</text>
+        <text x="270" y="266" fill="#12938a" font-family="Inter" font-size="12">des épaules</text>
+        <text x="262" y="120" fill="#e0601f" font-family="Inter" font-size="12">bras tendu,</text>
+        <text x="262" y="136" fill="#e0601f" font-family="Inter" font-size="12">épaule basse</text>
+      </svg>
+      <figcaption>Tireur droitier : le corps est tourné, le bras tireur dans l'axe de la cible.</figcaption>
+    </figure>
+  </div>
+</section><section id="prise">
+  <div class="kicker">Fondamental n°2</div>
+  <h2>La prise en main : la même, à chaque coup</h2>
+  <div class="grid2">
+    <div>
+      <p>La poignée relie le tireur à l'arme. Une prise qui varie d'un coup à l'autre déplace les impacts, même si tout le reste est parfait.</p>
+      <ul class="check">
+        <li><b>Axe :</b> la poignée est placée de sorte que le canon soit dans le prolongement de l'avant-bras.</li>
+        <li><b>Hauteur :</b> la main monte le plus haut possible sous l'arrière de l'arme (contre la « queue de castor »).</li>
+        <li><b>Pression :</b> ferme mais pas crispée, principalement d'avant en arrière (paume et doigts), sans serrer latéralement.</li>
+        <li><b>Index libre :</b> l'index ne touche pas la carcasse ; seule sa première phalange agit sur la détente.</li>
+        <li><b>Poignet verrouillé</b> : il ne doit ni casser vers le bas ni vers le côté.</li>
+      </ul>
+      <div class="tip"><b>Astuce :</b> les poignées anatomiques ISSF se règlent et se retouchent (ponçage, pâte). Prenez le temps de les adapter à votre main : c'est l'un des meilleurs investissements pour la régularité.</div>
+    </div>
+    <div class="card">
+      <h3>Contrôlez votre prise</h3>
+      <p>Avant chaque coup, vérifiez rapidement :</p>
+      <ul class="check">
+        <li>Les organes de visée sont-ils alignés <em>sans</em> que je bouge le poignet ?</li>
+        <li>Mon pouce est-il relâché (posé sur le repose-pouce, sans pousser) ?</li>
+        <li>Ma pression est-elle la même qu'au coup précédent ?</li>
+      </ul>
+      <div class="tip err"><b>Erreur fréquente :</b> serrer de plus en plus au fil de la série. La fatigue augmente et la main tremble. Une prise identique et modérée vaut mieux qu'une prise très forte.</div>
+    </div>
+  </div>
+</section>
+<section id="position-loupe"><div class="kicker">Approfondir · Bensport</div><h2>La position à la loupe</h2>
+<p>Construire sa position est souvent l'étape la plus longue du tir. Toute variante doit respecter trois critères : <b>produire de la stabilité</b>, être <b>reproductible</b> et <b>préserver le corps</b> du tireur. Les exemples ci-dessous concernent un tireur droitier.</p>
+<div class="grid3">
+  <div class="card"><h3>Profil</h3><p>Épaules, bassin et pieds alignés sur un même plan, dans l'axe de tir. Convient aux tireurs souples, à l'aise avec une rotation importante de la tête.</p></div>
+  <div class="card"><h3>7/8<sup>e</sup></h3><p>Le corps s'ouvre légèrement vers la cible. C'est la position la plus répandue : plus confortable pour le cou et les épaules.</p></div>
+  <div class="card"><h3>3/4</h3><p>Plus ouverte encore. Adaptée quand la souplesse ou la corpulence limitent l'amplitude des gestes : imposer le profil créerait tensions et douleurs.</p></div>
+</div>
+<h3 style="margin-top:1.4rem">Trouver sa position naturelle</h3>
+<div class="steps">
+  <div class="card">Face à la cible, arme en main, prendre la position choisie et repérer une éventuelle tension dans le cou.</div>
+  <div class="card">Fermer les yeux, sentir son équilibre, puis entrer en cible avec son cycle respiratoire habituel.</div>
+  <div class="card">Ouvrir les yeux et regarder où se trouve la ligne de mire, <b>sans tenir compte de la hauteur</b>.</div>
+  <div class="card">Gros écart latéral : faire <b>pivoter les deux pieds ensemble</b> autour d'un axe. Petit écart : faire une <b>translation</b> du corps.</div>
+  <div class="card">Recommencer jusqu'à ce que la ligne de mire tombe naturellement dans l'axe vertical du visuel. Une caméra ou un miroir aident à mémoriser l'image de sa position.</div>
+</div>
+<h3 style="margin-top:1.4rem">Les défauts de posture fréquents</h3>
+<table><thead><tr><th>Défaut</th><th>Ce qui se passe</th><th>Correction</th></tr></thead><tbody><tr><td>La vrille</td><td>Les épaules ne sont pas sur le même plan que le bassin et les pieds.</td><td>Orienter les pieds, puis faire pivoter la ligne d'épaules pour revenir en cible.</td></tr><tr><td>Pieds trop écartés</td><td>Le tireur penche et se cambre pour compenser le poids de l'arme : appuis déséquilibrés, tensions dans les genoux, les chevilles et le bas du dos.</td><td>Revenir à un écart proche de la largeur des épaules, poids réparti sur toute la voûte plantaire.</td></tr><tr><td>Bassin non verrouillé</td><td>Le poids de l'arme entraîne le corps vers l'avant : épaule libre haute et contractée, posture instable.</td><td>Verrouiller le bassin (genoux légèrement en arrière, fessiers serrés) et chercher le tassement en restant droit.</td></tr></tbody></table>
+<div class="grid2" style="margin-top:1.2rem">
+  <div class="card"><h3>Chausser sa crosse</h3><ul class="check">
+    <li>Prendre l'arme par le canon de la main libre et la présenter à la main qui tire.</li>
+    <li>Engager la main dans le cou de la crosse, caler la paume, puis serrer en épousant les reliefs.</li>
+    <li>Les pressions s'exercent dans l'axe du canon.</li>
+    <li>Une crosse trop pentée force sur le poignet et peut provoquer des tendinites : faites-la adapter par un entraîneur qualifié.</li></ul></div>
+  <div class="card"><h3>Doser le serrage</h3><p>Sur une échelle de 0 à 10, la bonne tonicité se situe <b>entre 6 et 7</b>. Trop fort, la main transmet des vibrations à l'arme ; trop faible, le poignet n'est plus verrouillé.</p>
+  <p><b>Le devers</b> : si l'arme penche, les réglages de hausse ne correspondent plus aux directions réelles. Gardez l'arme droite.</p></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/wpforo/default_attachments/1514543668-La-position-du-pistolier--la-loupe.pdf" target="_blank" rel="noopener">La position du pistolier à la loupe ↗</a> · <a href="https://www.bensport.fr/wp-content/uploads/wpforo/default_attachments/1512174212-La-technique-de-base-du-pistolet-10-m-decembre-2018.pdf" target="_blank" rel="noopener">La technique de base du pistolet 10 m ↗</a></p></section><section id="visee">
+  <div class="kicker">Fondamental n°3</div>
+  <h2>La visée : le guidon net, la cible floue</h2>
+  <p>L'œil ne peut pas faire la mise au point sur trois plans à la fois (cran de mire, guidon, cible). Le principe essentiel : <b>la netteté est sur le guidon</b>. L'alignement guidon/cran de mire compte beaucoup plus que la position exacte sur la cible.</p>
+  <div class="grid2">
+    <figure class="fig">
+      <svg viewBox="0 0 400 230" role="img" aria-label="Alignement guidon et cran de mire">
+        <text x="100" y="22" fill="#12938a" font-family="Inter" font-size="13" text-anchor="middle">Correct</text>
+        <text x="300" y="22" fill="#e0601f" font-family="Inter" font-size="13" text-anchor="middle">Incorrect</text>
+        <!-- correct -->
+        <g transform="translate(100 120)">
+          <circle r="80" fill="#1b2430" opacity=".08"/>
+          <path d="M-70,-10 H-18 V60 H18 V-10 H70 V60 H-70 Z" fill="#0b0f14"/>
+          <rect x="-11" y="-10" width="22" height="70" fill="#0b0f14"/>
+          <line x1="-75" y1="-10" x2="75" y2="-10" stroke="#12938a" stroke-dasharray="4 4"/>
+          <text x="-14" y="80" fill="#5a6676" font-family="Inter" font-size="10" text-anchor="end">jour égal</text>
+          <text x="14" y="80" fill="#5a6676" font-family="Inter" font-size="10">jour égal</text>
+        </g>
+        <!-- incorrect -->
+        <g transform="translate(300 120)">
+          <circle r="80" fill="#1b2430" opacity=".08"/>
+          <path d="M-70,-10 H-18 V60 H18 V-10 H70 V60 H-70 Z" fill="#0b0f14"/>
+          <rect x="-15" y="-22" width="22" height="82" fill="#0b0f14"/>
+          <line x1="-75" y1="-10" x2="75" y2="-10" stroke="#e0601f" stroke-dasharray="4 4"/>
+          <text x="0" y="80" fill="#5a6676" font-family="Inter" font-size="10" text-anchor="middle">guidon haut et à gauche</text>
+        </g>
+      </svg>
+      <figcaption>Le haut du guidon affleure le haut du cran de mire, avec autant de lumière à gauche qu'à droite.</figcaption>
+    </figure>
+    <figure class="fig">
+      <svg viewBox="0 0 400 230" role="img" aria-label="Zone de visée sous le visuel">
+        <g transform="translate(130 105)">
+          <circle r="92" fill="#fbfaf6" stroke="#c9cfd8"/>
+          <circle r="62" fill="#151515" opacity=".55"/>
+          <rect x="-70" y="72" width="140" height="22" rx="6" fill="#12938a" opacity=".35"/>
+          <path d="M-60,140 H-14 V82 H14 V140 H60" fill="none" stroke="#0b0f14" stroke-width="0"/>
+          <rect x="-8" y="78" width="16" height="60" fill="#0b0f14"/>
+          <path d="M-70,78 H-16 V140 H-70 Z M16,78 H70 V140 H16 Z" fill="#0b0f14"/>
+        </g>
+        <text x="250" y="80" fill="#1b2430" font-family="Inter" font-size="13">Cible floue</text>
+        <text x="250" y="98" fill="#5a6676" font-family="Inter" font-size="12">(visuel en gris)</text>
+        <text x="250" y="160" fill="#12938a" font-family="Inter" font-size="13">Zone de visée</text>
+        <text x="250" y="178" fill="#5a6676" font-family="Inter" font-size="12">sous le visuel noir</text>
+        <line x1="245" y1="165" x2="205" y2="185" stroke="#12938a"/>
+      </svg>
+      <figcaption>Beaucoup de pistoliers visent une <em>zone</em> blanche sous le visuel, plutôt qu'un point.</figcaption>
+    </figure>
+  </div>
+  <div class="grid3" style="margin-top:1.2rem">
+    <div class="card"><h3>Accepter les mouvements</h3><p>Personne ne tient l'arme immobile. Le bras décrit une petite zone d'oscillation : on l'accepte, on garde l'alignement, et on lâche sans chercher à « attraper » le centre.</p></div>
+    <div class="card"><h3>Les deux yeux ouverts</h3><p>Un cache translucide devant l'œil qui ne vise pas évite de le fermer et de crisper le visage.</p></div>
+    <div class="card"><h3>Durée de visée</h3><p>La vision se fatigue vite. Si le coup ne part pas dans les quelques secondes de bonne stabilité, reposez l'arme et recommencez.</p></div>
+  </div>
+</section>
+<section id="visee-erreurs"><div class="kicker">Approfondir · Bensport</div><h2>Erreur parallèle, erreur angulaire</h2>
+<div class="grid2">
+  <div>
+    <p>La ligne de mire (du cran de mire au guidon) donne l'orientation exacte du canon. C'est pourquoi l'œil fait la mise au point sur elle, comme on regarde le niveau à bulle et pas l'étagère quand on bricole.</p>
+    <ul class="check">
+      <li><b>Erreur parallèle</b> : la ligne de mire est bien alignée mais décalée par rapport au visuel. Elle coûte peu : 1 mm de décalage donne environ 1 mm en cible.</li>
+      <li><b>Erreur angulaire</b> : le guidon n'est pas bien placé dans le cran de mire. Elle coûte cher : <b>1 mm d'écart entre cran et guidon donne environ 3 cm en cible à 10 m</b>.</li>
+      <li>Conséquence : un bon alignement compte bien plus que la position exacte sur la cible. Une bonne vue de près est plus utile qu'une bonne vue de loin.</li>
+    </ul>
+  </div>
+  <div class="card"><h3>Les « lumières »</h3>
+    <p>Ce sont les deux espaces clairs de part et d'autre du guidon. Un guidon plus fin n'est pas plus précis : il devient plus difficile à distinguer. Testez plusieurs largeurs de guidon et de cran de mire.</p>
+    <p>Visez avec une <b>marge de blanc</b> confortable sous le visuel : la ligne de mire reste facile à lire et l'attention reste dessus.</p>
+    <p>Le cache-œil (30 mm de large au maximum) détend les muscles du visage ; certaines lunettes de tir ont un iris réglable qui affine la vision de la ligne de mire.</p></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a> · <a href="https://www.bensport.fr/wp-content/uploads/wpforo/default_attachments/1512174212-La-technique-de-base-du-pistolet-10-m-decembre-2018.pdf" target="_blank" rel="noopener">La technique de base du pistolet 10 m ↗</a></p></section><section id="respiration">
+  <div class="kicker">Fondamental n°4</div>
+  <h2>La respiration : un temps calme pour tirer</h2>
+  <div class="grid2">
+    <div>
+      <p>La respiration fait monter et descendre le bras. On tire donc pendant une courte pause respiratoire, toujours au même moment du cycle.</p>
+      <div class="steps">
+        <div class="card"><b>Respirez calmement</b> pendant la préparation, plutôt avec le ventre.</div>
+        <div class="card"><b>Montez l'arme</b> au-dessus de la cible en inspirant.</div>
+        <div class="card"><b>Expirez partiellement</b> en descendant vers la zone de visée.</div>
+        <div class="card"><b>Bloquez sans forcer</b> : le bras se stabilise, le travail de visée et de lâcher commence.</div>
+        <div class="card"><b>Pas plus de quelques secondes</b> d'apnée confortable. Au-delà, l'oxygène baisse, la vision et la stabilité se dégradent : reposez et recommencez.</div>
+      </div>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 400 240" role="img" aria-label="Cycle respiratoire et moment du tir">
+        <line x1="30" y1="200" x2="380" y2="200" stroke="#b9c2cd"/>
+        <path d="M30,150 C70,60 110,60 150,120 S 190,170 210,170 L 300,170 C 330,170 350,90 380,80" fill="none" stroke="#12938a" stroke-width="3"/>
+        <rect x="215" y="40" width="80" height="160" fill="#e0601f" opacity=".13"/>
+        <text x="255" y="60" fill="#e0601f" font-family="Inter" font-size="12" text-anchor="middle">pause</text>
+        <text x="255" y="76" fill="#e0601f" font-family="Inter" font-size="12" text-anchor="middle">= tir</text>
+        <text x="80" y="48" fill="#5a6676" font-family="Inter" font-size="12" text-anchor="middle">inspiration</text>
+        <text x="170" y="195" fill="#5a6676" font-family="Inter" font-size="12" text-anchor="middle">expiration</text>
+        <text x="350" y="70" fill="#5a6676" font-family="Inter" font-size="12" text-anchor="middle">reprise</text>
+        <text x="205" y="225" fill="#5a6676" font-family="Inter" font-size="11" text-anchor="middle">temps →</text>
+      </svg>
+      <figcaption>Le coup part dans la pause qui suit une expiration partielle.</figcaption>
+    </figure>
+  </div>
+</section><section id="lacher">
+  <div class="kicker">Le cœur du tir</div>
+  <h2>Le lâcher : presser sans perturber</h2>
+  <p>Le lâcher est la technique qui fait la différence. L'objectif : faire partir le coup sans que l'action du doigt ne déplace l'arme. C'est souvent ici que se perdent les points, bien plus que dans la visée.</p>
+  <div class="grid2">
+    <div>
+      <h3>Les deux temps de la détente</h3>
+      <p><b>1. La bossette (pré-course)</b> : on prend la première course de la détente pendant la descente vers la cible.</p>
+      <p><b>2. Le départ</b> : une fois en zone de visée, on augmente la pression de façon <b>continue et progressive</b>, droit vers l'arrière, jusqu'à ce que le coup parte.</p>
+      <ul class="check">
+        <li>La pression s'exerce avec le milieu de la première phalange de l'index.</li>
+        <li>Le reste de la main ne bouge pas : seul l'index travaille.</li>
+        <li>Le départ doit presque « surprendre » : on ne décide pas de l'instant exact, on continue la pression en gardant l'alignement.</li>
+      </ul>
+      <div class="tip err"><b>Le coup de doigt :</b> accélérer brutalement quand le guidon passe au centre. Résultat : les impacts partent bas (et vers la gauche pour un droitier). C'est l'erreur la plus fréquente.</div>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 400 260" role="img" aria-label="Courbe de pression sur la détente">
+        <line x1="40" y1="220" x2="380" y2="220" stroke="#b9c2cd"/>
+        <line x1="40" y1="220" x2="40" y2="30" stroke="#b9c2cd"/>
+        <text x="20" y="125" fill="#5a6676" font-family="Inter" font-size="11" transform="rotate(-90 20 125)" text-anchor="middle">pression</text>
+        <text x="210" y="245" fill="#5a6676" font-family="Inter" font-size="11" text-anchor="middle">temps →</text>
+        <line x1="40" y1="60" x2="380" y2="60" stroke="#a87400" stroke-dasharray="5 5"/>
+        <text x="375" y="52" fill="#a87400" font-family="Inter" font-size="11" text-anchor="end">poids de départ</text>
+        <path d="M40,220 L100,150 L120,150 C180,140 250,110 300,60" fill="none" stroke="#12938a" stroke-width="3"/>
+        <circle cx="300" cy="60" r="6" fill="#12938a"/>
+        <path d="M40,220 L100,150 L230,150 L250,60" fill="none" stroke="#e0601f" stroke-width="3" stroke-dasharray="7 5"/>
+        <text x="70" y="140" fill="#5a6676" font-family="Inter" font-size="11">bossette</text>
+        <text x="310" y="95" fill="#12938a" font-family="Inter" font-size="12">progressif ✓</text>
+        <text x="160" y="185" fill="#e0601f" font-family="Inter" font-size="12">coup de doigt ✗</text>
+      </svg>
+      <figcaption>Une pression régulière (vert) plutôt qu'une accélération brusque (orange).</figcaption>
+    </figure>
+  </div>
+  <h3 style="margin-top:1.5rem">La continuation (le « suivi »)</h3>
+  <p>Après le départ, gardez la visée et la pression sur la détente pendant une à deux secondes. Ce moment permet d'« annoncer » le coup : où était le guidon au départ ? Si votre annonce correspond à l'impact, votre technique est maîtrisée et il ne reste qu'à affiner.</p>
+</section>
+<section id="lacher-types"><div class="kicker">Approfondir · Bensport</div><h2>Les différents types de lâcher</h2>
+<p>Un bon lâcher <b>surprend le tireur sans perturber la ligne de mire</b>. La position de la ligne de mire sur la cible au moment du départ n'est pas le premier critère : c'est la stabilité de l'arme qui compte.</p>
+<div class="grid3">
+  <div class="card"><h3>Pression continue</h3><p>La détente est pressée très progressivement. Adapté aux longues phases de stabilité.</p></div>
+  <div class="card"><h3>Lâcher en préparation</h3><p>La pression commence avant la stabilité complète et se termine à la surprise du départ. Il réduit le temps de visée : utile quand la lumière est forte ou changeante.</p></div>
+  <div class="card"><h3>Palier de pression</h3><p>La pression monte par paliers, avec de courtes pauses, à mesure que l'arme approche de la zone de visée. Le tireur ne sait pas exactement quand le coup partira.</p></div>
+</div>
+<div class="grid2" style="margin-top:1.2rem">
+  <div class="card"><h3>Comprendre sa détente</h3><ul class="check">
+    <li><b>Détente à précourse</b> : une première course réglable, puis un point de résistance qui correspond au poids de départ. Le poids total = précourse + accrochage.</li>
+    <li><b>Détente « filante »</b> : pas de point de transition net, la surprise du départ est presque systématique. Excellente pour perfectionner son lâcher.</li>
+    <li><b>Détente directe</b> : sans précourse, on estime le poids restant à vaincre (revolvers, pistolets 50 m).</li></ul></div>
+  <div class="card"><h3>À retenir</h3><ul class="check">
+    <li>Le lâcher s'apprend d'abord consciemment, puis s'automatise par des exercices répétés (le tir à sec en tête).</li>
+    <li>Le coup de doigt naît d'une pensée du type « maintenant ! ».</li>
+    <li>Le départ ne se produit pas forcément quand la ligne de mire est dans la zone, mais quand elle s'en approche.</li>
+    <li>La qualité du lâcher reflète la confiance du tireur.</li></ul></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/wpforo/default_attachments/1512986212-Les-diffrents-types-de-lcher.pdf" target="_blank" rel="noopener">Les différents types de lâcher ↗</a> · <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section>
+<section id="tenue-annonce"><div class="kicker">Approfondir · Bensport</div><h2>Les vertus de la tenue et de l'annonce</h2>
+<div class="grid2">
+  <div>
+    <h3>La tenue</h3>
+    <p>À l'air comprimé, le plomb sort à environ 150 m/s : il reste un court instant dans le canon après le départ. Relâcher sa prise, sa visée ou son doigt trop tôt peut encore dévier la trajectoire. La tenue consiste donc à <b>maintenir la posture, la visée et le doigt sur la détente</b> après le départ. Elle témoigne aussi de la qualité du lâcher.</p>
+    <h3>L'annonce</h3>
+    <p>Pendant la tenue, on compare l'image mémorisée au départ du coup avec l'image idéale du 10, et l'on <b>dit où sera l'impact</b> (valeur et position horaire). Avec de l'entraînement, on le situe à environ un centimètre près à 10 m.</p>
+    <ul class="check">
+      <li>On comprend ses erreurs sans dépendre de la cible.</li>
+      <li>On vérifie son réglage : un 10 annoncé qui sort régulièrement à 3 h signifie que l'arme tire à droite.</li>
+      <li>On se détache du résultat pour se concentrer sur ses sensations.</li>
+    </ul>
+  </div>
+  <div class="card"><h3>Avant de reposer le bras</h3>
+    <p>Après l'annonce, recentrez votre visée sur l'image idéale : vous renforcez le bon réflexe. Trois questions guident l'analyse :</p>
+    <ul class="check"><li>Ai-je été surpris par le départ ?</li><li>Ma visée était-elle correcte ?</li><li>Où ai-je vu l'impact, et dois-je ajuster ?</li></ul>
+    <div class="tip"><b>Signe à surveiller :</b> relâcher la détente avant d'avoir annoncé montre une attention trop tournée vers le résultat.</div></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/wpforo/default_attachments/1512636344-Le-vertus-de-la-tenue-et-de-lannonce.pdf" target="_blank" rel="noopener">Les vertus de la tenue et de l'annonce ↗</a></p></section><section id="routine">
+  <div class="kicker">Tout assembler</div>
+  <h2>La routine de tir : chaque coup, la même séquence</h2>
+  <p>La routine regroupe tous les fondamentaux dans un ordre fixe. Elle rend le geste automatique, rassure sous pression et laisse le moins de place possible au doute.</p>
+  <div class="steps">
+    <div class="card"><b>Préparation</b> — Position vérifiée, pieds en place, regard vers la cible. Une ou deux respirations calmes.</div>
+    <div class="card"><b>Prise en main</b> — Saisir l'arme de la même façon, contrôler l'alignement poignet/canon.</div>
+    <div class="card"><b>Élévation</b> — Monter le bras au-dessus de la cible en inspirant.</div>
+    <div class="card"><b>Descente</b> — Expirer partiellement, prendre la bossette, arriver dans la zone de visée.</div>
+    <div class="card"><b>Stabilisation et visée</b> — Focaliser l'œil sur le guidon, garder l'alignement.</div>
+    <div class="card"><b>Lâcher</b> — Pression continue jusqu'au départ.</div>
+    <div class="card"><b>Continuation</b> — Garder la visée 1 à 2 secondes, annoncer le coup.</div>
+    <div class="card"><b>Analyse et repos</b> — Noter brièvement ce qui s'est passé, reposer le bras, puis passer au coup suivant.</div>
+  </div>
+  <div class="tip"><b>Règle d'or :</b> si une étape ne se passe pas bien (respiration courte, alignement instable, visée trop longue), on n'insiste pas. On repose l'arme et on recommence la routine depuis le début.</div>
+</section>
+<section id="sequence-20"><div class="kicker">Approfondir · Bensport</div><h2>Une séquence de tir complète en 20 étapes</h2>
+<p>Exemple de séquence au pistolet 10 m pour un tireur droitier. Chacun l'adapte à sa morphologie et à ses sensations, puis la répète à l'identique.</p>
+<details class="card"><summary>Afficher les 20 étapes</summary><ol class="seq">
+<li>Prendre le canon de la main gauche et chausser fermement la crosse de la main droite.</li>
+<li>Placer la main gauche dans la ceinture ou la poche, bras gauche relâché.</li>
+<li>Se placer face à la ligne de tir, dans l'axe de la cible.</li>
+<li>Pieds à peu près parallèles, écartés comme les épaules.</li>
+<li>Vérifier en regardant ses pieds.</li>
+<li>Genoux légèrement en arrière, fessiers serrés : le bassin est verrouillé.</li>
+<li>Rechercher le tassement en restant droit.</li>
+<li>Vérifier le relâchement du bras gauche.</li>
+<li>Armer le bras : la pente du canon suit celle du bras, le regard est sur la cible.</li>
+<li>En regardant la cible, inspirer pour monter l'arme à hauteur d'épaule.</li>
+<li>Bloquer l'inspiration, marquer un temps d'arrêt, puis expirer lentement : l'arme descend dans l'axe vertical de la cible.</li>
+<li>Si l'arme descend bien dans l'axe, inspirer légèrement pour remonter sur le visuel, puis bloquer.</li>
+<li>Effacer la précourse de la détente et monter en pression jusqu'au point de transition.</li>
+<li>Vider lentement les poumons : les épaules et l'arme descendent.</li>
+<li>Arriver dans la zone de mouvement acceptable et augmenter progressivement la pression à mesure qu'on s'en approche.</li>
+<li>Le coup part dans la zone : légère surprise.</li>
+<li>Faire la tenue : garder la pression de l'index et la visée.</li>
+<li>Pendant la tenue, annoncer son impact.</li>
+<li>Reposer le bras en expirant.</li>
+<li>Terminer l'analyse du coup.</li></ol></details>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/wpforo/default_attachments/1512174212-La-technique-de-base-du-pistolet-10-m-decembre-2018.pdf" target="_blank" rel="noopener">La technique de base du pistolet 10 m ↗</a> · <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section><section id="erreurs">
+  <div class="kicker">À corriger</div>
+  <h2>Les 6 erreurs les plus fréquentes</h2>
+  <p>Ce sont les habitudes qu'on prend quand on a tiré sans être guidé. Elles sont toutes faciles à corriger… à condition de les connaître.</p>
+  <div class="grid3">
+    <div class="card"><h3>1. Regarder la cible</h3><p>L'œil va naturellement vers le centre. <b>Correction :</b> forcez la netteté sur le guidon et acceptez une cible floue. <a href="#visee">Voir la visée</a></p></div>
+    <div class="card"><h3>2. Le coup de doigt</h3><p>On appuie brusquement quand le guidon passe au centre. <b>Correction :</b> une pression continue, sans chercher l'instant parfait. <a href="#lacher">Voir le lâcher</a></p></div>
+    <div class="card"><h3>3. Viser trop longtemps</h3><p>Plus on attend, plus on tremble. <b>Correction :</b> si le coup n'est pas parti après quelques secondes, reposez l'arme. <a href="#respiration">Voir la respiration</a></p></div>
+    <div class="card"><h3>4. Serrer trop fort</h3><p>La main tremble et fatigue vite. <b>Correction :</b> une prise ferme mais modérée, identique à chaque coup. <a href="#prise">Voir la prise</a></p></div>
+    <div class="card"><h3>5. Corriger avec le bras</h3><p>On force le bras pour rester sur la cible. <b>Correction :</b> déplacez les pieds pour trouver le point naturel. <a href="#position">Voir la position</a></p></div>
+    <div class="card"><h3>6. Juger chaque impact</h3><p>On réagit à chaque coup et la série se dégrade. <b>Correction :</b> annoncez le coup, puis passez au suivant. <a href="#mental">Voir la préparation mentale</a></p></div>
+  </div>
+</section><section id="entrainement">
+  <div class="kicker">Progresser</div>
+  <h2>Exercices d'entraînement</h2>
+  <div class="tabs" role="tablist">
+    <button class="on" data-p="p1">Tir à sec</button>
+    <button data-p="p3">Lâcher</button>
+    <button data-p="p4">Tir réel</button>
+  </div>
+  <div class="panel on" id="p1">
+    <div class="card">
+      <h3>Le tir à sec (sans projectile)</h3>
+      <p>L'exercice préféré des meilleurs pistoliers. Sans le bruit ni le résultat de l'impact, on observe uniquement la qualité du geste.</p>
+      <ul class="check">
+        <li>Visez un mur blanc, puis une petite marque, puis une cible.</li>
+        <li>Concentrez-vous sur un seul point : le guidon ne doit pas bouger au départ.</li>
+        <li>Séries courtes de qualité plutôt que des dizaines de répétitions fatiguées.</li>
+        <li>Vérifiez que votre arme permet le tir à sec sans risque de l'abîmer (la plupart des pistolets 10 m ont un mode prévu).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="panel" id="p3">
+    <div class="card">
+      <h3>Exercices de lâcher</h3>
+      <ul class="check">
+        <li><b>La pièce sur le canon</b> (à sec) : une petite pièce posée sur le dessus de l'arme ne doit pas tomber au départ.</li>
+        <li><b>Tir sur blanc</b> : tirer sur l'envers d'une cible. Sans visuel, on ne cherche plus le centre et on se concentre sur la pression.</li>
+        <li><b>Annonce systématique</b> : annoncer chaque coup avant de regarder l'impact.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="panel" id="p4">
+    <div class="card">
+      <h3>Séances de tir réel</h3>
+      <ul class="check">
+        <li>Échauffement à sec avant les premiers coups.</li>
+        <li>Séries par thème : une séance « respiration », une séance « lâcher »…</li>
+        <li>Simulations de match régulières, avec le temps et la pression d'une compétition.</li>
+        <li>Analysez les groupements plutôt que les coups isolés : forme, taille, position.</li>
+      </ul>
+    </div>
+  </div>
+  <h3 style="margin-top:1.6rem">Lire ses impacts (tireur droitier)</h3>
+  <table>
+    <thead><tr><th>Groupement</th><th>Cause probable</th></tr></thead>
+    <tbody>
+      <tr><td>Bas à gauche</td><td>Coup de doigt, crispation de la main ou anticipation du départ.</td></tr>
+      <tr><td>À gauche</td><td>Trop d'index sur la détente, ou pression qui n'est pas droite vers l'arrière.</td></tr>
+      <tr><td>À droite</td><td>Pas assez d'index sur la détente, ou pouce qui pousse.</td></tr>
+      <tr><td>Haut</td><td>Poignet qui casse vers le haut, ou guidon trop haut dans le cran de mire.</td></tr>
+      <tr><td>Vertical étiré</td><td>Respiration irrégulière ou pression de prise variable.</td></tr>
+      <tr><td>Groupé mais décentré</td><td>Bonne technique : il suffit de régler les organes de visée.</td></tr>
+    </tbody>
+  </table>
+  <p style="color:var(--mut);font-size:.9rem;margin-top:.6rem">Pour un gaucher, inversez gauche et droite. Ce tableau donne des pistes : un entraîneur pourra confirmer en vous observant.</p>
+</section>
+<section id="construire-exercices"><div class="kicker">Approfondir · Bensport</div><h2>Construire ses exercices d'entraînement</h2>
+<div class="grid2">
+  <div>
+    <p>S'entraîner, c'est chercher à améliorer sa performance par des exercices. Une méthode simple en 9 étapes :</p>
+    <ol class="seq">
+      <li>Faire le bilan de sa situation.</li><li>Fixer un objectif.</li><li>Recenser ses moyens.</li><li>Isoler le problème.</li>
+      <li>Chercher des solutions spécifiques.</li><li>Choisir les solutions.</li><li>Les organiser en plan d'action.</li>
+      <li>Mettre le plan en œuvre avec rigueur.</li><li>Évaluer : objectif atteint ? Sinon, pourquoi ?</li></ol>
+  </div>
+  <div class="card"><h3>Concevoir un exercice</h3>
+    <p>Un thème à la fois (lâcher, visée, position, coordination), et <b>une seule variable modifiée à la fois</b> :</p>
+    <ul class="check"><li><b>Mode d'action</b> : à sec, arme chargée, détente modifiée…</li><li><b>Support visuel</b> : cible blanche, cible personnalisée, plaque…</li>
+    <li><b>Position</b> : assis, debout, pieds joints, yeux fermés…</li><li><b>Durée</b> : en minutes ou en nombre de coups.</li></ul>
+    <div class="tip"><b>Les pièges :</b> trop d'entraînement, une grosse séance au lieu de plusieurs petites, le match comme seul moyen d'évaluation, compter les points plutôt que les gestes réussis.</div></div>
+</div>
+<h3 style="margin-top:1.4rem">Le catalogue d'exercices</h3>
+<table><thead><tr><th>Exercice</th><th>Thème</th><th>Comment faire</th><th>Pourquoi</th></tr></thead><tbody><tr><td>Tir à sec</td><td>Lâcher</td><td>10 coups les yeux fermés, puis 10 sur fond blanc, tenue comprise.</td><td>Mémoriser les sensations du lâcher. À faire à presque chaque séance.</td></tr><tr><td>Plus petit groupement</td><td>Coordination visée/lâcher</td><td>15 à 20 coups en appui sur un coussin, environ 5 par cible, sans ramener la cible. Mesurer le groupement.</td><td>Supprimer l'instabilité pour retrouver le « sens du 10 ».</td></tr><tr><td>Cible blanche</td><td>Ligne de mire</td><td>15 à 20 coups, un par cible, sans compter ni mesurer.</td><td>Apprendre à lâcher en ne regardant que la ligne de mire.</td></tr><tr><td>Temps limité</td><td>Rythme</td><td>5 coups en 2 minutes, un par cible.</td><td>Gérer les fins de match sans perdre en qualité.</td></tr><tr><td>Pieds joints</td><td>Stabilité</td><td>Séquence habituelle, pieds joints (puis croisés, ou sur un pied, sans tirer).</td><td>Apprendre à lâcher avec des mouvements amplifiés, sans changer de technique.</td></tr><tr><td>Yeux fermés</td><td>Position</td><td>Viser, détourner le regard ou fermer les yeux, attendre au moins 5 secondes, tirer. 10 à 15 coups.</td><td>Vérifier que la position revient naturellement au centre.</td></tr><tr><td>Visuel troué</td><td>Lâcher/visée</td><td>20 à 30 coups sur une cible dont le centre est découpé, sans ramener la cible.</td><td>Rester sur son lâcher sans être obnubilé par le résultat.</td></tr><tr><td>Travail de l'annonce</td><td>Coordination</td><td>30 coups type match : annoncer chaque coup (valeur et position), puis comparer. 1 point par valeur juste, 1 par position juste, 60 au maximum.</td><td>Développer le ressenti et l'analyse.</td></tr><tr><td>Tir inversé</td><td>Automatismes</td><td>Tirer avec l'autre main.</td><td>Réinterroger ses habitudes.</td></tr><tr><td>Lâcher sans départ</td><td>Lâcher</td><td>Amener la préparation du lâcher jusqu'au bout sans faire partir le coup.</td><td>Affiner le contrôle de la pression.</td></tr><tr><td>Gestion du stress</td><td>Mental</td><td>Reproduire les effets du stress : quelques flexions de genoux avant chaque tir, temps limité.</td><td>Apprendre à tirer avec le cœur qui bat plus vite.</td></tr></tbody></table>
+<h3 style="margin-top:1.4rem">Les jeux pour s'entraîner autrement</h3>
+<div class="grid3">
+  <div class="card"><h3>Les 4 coins</h3><p>Faire tomber les quatre coins d'un carton avec le moins de plombs possible.</p></div>
+  <div class="card"><h3>Le 4 – 21</h3><p>Atteindre 21 points avec 4 plombs, le zéro est éliminatoire. Le plus proche de 21 gagne.</p></div>
+  <div class="card"><h3>La bombe à retardement</h3><p>Un partenaire charge l'arme… ou pas, au hasard. Révèle l'appréhension du départ.</p></div>
+  <div class="card"><h3>La bataille navale</h3><p>Couler la flotte adverse sur une grille : précision et concentration.</p></div>
+  <div class="card"><h3>La pyramide</h3><p>Toucher toutes les valeurs d'une ligne avant de passer à la suivante. Le premier au sommet gagne.</p></div>
+  <div class="card"><h3>Highlander et duel</h3><p>Finale avec commandements : la moins bonne balle est éliminée à chaque tour. Ou duels à élimination sur cibles basculantes.</p></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2019/09/Construire-ses-exercices-dentrainement.pdf" target="_blank" rel="noopener">Construire ses exercices d'entraînement ↗</a> · <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section><section class="more"><div class="kicker">Pour aller plus loin</div><h2>Sur les sites MonTirSportif</h2><div class="links"><a href="https://www.montirsportif.com/la-preparation-technique-du-tireur/" target="_blank" rel="noopener"><b>La préparation technique du tireur</b><small>montirsportif.com ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/la-technique/la-position" target="_blank" rel="noopener"><b>La position</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/la-technique/la-visee" target="_blank" rel="noopener"><b>La visée</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/la-technique/le-lacher" target="_blank" rel="noopener"><b>Le lâcher</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/la-technique/la-tenue" target="_blank" rel="noopener"><b>La tenue</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/la-technique/sequence-de-tir" target="_blank" rel="noopener"><b>La séquence de tir</b><small>montirsportif.fr ↗</small></a><a href="https://entrainement.montirsportif.fr/" target="_blank" rel="noopener"><b>Les outils d'entraînement 10 m</b><small>entrainement.montirsportif.fr ↗</small></a></div></section><div class="nextnav"><a href="#accueil"><small>← Retour</small><b>Accueil</b></a><a class="r" href="#mental"><small>Thème suivant →</small><b>Préparation mentale</b></a></div></main>
+<main class="view" id="mental" style="--acc:#7656d6"><div class="theme-head"><div class="kicker">Thème 2 sur 5</div><h1><span class="num">2</span>Préparation mentale</h1><p class="lead">Concentration, gestion du stress et confiance : apprendre à tirer avec sa tête autant qu'avec son bras.</p><div class="chips"><a href="#mental-bases">Penser au geste, pas au score</a><a href="#concentration">La concentration</a><a href="#stress">Gérer le stress</a><a href="#visualisation">La visualisation</a><a href="#confiance">Confiance et objectifs</a><a href="#mental-bensport">Le mental dès le premier jour</a></div></div>
+<section id="mental-bases" class="first">
+  <div class="kicker">Les bases</div>
+  <h2>Penser au geste, pas au score</h2>
+  <p>Au pistolet, la différence entre deux tireurs de même niveau technique se fait souvent dans la tête. Bonne nouvelle : le mental s'entraîne, exactement comme le lâcher.</p>
+  <div class="grid3">
+    <div class="card"><h3>Rester dans le processus</h3><p>Pensez à ce que vous faites (alignement, pression régulière), pas au résultat. Le score est la conséquence d'un geste bien exécuté.</p></div>
+    <div class="card"><h3>Un coup à la fois</h3><p>Un coup tiré est terminé. Analysez-le en une phrase, puis revenez à la routine. Le prochain coup est le seul qui compte.</p></div>
+    <div class="card"><h3>Accepter l'imperfection</h3><p>Même les champions tirent des 8. Ce qui compte, c'est de ne pas laisser un mauvais coup en entraîner d'autres.</p></div>
+  </div>
+</section>
+
+<section id="concentration">
+  <div class="kicker">Outil n°1</div>
+  <h2>La concentration</h2>
+  <div class="grid2">
+    <div>
+      <p>La concentration n'est pas un effort permanent : on ne peut pas rester concentré à 100 % pendant tout un match. On alterne des <b>phases de relâchement</b> entre les coups et des <b>phases de concentration intense</b> de quelques secondes, au moment de la visée et du lâcher.</p>
+      <ul class="check">
+        <li>Entre deux coups : regard au loin ou au sol, épaules relâchées, respiration lente.</li>
+        <li>Au début de la routine : on « allume » la concentration avec un geste ou un mot-clé toujours identique.</li>
+        <li>Pendant la visée : l'attention est sur <b>une seule chose</b>, le guidon et la pression sur la détente.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Mots-clés</h3>
+      <p>Choisissez 1 ou 2 mots courts qui résument votre geste, et répétez-les intérieurement pendant la routine :</p>
+      <ul class="check">
+        <li>« Guidon » : pour garder la netteté sur le guidon.</li>
+        <li>« Presse » ou « continue » : pour un lâcher progressif.</li>
+        <li>« Calme » : pour relâcher la tension avant de monter le bras.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="stress">
+  <div class="kicker">Outil n°2</div>
+  <h2>Gérer le stress</h2>
+  <p>Le stress fait monter le rythme cardiaque, crispe les muscles et pousse à accélérer. C'est normal, surtout en compétition : l'objectif n'est pas de le supprimer, mais de le garder à un niveau utile.</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>La respiration ventrale</h3>
+      <p>Assis ou debout, une main sur le ventre :</p>
+      <div class="steps">
+        <div class="card">Inspirez lentement par le nez en gonflant le ventre (environ 4 secondes).</div>
+        <div class="card">Expirez lentement par la bouche, un peu plus longtemps (environ 6 secondes).</div>
+        <div class="card">Répétez 5 à 10 fois, entre deux séries ou avant le début du match.</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Signes d'alerte</h3>
+      <ul class="check">
+        <li>Vous tirez de plus en plus vite.</li>
+        <li>Vous regardez chaque impact et calculez votre score.</li>
+        <li>Votre prise se crispe, vos visées s'allongent.</li>
+      </ul>
+      <div class="tip"><b>Réflexe :</b> posez l'arme, faites quelques respirations ventrales, puis reprenez votre routine depuis le début. Prendre une pause n'est jamais du temps perdu.</div>
+    </div>
+  </div>
+</section>
+
+<section id="visualisation">
+  <div class="kicker">Outil n°3</div>
+  <h2>La visualisation</h2>
+  <div class="grid2">
+    <div>
+      <p>Visualiser, c'est répéter le geste dans sa tête, avec le plus de détails possible : ce que l'on voit, ce que l'on ressent dans le bras et le doigt, le bruit du départ. Le cerveau active des circuits proches de ceux du geste réel.</p>
+      <ul class="check">
+        <li>Installez-vous au calme, yeux fermés.</li>
+        <li>Déroulez votre routine complète, à vitesse réelle, du placement des pieds jusqu'à la continuation.</li>
+        <li>Voyez un guidon parfaitement aligné et sentez un départ qui surprend.</li>
+        <li>Quelques minutes par jour suffisent, y compris les jours sans tir.</li>
+      </ul>
+    </div>
+    <div class="tip"><b>Conseil :</b> visualisez le <em>bon</em> geste, jamais l'erreur que vous voulez corriger. Pensez « je presse en continu », pas « je ne dois pas donner de coup de doigt ».</div>
+  </div>
+</section>
+
+<section id="confiance">
+  <div class="kicker">Outil n°4</div>
+  <h2>Confiance et objectifs</h2>
+  <div class="grid3">
+    <div class="card"><h3>Objectifs de processus</h3><p>Fixez-vous des objectifs sur le geste (« 10 lâchers progressifs sur 10 », « je repose l'arme si la visée dure trop ») plutôt que seulement sur le score.</p></div>
+    <div class="card"><h3>Discours intérieur</h3><p>Parlez-vous comme un bon entraîneur : phrases courtes, positives, tournées vers l'action. « Bon geste, on continue » plutôt que « encore raté ».</p></div>
+    <div class="card"><h3>Carnet de tir</h3><p>Notez séances, sensations, réglages et résultats. Relire ses progrès est la meilleure source de confiance.</p></div>
+  </div>
+</section>
+<section id="mental-bensport"><div class="kicker">Approfondir · Bensport</div><h2>Le mental dès le premier jour</h2>
+<div class="grid2">
+  <div>
+    <p>Deux idées reçues freinent souvent les tireurs :</p>
+    <ul class="check">
+      <li><b>« Le mental, ce sera quand la technique sera acquise. »</b> Faux : séparer le corps et l'esprit nuit à la performance. Technique et mental se construisent ensemble.</li>
+      <li><b>« Les jeunes sont trop jeunes pour la préparation mentale. »</b> Faux : le mental et la motivation sont indissociables, à tout âge.</li>
+    </ul>
+    <p>Le tir sportif est aussi un formidable outil de <b>développement personnel</b> : il apprend la maîtrise de soi, la rigueur et l'acceptation de l'effort, des valeurs proches de l'idéal olympique.</p>
+  </div>
+  <div class="card"><h3>Deux définitions pour réfléchir</h3>
+    <p><b>Le mauvais tireur</b> : celui qui cherche obstinément à toucher la cible, au lieu de mettre en œuvre les moyens d'y parvenir.</p>
+    <p><b>Le tireur peu fréquentable</b> : celui qui manque d'esprit sportif, justifie ses fautes de sécurité et triche pour briller.</p>
+    <div class="tip"><b>Pour aller plus loin :</b> la chaîne <a href="https://www.youtube.com/@Envolemoi-va" target="_blank" rel="noopener">Envol'&amp;moi ↗</a> propose un « voyage intérieur » pour mieux se connaître.</div></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/preparation-mentale-augmentation-de-votre-potentiel-psychologique/" target="_blank" rel="noopener">Préparation mentale ↗</a> · <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section>
+<section class="more"><div class="kicker">Pour aller plus loin</div><h2>Sur les sites MonTirSportif</h2><div class="links"><a href="https://www.montirsportif.com/le-mental/" target="_blank" rel="noopener"><b>La préparation mentale du tireur</b><small>montirsportif.com ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/la-technique/le-mental" target="_blank" rel="noopener"><b>Le mental</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.fr/ressources-a-imprimer" target="_blank" rel="noopener"><b>Fiches à imprimer (dont préparation mentale)</b><small>montirsportif.fr ↗</small></a></div></section><div class="nextnav"><a href="#technique"><small>← Thème précédent</small><b>Préparation technique</b></a><a class="r" href="#materiel"><small>Thème suivant →</small><b>Préparation matérielle</b></a></div></main>
+<main class="view" id="materiel" style="--acc:#12938a"><div class="theme-head"><div class="kicker">Thème 3 sur 5</div><h1><span class="num">3</span>Préparation matérielle</h1><p class="lead">Choisir, régler et entretenir son pistolet et son équipement pour qu'ils travaillent pour vous.</p><div class="chips"><a href="#pistolet">Le pistolet 10 m</a><a href="#reglages">Les réglages essentiels</a><a href="#equipement">L'équipement du tireur</a><a href="#entretien">Entretien et sac de tir</a><a href="#air-comprime">L'air comprimé en toute sécurité</a><a href="#regler-detente-hausse">Régler sa hausse et sa détente</a><a href="#arme-a-feu">Entretenir et transporter une arme à feu</a></div></div>
+<section id="pistolet" class="first">
+  <div class="kicker">L'arme</div>
+  <h2>Le pistolet 10 m</h2>
+  <div class="grid2">
+    <div>
+      <p>Le club prête généralement un pistolet à air comprimé de 10 m. Inutile d'acheter tout de suite : apprenez d'abord à connaître ce que vous aimez (taille de poignée, poids, sensation de détente).</p>
+      <ul class="check">
+        <li><b>Air comprimé (PCP)</b> : une cartouche d'air sous pression alimente l'arme. C'est la technologie la plus répandue aujourd'hui.</li>
+        <li><b>Calibre 4,5 mm</b> : on tire des plombs à tête plate (« wadcutter ») qui découpent un trou net dans la cible.</li>
+        <li><b>Poids limité</b> par le règlement ISSF (environ 1,5 kg maximum avec les accessoires), et un poids de départ minimal de la détente (500 g au 10 m).</li>
+      </ul>
+      <div class="tip"><b>Avant d'acheter :</b> essayez plusieurs modèles au club et demandez conseil à votre entraîneur. La poignée qui tombe bien dans <em>votre</em> main compte plus que la marque.</div>
+    </div>
+    <div class="card">
+      <h3>Les plombs</h3>
+      <p>Tous les plombs ne se valent pas. Un même pistolet groupe souvent mieux avec une marque ou un lot qu'avec un autre.</p>
+      <ul class="check">
+        <li>Choisissez des plombs « match » de qualité, à tête plate.</li>
+        <li>Une fois un bon lot trouvé, gardez-le pour les compétitions.</li>
+        <li>Rangez-les dans leur boîte, à l'abri des chocs : un plomb déformé est un coup perdu.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="reglages">
+  <div class="kicker">Ajuster l'arme à soi</div>
+  <h2>Les réglages essentiels</h2>
+  <p>Un pistolet de tir sportif se règle pour s'adapter au tireur. Règle d'or : <b>un seul réglage à la fois</b>, testé sur plusieurs séries, puis noté dans le carnet.</p>
+  <div class="grid3">
+    <div class="card"><h3>La poignée</h3><p>Elle doit remplir la main sans forcer, avec le poignet dans l'axe du canon. Les poignées anatomiques se règlent (repose-paume) et se retouchent (ponçage, pâte à modeler).</p></div>
+    <div class="card"><h3>La détente</h3><p>On peut régler sa position (longueur, hauteur, angle) pour que la première phalange de l'index tombe naturellement dessus, ainsi que la bossette et le poids de départ (dans les limites du règlement).</p></div>
+    <div class="card"><h3>Les organes de visée</h3><p>Largeur du cran de mire et du guidon : un jour suffisant de chaque côté du guidon rend l'alignement plus facile à contrôler.</p></div>
+  </div>
+  <h3 style="margin-top:1.5rem">Régler la visée (le « zérotage »)</h3>
+  <div class="grid2">
+    <div>
+      <p>Quand votre groupement est serré mais décentré, ce n'est plus la technique : c'est le réglage. On agit sur le <b>cran de mire</b> grâce à ses deux vis (hauteur et direction).</p>
+      <ul class="check">
+        <li>On déplace le cran de mire <b>dans le sens où l'on veut déplacer les impacts</b> : groupement trop bas → on monte le cran.</li>
+        <li>On règle à partir d'un groupement de 5 coups au moins, jamais d'un coup isolé.</li>
+        <li>On compte les « clics » et on les note dans son carnet.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 400 200" role="img" aria-label="Réglage de la visée">
+        <g transform="translate(90 100)">
+          <circle r="80" fill="#fbfaf6" stroke="#c9cfd8"/><circle r="52" fill="#151515"/>
+          <g fill="#12938a" stroke="#fff" stroke-width="1.5"><circle cx="-6" cy="56" r="5"/><circle cx="5" cy="60" r="5"/><circle cx="0" cy="66" r="5"/><circle cx="-3" cy="62" r="5"/></g>
+        </g>
+        <text x="90" y="194" fill="#5a6676" font-family="Inter" font-size="12" text-anchor="middle">groupement bas</text>
+        <path d="M185 100 H215" stroke="#a87400" stroke-width="3"/><path d="M215 92 L228 100 L215 108Z" fill="#a87400"/>
+        <g transform="translate(310 100)">
+          <circle r="80" fill="#fbfaf6" stroke="#c9cfd8"/><circle r="52" fill="#151515"/>
+          <g fill="#12938a" stroke="#fff" stroke-width="1.5"><circle cx="-6" cy="-4" r="5"/><circle cx="5" cy="0" r="5"/><circle cx="0" cy="6" r="5"/><circle cx="-3" cy="2" r="5"/></g>
+        </g>
+        <text x="310" y="194" fill="#5a6676" font-family="Inter" font-size="12" text-anchor="middle">cran de mire monté</text>
+      </svg>
+      <figcaption>Un groupement serré mais bas : on monte le cran de mire.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="equipement">
+  <div class="kicker">Autour de l'arme</div>
+  <h2>L'équipement du tireur</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Pour bien voir</h3>
+      <ul class="check">
+        <li><b>Lunettes de tir</b> : le verre peut être adapté par un opticien pour voir le guidon net à bout de bras. Le règlement ISSF interdit toute optique sur le pistolet, mais autorise les verres correcteurs sur les lunettes.</li>
+        <li><b>Cache-œil</b> translucide devant l'œil qui ne vise pas, pour garder les deux yeux ouverts sans crisper le visage.</li>
+        <li><b>Visière ou œillère latérale</b> pour couper les reflets et les distractions.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Pour être stable et protégé</h3>
+      <ul class="check">
+        <li><b>Chaussures</b> plates et stables (le règlement ISSF encadre les chaussures des pistoliers : renseignez-vous avant d'en acheter).</li>
+        <li><b>Vêtements</b> souples qui ne gênent pas le bras tireur.</li>
+        <li><b>Protections auditives</b> : indispensables au 25 m et au 50 m, conseillées au 10 m.</li>
+        <li><b>Mallette</b> rigide pour transporter l'arme en sécurité.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="entretien">
+  <div class="kicker">Durer</div>
+  <h2>Entretien et sac de tir</h2>
+  <div class="grid2">
+    <div>
+      <h3>L'entretien courant</h3>
+      <ul class="check">
+        <li>Nettoyer le canon régulièrement avec des feutres de nettoyage adaptés.</li>
+        <li>Essuyer l'arme après chaque séance (traces de doigts, humidité).</li>
+        <li>Vérifier la pression et la <b>date limite d'utilisation</b> inscrite sur la cartouche d'air : une cartouche périmée ne doit plus être remplie.</li>
+        <li>Pour tout démontage ou réglage interne, demander à l'armurier ou à l'entraîneur du club.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Checklist du sac de tir</h3>
+      <label class="ck"><input type="checkbox"> Pistolet dans sa mallette</label>
+      <label class="ck"><input type="checkbox"> Cartouche(s) d'air remplie(s)</label>
+      <label class="ck"><input type="checkbox"> Plombs (le bon lot)</label>
+      <label class="ck"><input type="checkbox"> Lunettes de tir et cache-œil</label>
+      <label class="ck"><input type="checkbox"> Protections auditives</label>
+      <label class="ck"><input type="checkbox"> Chaussures de tir</label>
+      <label class="ck"><input type="checkbox"> Petits outils (clés de réglage)</label>
+      <label class="ck"><input type="checkbox"> Carnet de tir et stylo</label>
+      <label class="ck"><input type="checkbox"> Licence</label>
+      <label class="ck"><input type="checkbox"> Eau et petite collation</label>
+    </div>
+  </div>
+</section>
+<section id="air-comprime"><div class="kicker">Approfondir · Bensport</div><h2>L'air comprimé en toute sécurité</h2>
+<div class="grid2">
+  <div class="card"><h3>Remplir sa cartouche</h3><ol class="seq">
+    <li>Choisir l'adaptateur entre la cartouche et la bouteille de remplissage, serrer à la main et vérifier le montage.</li>
+    <li>Ouvrir doucement la vanne, attendre quelques instants, puis refermer.</li>
+    <li>Retirer la cartouche et vérifier son niveau.</li>
+    <li>Signaler quand la bouteille ne délivre plus assez de pression.</li></ol></div>
+  <div class="card"><h3>Précautions</h3><ul class="check">
+    <li>Le remplissage se fait dans une zone sécurisée, sous le contrôle de l'entraîneur.</li>
+    <li>La bouteille (200 bars) est fixée au mur ou au sol ; on se tient derrière elle. En cas d'incident, elle peut causer de gros dégâts.</li>
+    <li>Une cartouche d'air a une durée de validité (10 ans) : surveillez la date inscrite dessus.</li></ul></div>
+</div>
+<h3 style="margin-top:1.4rem">Entretien de l'arme à air</h3>
+<ul class="check">
+  <li>Un coup de chiffon sec sur les parties métalliques à la fin de chaque séance.</li>
+  <li>Le canon s'encrasse : nettoyez-le environ <b>tous les 100 coups</b> avec un feutre de nettoyage sec.</li>
+  <li>Surveillez l'état des joints, et faites contrôler l'arme par un armurier avant les grands rendez-vous.</li>
+</ul>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section>
+<section id="regler-detente-hausse"><div class="kicker">Approfondir · Bensport</div><h2>Régler sa hausse et sa détente</h2>
+<div class="grid2">
+  <div>
+    <h3>La hausse</h3>
+    <ul class="check">
+      <li>Partir d'un groupement de 5 coups tirés avec sa meilleure technique (en appui si besoin), le plus serré possible.</li>
+      <li>Le canon suit l'orientation de la hausse : pour tirer plus bas, baisser la hausse ; pour tirer plus à gauche, la déplacer vers la gauche.</li>
+      <li>Le réglage peut varier d'un stand à l'autre selon l'éclairage.</li>
+    </ul>
+    <h3>Le « zéro de hausse »</h3>
+    <p>Une fois l'arme réglée, notez combien de clics il faut pour ramener la hausse en butée (en hauteur et en latéral). Avec une arme de club partagée, vous retrouvez votre réglage <b>en moins de 2 minutes</b>, sans gaspiller de munitions. Utilisez de bons outils pour ne pas abîmer les vis.</p>
+  </div>
+  <div class="card"><h3>La détente de match</h3>
+    <p>Le poids de départ = poids de précourse + poids d'accrochage. On règle d'abord l'accrochage, puis on complète avec la précourse pour atteindre le minimum réglementaire.</p>
+    <table><thead><tr><th>Arme</th><th>Poids de départ minimum</th></tr></thead><tbody><tr><td>Pistolet 10 m (air)</td><td>500 g</td></tr><tr><td>Pistolets 25 m</td><td>1 000 g</td></tr><tr><td>Pistolet 50 m</td><td>Libre</td></tr></tbody></table>
+    <div class="tip"><b>Conseils :</b> la température peut modifier les réglages ; si la détente ne tient plus le poids au contrôle, augmentez plutôt la précourse. Et ne réglez jamais sa détente la veille d'une compétition.</div></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section>
+<section id="arme-a-feu"><div class="kicker">Approfondir · Bensport</div><h2>Entretenir et transporter une arme à feu</h2>
+<div class="grid2">
+  <div class="card"><h3>Le nettoyage</h3>
+    <p class="note">Les émanations de poudre, de plomb et de produits de nettoyage sont nocives : travaillez dans un local aéré, avec un masque.</p>
+    <ul class="check">
+      <li><b>Courant</b> : démontage partiel, spray lubrifiant anticorrosion, brossage, un passage de cordon de nettoyage dans le canon, une goutte d'huile sur les parties en glissement.</li>
+      <li><b>En profondeur</b> : trempage de la carcasse et du canon, brossage, séchage, puis nettoyage et lubrification des hausses réglables.</li>
+      <li>Passez la baguette dans le sens de sortie de la balle pour préserver la bouche du canon.</li>
+      <li>Avant une compétition, nettoyez avant le dernier entraînement, pour vérifier le bon fonctionnement et vos réglages.</li></ul></div>
+  <div class="card"><h3>Le transport</h3>
+    <ul class="check">
+      <li>Arme dans une mallette, partiellement démontée ou munie d'un dispositif de sécurité.</li>
+      <li>Munitions dans une boîte séparée.</li>
+      <li>Emportez votre pièce d'identité, votre licence et les autorisations de détention, ainsi que votre convocation à la compétition.</li></ul>
+    <div class="tip"><b>À vérifier :</b> la réglementation sur la détention et le transport des armes évolue. Renseignez-vous auprès de votre club et de la FFTir.</div></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section>
+<section class="more"><div class="kicker">Pour aller plus loin</div><h2>Sur les sites MonTirSportif</h2><div class="links"><a href="https://www.montirsportif.com/la-preparation-du-materiel/" target="_blank" rel="noopener"><b>La préparation du matériel</b><small>montirsportif.com ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/la-technique/le-reglage" target="_blank" rel="noopener"><b>Le réglage</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.fr/equipements" target="_blank" rel="noopener"><b>Les équipements</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.fr/equipements/carnet-de-tir" target="_blank" rel="noopener"><b>Le carnet de tir</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.com/imprimer-cibles/" target="_blank" rel="noopener"><b>Imprimer des cibles</b><small>montirsportif.com ↗</small></a><a href="https://sportquantum.com/produits/" target="_blank" rel="noopener"><b>Les cibles électroniques de notre partenaire</b><small>sportquantum.com ↗</small></a></div></section><div class="nextnav"><a href="#mental"><small>← Thème précédent</small><b>Préparation mentale</b></a><a class="r" href="#physique"><small>Thème suivant →</small><b>Préparation physique</b></a></div></main>
+<main class="view" id="physique" style="--acc:#3d8f2a"><div class="theme-head"><div class="kicker">Thème 4 sur 5</div><h1><span class="num">4</span>Préparation physique</h1><p class="lead">Tenir l'arme, rester stable et durer tout un match : la condition physique du pistolier.</p><div class="chips"><a href="#pourquoi-physique">Le tir, un sport physique ?</a><a href="#exercices-physiques">Les exercices utiles</a><a href="#semaine-type">Une semaine type</a><a href="#hygiene">Échauffement et hygiène de vie</a><a href="#echauffement-10">L'échauffement en 10 minutes</a><a href="#stabilite">Mesurer et améliorer sa stabilité</a></div></div>
+<section id="pourquoi-physique" class="first">
+  <div class="kicker">Pourquoi ?</div>
+  <h2>Le tir, un sport physique ?</h2>
+  <div class="grid2">
+    <div>
+      <p>Oui, mais pas au sens d'un sport d'effort intense. Un pistolier lève un pistolet d'environ 1 à 1,5 kg à bout de bras, des dizaines de fois, en restant parfaitement immobile. Ce qui compte, c'est :</p>
+      <ul class="check">
+        <li><b>L'endurance musculaire</b> de l'épaule et du bras, pour tenir sans trembler jusqu'au dernier coup.</li>
+        <li><b>La stabilité du tronc</b> (gainage), pour que le corps reste un socle immobile.</li>
+        <li><b>L'équilibre</b>, pour limiter les petites oscillations du corps.</li>
+        <li><b>Un rythme cardiaque calme</b>, que l'endurance générale aide à obtenir.</li>
+      </ul>
+    </div>
+    <div class="tip"><b>Bon à savoir :</b> aucune condition physique particulière n'est nécessaire pour pratiquer le tir. La préparation physique devient utile quand vous tirez régulièrement et voulez tenir un match complet sans baisse de régime.</div>
+  </div>
+</section>
+
+<section id="exercices-physiques">
+  <div class="kicker">S'entraîner</div>
+  <h2>Les exercices utiles</h2>
+  <div class="tabs" role="tablist">
+    <button class="on" data-p="ph1">Tenue</button>
+    <button data-p="ph2">Gainage</button>
+    <button data-p="ph3">Épaules</button>
+    <button data-p="ph4">Équilibre</button>
+    <button data-p="ph5">Endurance</button>
+  </div>
+  <div class="panel on" id="ph1"><div class="card">
+    <h3>La tenue de l'arme</h3>
+    <p>L'exercice le plus spécifique : il renforce exactement les muscles utilisés au tir.</p>
+    <ul class="check">
+      <li>Tenir l'arme (vide, en sécurité) en position de visée 20 à 30 secondes, puis repos équivalent. Répéter quelques fois.</li>
+      <li>Augmenter progressivement la durée et le nombre de répétitions au fil des semaines.</li>
+      <li>Garder une bonne position : épaule basse, bras tendu, sans se cambrer.</li>
+    </ul>
+  </div></div>
+  <div class="panel" id="ph2"><div class="card">
+    <h3>Le gainage</h3>
+    <ul class="check">
+      <li><b>Planche</b> sur les avant-bras : corps aligné, ventre serré, 20 à 30 secondes au début.</li>
+      <li><b>Planche latérale</b> de chaque côté.</li>
+      <li>Qualité avant durée : arrêtez dès que le dos se creuse.</li>
+    </ul>
+  </div></div>
+  <div class="panel" id="ph3"><div class="card">
+    <h3>Épaules, bras et poignet</h3>
+    <ul class="check">
+      <li><b>Élévations latérales</b> avec une petite charge légère (bouteille d'eau, haltère léger) ou un élastique.</li>
+      <li><b>Rotations d'épaule</b> avec élastique, pour les muscles stabilisateurs.</li>
+      <li><b>Poignet</b> : flexions et extensions avec une charge légère, pour un poignet bien verrouillé.</li>
+      <li>Travail léger et répété : on cherche l'endurance, pas la force maximale.</li>
+    </ul>
+  </div></div>
+  <div class="panel" id="ph4"><div class="card">
+    <h3>L'équilibre</h3>
+    <ul class="check">
+      <li>Tenir sur un pied, puis sur l'autre, d'abord yeux ouverts puis yeux fermés.</li>
+      <li>Se tenir en position de tir, yeux fermés, et sentir les petites oscillations du corps pour apprendre à les réduire.</li>
+      <li>Le yoga ou le Pilates sont d'excellents compléments.</li>
+    </ul>
+  </div></div>
+  <div class="panel" id="ph5"><div class="card">
+    <h3>L'endurance générale</h3>
+    <ul class="check">
+      <li>Marche rapide, vélo, natation ou course douce, 2 à 3 fois par semaine.</li>
+      <li>Une meilleure endurance aide à garder un rythme cardiaque plus bas et à mieux récupérer pendant un long match.</li>
+    </ul>
+  </div></div>
+  <div class="tip"><b>Prudence :</b> en cas de douleur, de problème de santé ou de reprise après une longue pause, demandez l'avis d'un médecin ou d'un éducateur sportif avant de commencer.</div>
+</section>
+
+<section id="semaine-type">
+  <div class="kicker">Organiser</div>
+  <h2>Une semaine type</h2>
+  <table>
+    <thead><tr><th>Jour</th><th>Contenu</th></tr></thead>
+    <tbody>
+      <tr><td>Séance de tir</td><td>Échauffement, tir à sec, puis tir réel au club.</td></tr>
+      <tr><td>Un autre jour</td><td>20 à 30 minutes : gainage, épaules, équilibre, et quelques séries de tenue.</td></tr>
+      <tr><td>Un ou deux jours</td><td>Activité d'endurance douce (marche, vélo, natation).</td></tr>
+      <tr><td>Chaque jour</td><td>Quelques minutes de mobilité du cou et des épaules, et de visualisation.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="hygiene">
+  <div class="kicker">Au quotidien</div>
+  <h2>Échauffement et hygiène de vie</h2>
+  <div class="grid3">
+    <div class="card"><h3>S'échauffer</h3><p>Avant chaque séance : rotations du cou, des épaules et des poignets, quelques mouvements de bras, puis tir à sec avant les premiers coups réels.</p></div>
+    <div class="card"><h3>Sommeil et hydratation</h3><p>La fatigue et la déshydratation dégradent la vision et la stabilité. Buvez régulièrement pendant les longues séances et les compétitions.</p></div>
+    <div class="card"><h3>Les excitants</h3><p>Café, thé fort ou boissons énergisantes peuvent accentuer les tremblements. Testez à l'entraînement ce qui vous convient, et ne changez rien le jour d'une compétition.</p></div>
+  </div>
+</section>
+<section id="echauffement-10"><div class="kicker">Approfondir · Bensport</div><h2>L'échauffement en 10 minutes</h2>
+<p>L'échauffement prépare le corps et l'esprit, améliore les sensations et évite courbatures et crampes, sans entamer son énergie. Dix minutes suffisent :</p>
+<div class="grid2"><ol class="seq">
+  <li>Tourner la tête de droite à gauche plusieurs fois.</li>
+  <li>Bras tendus, petits cercles avec les mains ouvertes.</li>
+  <li>Au-dessus de la tête, tirer doucement sur un coude avec la main opposée.</li>
+  <li>Mains jointes, faire pivoter les poignets.</li>
+  <li>À hauteur du ventre, tirer doucement sur un coude avec la main opposée.</li></ol>
+<ol class="seq" start="6">
+  <li>Rotations du bassin.</li>
+  <li>Bassin fixe, rotations du haut du corps.</li>
+  <li>Debout, toucher le pied opposé avec la main, jambes tendues (sans forcer).</li>
+  <li>Pieds joints, mains sur les genoux, rotations des genoux.</li>
+  <li>Rotations des chevilles.</li></ol></div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section>
+<section id="stabilite"><div class="kicker">Approfondir · Bensport</div><h2>Mesurer et améliorer sa stabilité</h2>
+<div class="grid2">
+  <div>
+    <p>Une bonne stabilité sans bon lâcher ne vaut rien. Le mouvement en cible se juge à son <b>amplitude</b> et à sa <b>vitesse</b> : on peut bouger lentement dans une zone large, ou vite dans une zone étroite.</p>
+    <ul class="check">
+      <li><b>Mesurer</b> : debout sur une grille tracée au sol, avec un pendule accroché à la ceinture ; un partenaire observe ou filme l'amplitude. Les simulateurs comme SCATT montrent les mouvements de l'arme.</li>
+      <li><b>Améliorer</b> : chaussures plates à semelle rigide (de tir ou d'haltérophilie), visées longues pieds joints, pieds croisés ou sur un pied (sans tirer), yoga.</li>
+      <li>Ne marquez pas la trace de vos pieds au sol : le corps se tasse pendant la séance et la position évolue. Le règlement interdit d'ailleurs les marques permanentes.</li>
+    </ul>
+  </div>
+  <div class="card"><h3>Souplesse, gainage, endurance</h3><ul class="check">
+    <li>La stabilité repose sur le relâchement musculaire et une souplesse minimale : « le roseau plie mais ne rompt pas ».</li>
+    <li>Associer assouplissements et gainage (dos, abdominaux, jambes).</li>
+    <li>On cherche l'endurance, pas le volume musculaire ; évitez une musculation déséquilibrée entre les deux côtés du corps.</li>
+    <li>Ne verrouillez pas le coude en hyperextension : à la longue, gare à l'épicondylite.</li>
+    <li>Pendant les longues séances, faites de petits mouvements de relâchement pour éviter que la position se « tétanise ».</li></ul></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/wpforo/default_attachments/1514543668-La-position-du-pistolier--la-loupe.pdf" target="_blank" rel="noopener">La position du pistolier à la loupe ↗</a></p></section>
+<section class="more"><div class="kicker">Pour aller plus loin</div><h2>Sur les sites MonTirSportif</h2><div class="links"><a href="https://www.montirsportif.com/la-preparation-physique/" target="_blank" rel="noopener"><b>La préparation physique</b><small>montirsportif.com ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/entrainement/gainage" target="_blank" rel="noopener"><b>Le gainage</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/entrainement/renforcement-de-la-stabilit%C3%A9" target="_blank" rel="noopener"><b>Renforcement de la stabilité</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/entrainement/renforcement-des-avant-bras" target="_blank" rel="noopener"><b>Renforcement des avant-bras</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/entrainement/entrainement-chez-soi" target="_blank" rel="noopener"><b>S'entraîner chez soi</b><small>montirsportif.fr ↗</small></a></div></section><div class="nextnav"><a href="#materiel"><small>← Thème précédent</small><b>Préparation matérielle</b></a><a class="r" href="#tactique"><small>Thème suivant →</small><b>Préparation tactique</b></a></div></main>
+<main class="view" id="tactique" style="--acc:#b07a00"><div class="theme-head"><div class="kicker">Thème 5 sur 5</div><h1><span class="num">5</span>Préparation tactique</h1><p class="lead">Gérer son temps, ses essais et les imprévus : bien se préparer pour la compétition.</p><div class="chips"><a href="#tactique-bases">La tactique au pistolet</a><a href="#reglement">Connaître le déroulement</a><a href="#essais">Bien utiliser les coups d'essai</a><a href="#temps">Gérer son temps</a><a href="#imprevus">Faire face aux imprévus</a><a href="#plan-match">Mon plan de match</a><a href="#apres-match">Analyser son match</a><a href="#checklist-competiteur">La check-list du compétiteur</a><a href="#championnat-papier">Un championnat sur cibles papier, pas à pas</a><a href="#analyse-bensport">Fiche d'analyse de match et dopage</a></div></div>
+<section id="tactique-bases" class="first">
+  <div class="kicker">C'est quoi ?</div>
+  <h2>La tactique au pistolet</h2>
+  <p>Au tir, on n'affronte pas directement un adversaire : la tactique, c'est l'art de <b>bien gérer son match</b>. Temps, coups d'essai, pauses, réglages, imprévus… Tout ce qui permet de tirer en compétition aussi bien qu'à l'entraînement.</p>
+  <div class="tip"><b>Conseil :</b> un concours de club ou un championnat départemental est idéal pour découvrir le déroulement d'une compétition. Ne visez pas un score : visez de suivre votre plan de match.</div>
+</section>
+
+<section id="reglement">
+  <div class="kicker">Avant le match</div>
+  <h2>Connaître le déroulement</h2>
+  <div class="grid2">
+    <div>
+      <p>Une épreuve se déroule en plusieurs temps. Les durées exactes et le nombre de coups dépendent de l'épreuve et de la compétition : consultez le règlement de votre fédération.</p>
+      <div class="steps">
+        <div class="card"><b>Contrôle et installation</b> — on s'installe au poste, on prépare son matériel.</div>
+        <div class="card"><b>Préparation et essais</b> — on peut tirer à sec et faire des coups d'essai, qui ne comptent pas.</div>
+        <div class="card"><b>Match</b> — les coups comptent, dans un temps limité pour toute l'épreuve.</div>
+        <div class="card"><b>Finale</b> (selon la compétition) — les meilleurs repartent à zéro, coup par coup, sur commandement.</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Le jour J : arriver tôt</h3>
+      <ul class="check">
+        <li>Arriver bien en avance pour découvrir le stand sans se presser.</li>
+        <li>Repérer son poste, la lumière, l'emplacement des écrans ou des cibles.</li>
+        <li>Faire son échauffement physique et sa visualisation.</li>
+        <li>Vérifier son matériel avec la checklist du sac de tir.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="essais">
+  <div class="kicker">Pendant le match</div>
+  <h2>Bien utiliser les coups d'essai</h2>
+  <div class="grid3">
+    <div class="card"><h3>Trouver son rythme</h3><p>Les essais servent d'abord à retrouver sa routine et ses sensations, pas à faire des 10.</p></div>
+    <div class="card"><h3>Vérifier le réglage</h3><p>Ne touchez à la visée que si un <b>groupement</b> de plusieurs coups est décalé, jamais sur un seul coup.</p></div>
+    <div class="card"><h3>Savoir s'arrêter</h3><p>Quand les sensations sont bonnes et le groupement centré, on passe au match. Trop d'essais fatiguent inutilement.</p></div>
+  </div>
+</section>
+
+<section id="temps">
+  <div class="kicker">Pendant le match</div>
+  <h2>Gérer son temps</h2>
+  <div class="grid2">
+    <div>
+      <ul class="check">
+        <li><b>Connaître son rythme</b> : à l'entraînement, chronométrez combien de temps vous mettez pour une série. Vous saurez ainsi si vous êtes en avance ou en retard.</li>
+        <li><b>Prévoir des pauses</b> : posez l'arme régulièrement, par exemple à la fin de chaque série, pour reposer le bras et les yeux.</li>
+        <li><b>Surveiller l'horloge</b> à quelques moments fixés à l'avance (pas à chaque coup).</li>
+        <li><b>Ne pas accélérer</b> en fin de match : c'est le moment où les erreurs coûtent le plus.</li>
+      </ul>
+    </div>
+    <div class="tip err"><b>Piège classique :</b> tirer trop vite au début par excitation, puis manquer de temps ou d'énergie à la fin. Une routine régulière est la meilleure gestion du temps.</div>
+  </div>
+</section>
+
+<section id="imprevus">
+  <div class="kicker">Pendant le match</div>
+  <h2>Faire face aux imprévus</h2>
+  <table>
+    <thead><tr><th>Situation</th><th>Réaction conseillée</th></tr></thead>
+    <tbody>
+      <tr><td>Un très mauvais coup</td><td>Poser l'arme, respirer, analyser en une phrase, reprendre la routine depuis le début.</td></tr>
+      <tr><td>Le coup ne part pas bien</td><td>Ne pas forcer : reposer l'arme et recommencer. Un coup non tiré ne coûte rien.</td></tr>
+      <tr><td>Bruit, voisin bruyant</td><td>Revenir à ses mots-clés et à sa respiration. S'entraîner parfois dans le bruit aide.</td></tr>
+      <tr><td>Problème d'arme</td><td>Lever la main et prévenir l'arbitre, sans manipuler l'arme vers le public. Le règlement prévoit ces situations.</td></tr>
+      <tr><td>Le score défile à l'écran</td><td>Si cela vous perturbe, ne regardez l'écran que pour vérifier la position des impacts, sans calculer votre total.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="plan-match">
+  <div class="kicker">Préparer</div>
+  <h2>Mon plan de match</h2>
+  <p>Écrire son plan à l'avance enlève beaucoup de stress le jour J. Remplissez-le, puis copiez-le dans votre carnet.</p>
+  <div class="card" id="planform">
+    <label>Mon objectif (sur le geste, pas sur le score)<textarea data-k="obj" placeholder="Ex. : un lâcher progressif à chaque coup"></textarea></label>
+    <label>Mes mots-clés<input data-k="mots" placeholder="Ex. : guidon, presse"></label>
+    <label>Mon échauffement<textarea data-k="echauf" placeholder="Ex. : 10 min de mobilité, 5 tirs à sec, visualisation"></textarea></label>
+    <label>Mes pauses<input data-k="pauses" placeholder="Ex. : je pose l'arme après chaque série"></label>
+    <label>Si un coup est mauvais, je…<input data-k="reaction" placeholder="Ex. : respire 3 fois et reprends ma routine"></label>
+    <div class="row"><button id="copyplan" type="button">Copier mon plan</button><span id="copied"></span></div>
+  </div>
+</section>
+
+<section id="apres-match">
+  <div class="kicker">Après</div>
+  <h2>Analyser son match</h2>
+  <div class="grid3">
+    <div class="card"><h3>Ce qui a marché</h3><p>Commencez toujours par là : c'est ce que vous voulez reproduire.</p></div>
+    <div class="card"><h3>Ce qui a coincé</h3><p>Un ou deux points précis maximum (« visées trop longues en série 4 »).</p></div>
+    <div class="card"><h3>À travailler</h3><p>Transformez chaque point en exercice pour les prochaines séances.</p></div>
+  </div>
+</section>
+<section id="checklist-competiteur"><div class="kicker">Approfondir · Bensport</div><h2>La check-list du compétiteur</h2>
+<div class="grid2">
+  <div class="card"><h3>Avant de partir</h3>
+    <label class="ck"><input type="checkbox"> Je sais exactement à quelle heure je tire</label>
+    <label class="ck"><input type="checkbox"> Ma licence</label>
+    <label class="ck"><input type="checkbox"> Mon arme, cartouche d'air pleine</label>
+    <label class="ck"><input type="checkbox"> Mes munitions</label>
+    <label class="ck"><input type="checkbox"> Ma bouteille d'eau</label>
+    <label class="ck"><input type="checkbox"> Casque, lunettes, cache-œil, chronomètre, outils</label>
+    <label class="ck"><input type="checkbox"> Mon carnet de tir et un stylo</label></div>
+  <div class="card"><h3>Sur place</h3><ul class="check">
+    <li>Arriver <b>au moins 1 heure</b> avant sa série.</li>
+    <li>Relire ses notes de tir et s'en imprégner.</li>
+    <li>Pendant l'échauffement, se concentrer sur l'objectif du jour (attitude, technique).</li>
+    <li>Tirer son match en soignant sa gestuelle et ses sensations, sans penser au score.</li>
+    <li>S'inscrire dans les délais aux échelons départemental, régional et national : un oubli fait perdre une saison.</li></ul></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section>
+<section id="championnat-papier"><div class="kicker">Approfondir · Bensport</div><h2>Un championnat sur cibles papier, pas à pas</h2>
+<details class="card"><summary>Afficher le déroulement complet</summary><ol class="seq">
+<li>Arriver au moins 1 heure avant l'épreuve.</li>
+<li>Se présenter à l'arbitre d'accueil avec sa licence pour récupérer sa fiche de match.</li>
+<li>Faire contrôler son arme et son équipement.</li>
+<li>S'isoler pour s'échauffer.</li>
+<li>Se présenter au pas de tir à l'heure, récupérer ses cibles et son numéro de poste. Attendre l'ordre de l'arbitre pour sortir l'arme.</li>
+<li>S'installer, vérifier le nombre de cibles, noter les numéros du premier et du dernier carton sur la fiche et la signer.</li>
+<li>Préparation et essais : les cibles d'essai sont repérées par un coin noir et ne comptent pas.</li>
+<li>Une façon d'utiliser les essais : une première cible pour entrer dans le match (sans la ramener), puis une ou deux cibles pour vérifier le réglage.</li>
+<li>Au commandement, commencer par la cible au plus petit numéro, un plomb par cible, et trouver son rythme.</li>
+<li>À la fin, recompter ses cibles sans en changer l'ordre et reporter son match dans son carnet.</li>
+<li>Remettre le paquet de cibles à l'arbitre.</li>
+<li>Au « STOP », attendre l'arbitre pour vérifier et ranger son arme.</li>
+<li>Consulter ses résultats et, en cas de qualification, s'inscrire à l'échelon supérieur.</li>
+<li>Assister à la remise des récompenses, par fair-play.</li></ol></details>
+<div class="grid2" style="margin-top:1rem">
+  <div class="card"><h3>Noter ses coups</h3><ul class="check">
+    <li>Un impact qui touche un cercle compte la valeur supérieure.</li>
+    <li>Dans le carnet, on peut noter un 10 par « / » et repérer chaque impact sur une horloge (un 9 à 3 h, un 10 à 12 h…).</li></ul></div>
+  <div class="card"><h3>Réclamations</h3><ul class="check">
+    <li>En cas d'injustice ou de tricherie, prévenez d'abord l'arbitre.</li>
+    <li>Si cela ne suffit pas, une réclamation écrite peut être déposée, avec une caution rendue si elle est acceptée. Les délais sont courts : renseignez-vous sur place.</li></ul></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section>
+<section id="analyse-bensport"><div class="kicker">Approfondir · Bensport</div><h2>Fiche d'analyse de match et dopage</h2>
+<div class="grid2">
+  <div class="card"><h3>La fiche d'analyse de match</h3>
+    <p>Une fiche à imprimer pour analyser sa performance après chaque compétition, téléchargée plus de 1 200 fois.</p>
+    <p><a href="https://www.bensport.fr/wp-content/uploads/2018/01/Fiche-danalyse-de-match-ISSF.pdf" target="_blank" rel="noopener"><b>Télécharger la fiche d'analyse de match ISSF ↗</b></a></p></div>
+  <div class="card"><h3>Médicaments et dopage</h3><ul class="check">
+    <li>Ne prenez aucun médicament sans vérifier la liste des produits interdits, et signalez que vous êtes sportif à votre médecin, dentiste ou pharmacien.</li>
+    <li>Si un traitement est nécessaire, une autorisation d'usage à des fins thérapeutiques (AUT) se demande auprès de l'AFLD.</li>
+    <li>Pas de « petit verre pour se détendre » : chercher à améliorer sa performance avec un produit est une conduite dopante.</li></ul></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a> · <a href="https://www.bensport.fr/fiche-danalyse-de-match-issf/" target="_blank" rel="noopener">Fiche d'analyse de match ISSF ↗</a></p></section>
+<section class="more"><div class="kicker">Pour aller plus loin</div><h2>Sur les sites MonTirSportif</h2><div class="links"><a href="https://www.montirsportif.fr/pratique-du-tir/les-matchs" target="_blank" rel="noopener"><b>Les matchs</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.com/challenge-national-issf/" target="_blank" rel="noopener"><b>Le Challenge National ISSF</b><small>montirsportif.com ↗</small></a><a href="https://www.montirsportif.com/classement-de-provence/" target="_blank" rel="noopener"><b>Le classement de Provence</b><small>montirsportif.com ↗</small></a><a href="https://www.montirsportif.com/mon-arbitre/" target="_blank" rel="noopener"><b>L'arbitrage</b><small>montirsportif.com ↗</small></a></div></section><div class="nextnav"><a href="#physique"><small>← Thème précédent</small><b>Préparation physique</b></a><a class="r" href="#infos"><small>Pour finir →</small><b>Infos pratiques</b></a></div></main>
+<main class="view" id="infos" style="--acc:#e5473d">
+<div class="theme-head">
+  <div class="kicker">Infos pratiques</div>
+  <h1>Sécurité et vocabulaire</h1>
+  <p class="lead">Les règles de sécurité à connaître et le lexique du pistolier.</p><div class="chips"><a href="#securite">Les règles de sécurité</a><a href="#securite-8">Les 8 règles de sécurité et les bons gestes</a><a href="#lexique">Lexique du pistolier</a></div>
+</div>
+<section id="securite" class="first">
+  <div class="kicker">Avant tout</div>
+  <h2>Les règles de sécurité</h2>
+  <div class="grid2">
+    <div class="card">
+      <ul class="check">
+        <li>Considérer toute arme comme chargée.</li>
+        <li>Toujours diriger le canon vers la zone de tir (cibles).</li>
+        <li>L'index reste hors de la détente tant que l'on n'est pas en visée.</li>
+        <li>Arme ouverte, déchargée et posée sur le pas de tir entre les séries, sans manipulation quand quelqu'un est vers les cibles.</li>
+        <li>Respecter les commandements du directeur de tir et le règlement intérieur du club.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <ul class="check">
+        <li>Protections auditives obligatoires au 25 m et au 50 m, recommandées partout ; lunettes de protection conseillées.</li>
+        <li>Transport de l'arme déchargée, dans une mallette fermée.</li>
+        <li>Pratiquer encadré par un moniteur ou un initiateur de club.</li>
+        <li>Pratique dans le cadre légal de votre pays (en France : licence fédérale et règles de détention en vigueur).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section id="securite-8"><div class="kicker">Approfondir · Bensport</div><h2>Les 8 règles de sécurité et les bons gestes</h2>
+<div class="grid2">
+  <div class="card"><ol class="seq">
+    <li>Toujours considérer une arme comme chargée.</li>
+    <li>Ne jamais diriger une arme vers quelqu'un, même vide.</li>
+    <li>Ne pas reposer une arme qui n'est pas mise en sécurité.</li>
+    <li>Ne jamais se déplacer avec une arme chargée.</li>
+    <li>Ne pas manipuler son arme quand quelqu'un est aux cibles.</li>
+    <li>Ne jamais laisser une arme sans surveillance.</li>
+    <li>Ne jamais toucher l'arme d'un autre sans son autorisation.</li>
+    <li>Charger l'arme à l'horizontale, vers les cibles.</li></ol></div>
+  <div class="card"><h3>Les procédures</h3><ul class="check">
+    <li><b>En arrivant au poste</b> : sortir l'arme face aux cibles (personne aux cibles) et la mettre en sécurité avec un drapeau de sécurité.</li>
+    <li><b>En cas d'incident à l'entraînement</b> : le régler face aux cibles, ou mettre l'arme en sécurité et demander de l'aide.</li>
+    <li><b>Au commandement « STOP »</b> : on ne tire plus, on met l'arme en sécurité et on attend les instructions.</li>
+    <li><b>Mettre en sécurité</b>, c'est : retirer chargeur et munitions, ouvrir le mécanisme, vérifier qu'il n'y a plus de munition, et insérer le témoin de chambre vide.</li></ul></div>
+</div>
+<p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section><section id="lexique">
+  <div class="kicker">Vocabulaire</div>
+  <h2>Lexique du pistolier</h2>
+  <dl>
+    <dt>Annonce</dt><dd>Prédire l'emplacement de l'impact au moment du départ, avant de le voir.</dd>
+    <dt>Arme approvisionnée</dt><dd>Arme qui contient une ou plusieurs munitions.</dd>
+    <dt>Arme chargée</dt><dd>Arme avec une munition dans la chambre.</dd>
+    <dt>Bossette</dt><dd>Première partie de la course de détente, prise avant le départ.</dd>
+    <dt>Continuation</dt><dd>Maintien de la visée et de la pression après le départ du coup.</dd>
+    <dt>Coup de doigt</dt><dd>Accélération brutale de la pression sur la détente, qui dévie l'arme.</dd>
+    <dt>Cran de mire</dt><dd>Organe de visée arrière, en forme d'encoche, réglable en hauteur et en direction.</dd>
+    <dt>Erreur angulaire</dt><dd>Mauvais alignement entre le cran de mire et le guidon ; elle coûte beaucoup de points.</dd>
+    <dt>Erreur parallèle</dt><dd>Ligne de mire bien alignée mais décalée par rapport au visuel ; elle coûte peu.</dd>
+    <dt>Groupement</dt><dd>Ensemble des impacts d'une série ; sa taille mesure la régularité.</dd>
+    <dt>Guidon</dt><dd>Organe de visée avant, sur lequel l'œil fait la mise au point.</dd>
+    <dt>Jours</dt><dd>Espaces lumineux de part et d'autre du guidon dans le cran de mire.</dd>
+    <dt>Ligne de mire</dt><dd>Segment qui va du cran de mire (hausse) au guidon.</dd>
+    <dt>Ligne de visée</dt><dd>Segment qui va de l'œil à la cible.</dd>
+    <dt>Lumières</dt><dd>Espaces clairs de part et d'autre du guidon dans le cran de mire.</dd>
+    <dt>Poids de départ</dt><dd>Force minimale nécessaire pour faire partir le coup, fixée par le règlement selon l'épreuve.</dd>
+    <dt>Précourse</dt><dd>Première partie de la course de la détente, avant le point de résistance.</dd>
+    <dt>Témoin de chambre vide</dt><dd>Drapeau de sécurité inséré dans l'arme pour montrer qu'elle est vide.</dd>
+    <dt>Tenue</dt><dd>Maintien de la posture, de la visée et du doigt sur la détente après le départ.</dd>
+    <dt>Tir à sec</dt><dd>Entraînement sans projectile pour travailler le geste.</dd>
+    <dt>Visuel</dt><dd>Partie noire de la cible.</dd>
+    <dt>Zéro de hausse</dt><dd>Nombre de clics noté pour retrouver rapidement son réglage.</dd>
+    <dt>Zone de visée</dt><dd>Zone (souvent sous le visuel) où l'on stabilise l'alignement avant de lâcher.</dd>
+  </dl>
+</section><section class="more"><div class="kicker">Pour aller plus loin</div><h2>Sur les sites MonTirSportif</h2><div class="links"><a href="https://www.montirsportif.com/qcm-fftir/" target="_blank" rel="noopener"><b>Le QCM FFTir</b><small>montirsportif.com ↗</small></a><a href="https://www.montirsportif.com/quiz-interactif-montirsportif/" target="_blank" rel="noopener"><b>Le quiz interactif</b><small>montirsportif.com ↗</small></a><a href="https://www.montirsportif.fr/pratique-du-tir/fftir" target="_blank" rel="noopener"><b>La FFTir</b><small>montirsportif.fr ↗</small></a><a href="https://www.montirsportif.com/eden/" target="_blank" rel="noopener"><b>EDEN</b><small>montirsportif.com ↗</small></a></div></section></main>
+<main class="view" id="autres-disciplines" style="--acc:#2c6fb7"><div class="theme-head"><div class="kicker"><a href="#epreuves" style="color:inherit;text-decoration:none">Disciplines</a> › Autres disciplines</div><h1>Autres disciplines au pistolet</h1><p class="lead">Armes anciennes, armes réglementaires, tir sportif de vitesse et silhouettes métalliques : la technique du pistolet au-delà des épreuves ISSF.</p><div class="chips"><a href="#autres-intro">D'autres façons de tirer au pistolet</a><a href="#armes-anciennes">Armes anciennes (poudre noire)</a><a href="#tar">Tir aux armes réglementaires (TAR)</a><a href="#tsv">Tir sportif de vitesse (TSV)</a><a href="#silhouettes">Silhouettes métalliques</a></div></div>
+<section id="autres-intro" class="first"><div class="kicker">Au-delà de l'ISSF</div><h2>D'autres façons de tirer au pistolet</h2>
+<p>La base gestuelle acquise au 10 m se transpose à de nombreuses disciplines : armes historiques, armes réglementaires, tir dynamique ou silhouettes métalliques. Certaines sont mondiales, d'autres nationales.</p>
+<div class="tip"><b>Bon à savoir :</b> ces présentations sont issues du « Guide du pistolier » de Bensport. Les programmes évoluent : vérifiez le règlement en vigueur de chaque discipline auprès de la FFTir.</div></section>
+<section id="armes-anciennes"><div class="kicker">Discipline mondiale</div><h2>Armes anciennes (poudre noire)</h2>
+<div class="grid2"><div><ul class="check">
+  <li>La technique du 10 m, avec une arme à poudre noire d'époque ou une réplique conforme.</li>
+  <li>Chargement par la bouche : poudre, bourre, calepin, balle. Les doses de poudre sont préparées à l'avance.</li>
+  <li>13 balles en 30 minutes sur 2 cibles, à 25 ou 50 m ; les 10 meilleurs impacts comptent.</li>
+  <li>Hommes et femmes concourent pour le même titre.</li>
+  <li>Nettoyer l'arme rapidement après le tir pour ne pas l'abîmer.</li></ul></div>
+<div class="card"><h3>Les épreuves au pistolet</h3><ul class="check">
+  <li><b>Cominazzo</b> : pistolet à silex, canon lisse.</li><li><b>Kuchenreuter</b> : pistolet à percussion, canon rayé.</li>
+  <li><b>Colt, Mariette, Donald Malson</b> : revolver à percussion (arme d'origine ou réplique ; Donald Malson à 50 m).</li>
+  <li><b>Tanzutsu</b> : pistolet à mèche.</li></ul></div></div></section>
+<section id="tar"><div class="kicker">Discipline nationale</div><h2>Tir aux armes réglementaires (TAR)</h2>
+<ul class="check">
+  <li>Revolvers et pistolets semi-automatiques à organes de visée fixes, de calibre 6,35 mm à .45 ACP.</li>
+  <li>Le tireur gère lui-même ses incidents ; le tir à deux mains n'est autorisé qu'en vitesse. Classement mixte.</li>
+  <li>Deux épreuves : <b>vitesse militaire</b> (séries de 5 coups en 20 puis 10 secondes) et <b>pistolet/revolver</b> (précision sur cible, puis séries de 5 coups sur gongs en 20 secondes).</li>
+</ul></section>
+<section id="tsv"><div class="kicker">Discipline mondiale</div><h2>Tir sportif de vitesse (TSV)</h2>
+<ul class="check">
+  <li>Faire le maximum de points en un minimum de temps sur un parcours de cibles papier ou métalliques, fixes ou mobiles, à des distances variables.</li>
+  <li>Chaque parcours est différent : on le reconnaît, on le mémorise, puis on l'exécute au chronomètre.</li>
+  <li>Discipline très encadrée : moniteur diplômé, un arbitre par tireur, disqualification à la moindre faute de sécurité.</li>
+  <li>Pistolets ou revolvers de calibre 9 mm minimum ; commandements en anglais (« Load and make ready », « Are you ready? », « Standby »…).</li>
+</ul></section>
+<section id="silhouettes"><div class="kicker">Discipline mondiale</div><h2>Silhouettes métalliques</h2>
+<ul class="check">
+  <li>Des silhouettes d'animaux en métal (poulet, cochon, dindon, mouflon) placées à distances croissantes : 1 point par silhouette renversée.</li>
+  <li>Le coaching est autorisé : une discipline vivante et facile à suivre pour le public.</li>
+  <li>Petit calibre, gros calibre ou « field », en position libre ou debout, avec des armes souvent étonnantes.</li>
+  <li>Faire tomber la mauvaise silhouette de sa série coûte deux zéros.</li>
+</ul></section>
+<section id="autres-src"><p class="bsrc">Fiche Bensport : <a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener">Le guide du pistolier ↗</a></p></section><div class="nextnav"><a href="#epreuves"><small>← Retour</small><b>Toutes les disciplines</b></a><a class="r" href="#bensport"><small>Pour aller plus loin →</small><b>La bibliothèque Bensport</b></a></div></main>
+<main class="view" id="bensport" style="--acc:#e5473d"><div class="theme-head"><div class="kicker">Bibliothèque</div><h1>Bensport : « Zen tir »</h1><p class="lead">Apprendre, gagner, promouvoir. Bensport.fr fait partie de la famille MonTirSportif : ses fiches pédagogiques nourrissent les pages de ce site, repérées par la mention « Approfondir · Bensport ».</p><div class="chips"><a href="#bensport-integre">Les fiches intégrées</a><a href="#bensport-articles">Tous les articles</a></div></div><section id="bensport-integre" class="first"><div class="kicker">Sur ce site</div><h2>Les fiches intégrées</h2><div class="links"><a href="#position-loupe"><b>La position à la loupe</b><small>Préparation technique</small></a><a href="#visee-erreurs"><b>Erreur parallèle, erreur angulaire</b><small>Préparation technique</small></a><a href="#lacher-types"><b>Les différents types de lâcher</b><small>Préparation technique</small></a><a href="#tenue-annonce"><b>La tenue et l'annonce</b><small>Préparation technique</small></a><a href="#sequence-20"><b>La séquence de tir en 20 étapes</b><small>Préparation technique</small></a><a href="#construire-exercices"><b>Construire ses exercices</b><small>Préparation technique</small></a><a href="#mental-bensport"><b>Le mental dès le premier jour</b><small>Préparation mentale</small></a><a href="#air-comprime"><b>L'air comprimé en toute sécurité</b><small>Préparation matérielle</small></a><a href="#regler-detente-hausse"><b>Régler sa hausse et sa détente</b><small>Préparation matérielle</small></a><a href="#arme-a-feu"><b>Entretenir une arme à feu</b><small>Préparation matérielle</small></a><a href="#echauffement-10"><b>L'échauffement en 10 minutes</b><small>Préparation physique</small></a><a href="#stabilite"><b>Mesurer et améliorer sa stabilité</b><small>Préparation physique</small></a><a href="#checklist-competiteur"><b>La check-list du compétiteur</b><small>Préparation tactique</small></a><a href="#championnat-papier"><b>Un championnat sur cibles papier</b><small>Préparation tactique</small></a><a href="#analyse-bensport"><b>Fiche d'analyse de match et dopage</b><small>Préparation tactique</small></a><a href="#securite-8"><b>Les 8 règles de sécurité</b><small>Infos pratiques</small></a><a href="epreuves/pistolet-25m.html#p25-entrainement"><b>S'entraîner au tir sur temps réduit</b><small>Disciplines 25 m</small></a><a href="#autres-disciplines"><b>Autres disciplines au pistolet</b><small>Disciplines</small></a></div></section><section id="bensport-articles"><div class="kicker">Sur bensport.fr</div><h2>Tous les articles</h2><p>Retrouvez l'ensemble des articles, vidéos et documents téléchargeables sur le site Bensport.</p><div class="lib-group"><h3><a href="https://www.bensport.fr/category/debuter-et-se-perfectionner/" target="_blank" rel="noopener">Débuter et se perfectionner ↗</a></h3><div class="links"><a href="https://www.bensport.fr/comment-bien-debuter-le-tir-sportif/" target="_blank" rel="noopener"><b>Comment bien débuter le tir sportif</b><small>Le guide de départ, revu dix ans après sa première version.</small></a><a href="https://www.bensport.fr/wp-content/uploads/2018/10/Le-guide-du-pistolier.pdf" target="_blank" rel="noopener"><b>Le guide du pistolier</b><small>38 pages : technique 10 m, entraînement, compétition et autres disciplines au pistolet.</small></a><a href="https://www.bensport.fr/la-position-du-pistolier-a-la-loupe/" target="_blank" rel="noopener"><b>Les bases du tir au pistolet</b><small>Visée, technique de base au 10 m et position du pistolier.</small></a><a href="https://www.bensport.fr/les-differents-types-de-lacher/" target="_blank" rel="noopener"><b>Les différents types de lâcher</b><small>Pression continue, lâcher en préparation, palier de pression.</small></a><a href="https://www.bensport.fr/les-vertus-de-la-tenue-et-de-lannonce/" target="_blank" rel="noopener"><b>Les vertus de la tenue et de l'annonce</b><small>Le tir ne s'arrête pas au départ du coup.</small></a><a href="https://www.bensport.fr/la-visee-dans-le-collimateur/" target="_blank" rel="noopener"><b>La visée dans le collimateur</b><small>Visée, vue, choix de la ligne de mire et zone de mouvement.</small></a><a href="https://www.bensport.fr/construire-ses-exercices-dentrainement/" target="_blank" rel="noopener"><b>Construire ses exercices d'entraînement</b><small>Une méthode et un catalogue d'exercices.</small></a><a href="https://www.bensport.fr/entrainement-au-tir-de-vitesse-a-25m/" target="_blank" rel="noopener"><b>Entraînement au tir de vitesse à 25 m</b><small>Pistolet standard et vitesse : attaque de cible et rythmes.</small></a><a href="https://www.bensport.fr/fiche-danalyse-de-match-issf/" target="_blank" rel="noopener"><b>Fiche d'analyse de match ISSF</b><small>Une fiche à imprimer pour analyser ses compétitions.</small></a><a href="https://www.bensport.fr/abrege-du-tireur-sportif/" target="_blank" rel="noopener"><b>Abrégé du tireur sportif</b><small>L'essentiel du tir sportif sur une seule page.</small></a><a href="https://www.bensport.fr/guide-de-formation-ecole-de-tir-pistolet-et-carabine/" target="_blank" rel="noopener"><b>Guide de formation école de tir</b><small>Pour les tireurs et les éducateurs, au pistolet et à la carabine.</small></a><a href="https://www.bensport.fr/les-notes-de-tir-par-yves-delnor-1979/" target="_blank" rel="noopener"><b>Les notes de tir par Yves Delnor (1979)</b><small>Un article de théorie du tir toujours d'actualité.</small></a><a href="https://www.bensport.fr/la-position-du-carabinier-a-la-loupe/" target="_blank" rel="noopener"><b>Les bases du tir à la carabine 10 m</b><small>Fiches pédagogiques pour la carabine.</small></a><a href="https://www.bensport.fr/regler-sa-lunette-en-5-coups/" target="_blank" rel="noopener"><b>Régler sa lunette en 5 coups</b><small>Régler une lunette de carabine avec peu de munitions.</small></a></div></div><div class="lib-group"><h3><a href="https://www.bensport.fr/category/psycho/" target="_blank" rel="noopener">Psycho : le voyage intérieur ↗</a></h3><div class="links"><a href="https://www.bensport.fr/envolmoi-le-voyage-interieur/" target="_blank" rel="noopener"><b>Envol'&moi : le voyage intérieur</b><small>Partir à la rencontre de soi-même.</small></a><a href="https://www.bensport.fr/preparation-mentale-augmentation-de-votre-potentiel-psychologique/" target="_blank" rel="noopener"><b>Préparation mentale : augmenter son potentiel psychologique</b><small>Pourquoi le mental se travaille dès le départ.</small></a><a href="https://www.bensport.fr/le-tir-sportif-au-service-de-votre-developpement-personnel/" target="_blank" rel="noopener"><b>Le tir sportif au service du développement personnel</b><small>Valeurs olympiques et goût de l'effort.</small></a><a href="https://www.bensport.fr/comprendre-ses-emotions/" target="_blank" rel="noopener"><b>Comprendre ses émotions</b><small>Une vidéo pour mieux comprendre ses émotions.</small></a><a href="https://www.bensport.fr/interview-sur-le-tir-sportif-philosophie-technique/" target="_blank" rel="noopener"><b>Interview : philosophie et technique</b><small>Une coach en motivation découvre le tir sportif.</small></a><a href="https://www.bensport.fr/sophie-herrault-est-coach-en-motivation-et-intelligence-emotionnelle-j/" target="_blank" rel="noopener"><b>Sophie Herrault, générateur de possibles</b><small>Portrait d'une coach en intelligence émotionnelle.</small></a><a href="https://www.bensport.fr/la-communication-non-violente-marshall-rosenberg-2/" target="_blank" rel="noopener"><b>La communication non violente</b><small>Mieux communiquer, d'après Marshall Rosenberg.</small></a><a href="https://www.bensport.fr/le-plus-etrange-des-secrets-earl-nighingale/" target="_blank" rel="noopener"><b>Le plus étrange des secrets</b><small>D'où vient la motivation ?</small></a><a href="https://www.bensport.fr/developpement-durable/" target="_blank" rel="noopener"><b>Développement durable</b><small>Concilier progrès et respect de l'environnement.</small></a><a href="https://www.bensport.fr/citations/" target="_blank" rel="noopener"><b>Citations</b><small>Des citations sur le sport et l'émotion.</small></a></div></div><div class="lib-group"><h3><a href="https://www.bensport.fr/category/videos/" target="_blank" rel="noopener">Vidéos ↗</a></h3><div class="links"><a href="https://www.bensport.fr/arbitrage-10m/" target="_blank" rel="noopener"><b>Devenir arbitre</b><small>Le rôle de l'arbitre pour des compétitions sûres et équitables.</small></a><a href="https://www.bensport.fr/le-tir-au-feminin/" target="_blank" rel="noopener"><b>Le tir au féminin</b><small>Les femmes et le tir sportif.</small></a><a href="https://www.bensport.fr/le-tir-plateau/" target="_blank" rel="noopener"><b>Le tir plateau</b><small>Découverte du tir aux plateaux.</small></a><a href="https://www.bensport.fr/le-tir-sur-silhouettes-metallique-de-a-a-z/" target="_blank" rel="noopener"><b>Le tir sur silhouettes métalliques de A à Z</b><small>Toute la discipline en vidéo.</small></a><a href="https://www.bensport.fr/clip-tir-aux-armes-reglementaires/" target="_blank" rel="noopener"><b>Clip tir aux armes réglementaires</b><small>Le TAR en images.</small></a><a href="https://www.bensport.fr/decouverte-du-tir-a-larbalete-field/" target="_blank" rel="noopener"><b>Découverte du tir à l'arbalète field</b><small>Une autre discipline de précision.</small></a><a href="https://www.bensport.fr/banc-dessais/" target="_blank" rel="noopener"><b>Banc d'essais</b><small>Essais de matériel.</small></a><a href="https://www.bensport.fr/7767-2/" target="_blank" rel="noopener"><b>Sport Quantum : cible électronique</b><small>La cible électronique de notre partenaire.</small></a></div></div><div class="lib-group"><h3><a href="https://www.bensport.fr/category/legislation-armes-et-sport/" target="_blank" rel="noopener">Législation, armes et sport ↗</a></h3><div class="links"><a href="https://www.bensport.fr/detention-darme-de-cat-b-mode-demploi/" target="_blank" rel="noopener"><b>Détention d'armes de catégories B et C</b><small>Éthique, prérequis et mode d'emploi.</small></a><a href="https://www.bensport.fr/les-valeurs-vehiculees-par-la-fftir/" target="_blank" rel="noopener"><b>Les valeurs véhiculées par la FFTir</b><small>Ce que la fédération autorise… et interdit.</small></a><a href="https://www.bensport.fr/cadre-legislatif-dun-club-de-tir-lag-pour-les-nuls/" target="_blank" rel="noopener"><b>Cadre législatif d'un club / l'AG pour les nuls</b><small>Le fonctionnement d'une association de tir.</small></a><a href="https://www.bensport.fr/la-comptabilite-des-associations/" target="_blank" rel="noopener"><b>La comptabilité des associations</b><small>Les bases de la comptabilité associative.</small></a><a href="https://www.bensport.fr/encadrement-professionnel-et-remuneration/" target="_blank" rel="noopener"><b>Encadrement professionnel et rémunération</b><small>Rémunérer un encadrant.</small></a><a href="https://www.bensport.fr/franchise-de-cotisation-urssaf-pour-les-entraineurs/" target="_blank" rel="noopener"><b>Franchise de cotisations URSSAF</b><small>Pour les entraîneurs lors de manifestations sportives.</small></a><a href="https://www.bensport.fr/groupement-demployeurs/" target="_blank" rel="noopener"><b>Droits et obligations des éducateurs sportifs</b><small>Éducateurs et groupements d'employeurs.</small></a><a href="https://www.bensport.fr/code-du-sport/" target="_blank" rel="noopener"><b>Code du sport</b><small>Les textes qui encadrent le sport en France.</small></a><a href="https://www.bensport.fr/convention-collective-nationale-du-sport-nov-2017/" target="_blank" rel="noopener"><b>Convention collective nationale du sport</b><small>La convention du secteur sportif.</small></a></div></div><div class="links" style="margin-top:1rem"><a href="https://www.bensport.fr/agendarmes/" target="_blank" rel="noopener"><b>Agend'armes</b><small>L'agenda ↗</small></a><a href="https://www.bensport.fr/forum/" target="_blank" rel="noopener"><b>Le forum</b><small>Échanger avec d'autres tireurs ↗</small></a><a href="https://www.bensport.fr/" target="_blank" rel="noopener"><b>Bensport.fr</b><small>La page d'accueil ↗</small></a></div></section></main>
+<main class="view" id="faq" style="--acc:#e5473d"><div class="theme-head"><div class="kicker">Vos questions</div><h1>Questions fréquentes</h1><p class="lead">Les réponses aux questions que l'on se pose le plus souvent sur le tir au pistolet, classées par thème.</p></div><section id="faq-liste" class="first"><div class="faq-tools"><input id="faq-search" type="search" placeholder="Rechercher une question… (ex. lunettes, plombs, stress)"><div class="tabs faq-cats"><button class="on" data-cat="all">Toutes (27)</button><button data-cat="decouvrir">Découvrir le tir</button><button data-cat="technique">Technique</button><button data-cat="mental">Mental</button><button data-cat="materiel">Matériel</button><button data-cat="physique">Physique</button><button data-cat="tactique">Compétition</button><button data-cat="progresser">Progresser</button></div></div><div class="faq-group" data-cat="decouvrir"><h3>Découvrir le tir</h3><details class="card faq-item"><summary>Combien coûte la pratique du tir sportif sur une année ?</summary><p>Le budget dépend surtout de votre club, de votre discipline et de votre matériel. Quelques repères :</p><ul class="check"><li><b>Licence et cotisation</b> : souvent entre 100 et 300 €, parfois plus selon les services proposés par le club.</li><li><b>Plombs (10 m)</b> : une boîte de 500 plombs coûte moins de 10 €.</li><li><b>Cartouches .22 LR (25 m et 50 m)</b> : moins de 10 € la boîte de 50. Un tireur de compétition moyen en tire environ 2&nbsp;000 par an, soit moins de 400&nbsp;€.</li><li><b>Pistolet de compétition</b> : autour de 2&nbsp;500&nbsp;€ (le club prête le matériel au départ).</li><li><b>Chaussures</b> : souvent des chaussures d'haltérophilie, autour de 100 €.</li><li><b>Lunettes de correction pour le tir</b> : entre 100 et 400 €.</li><li><b>Longue-vue</b> : utile au 25 m et au 50 m pour voir ses impacts sur cible papier.</li><li><b>Vêtements</b> : une tenue de sport classique suffit.</li><li><b>Déplacements</b> : selon la distance entre votre domicile et le stand de tir.</li></ul><p class="note">Prix indicatifs, constatés en 2026.</p></details><details class="card faq-item"><summary>Faut-il acheter un pistolet pour commencer ?</summary><p>Non. Les clubs prêtent le matériel pour la découverte et les premiers mois. Avant d'acheter, essayez plusieurs modèles au club et demandez conseil à votre entraîneur : la poignée qui tombe bien dans votre main compte plus que la marque.</p></details><details class="card faq-item"><summary>Peut-on pratiquer le tir en situation de handicap ?</summary><p>Oui. À l'exception des personnes présentant une déficience mentale, toutes les personnes en situation de handicap sont les bienvenues dans les clubs de tir. Deux pratiques existent :</p><ul class="check"><li><b>Le handi-tir</b> : le tir de loisir pour les personnes en situation de handicap.</li><li><b>Le para-tir</b> : le tir de compétition pour les personnes en situation de handicap.</li></ul><p class="note">Renseignez-vous auprès de votre club sur l'accessibilité du stand et l'encadrement proposé.</p></details><details class="card faq-item"><summary>Faut-il une licence ?</summary><p>Une séance découverte se fait généralement sans licence. Pour pratiquer régulièrement en club, il faut une licence de la Fédération française de tir (FFTir), prise auprès de votre club.</p></details><details class="card faq-item"><summary>À partir de quel âge peut-on tirer ?</summary><p>Le tir sportif se pratique à tout âge : beaucoup de clubs ont une école de tir pour les jeunes, et l'on peut commencer ou continuer très tard. Renseignez-vous auprès du club le plus proche.</p></details><details class="card faq-item"><summary>Le tir sportif est-il dangereux ?</summary><p>C'est un sport très encadré : règles de sécurité strictes, pas de tir organisé, commandements du directeur de tir. Bien appliquées, ces règles en font une pratique sûre. Voir la page Infos pratiques.</p></details><details class="card faq-item"><summary>Je porte des lunettes, est-ce un problème ?</summary><p>Non. On peut tirer avec ses lunettes habituelles. Beaucoup de tireurs utilisent ensuite des lunettes de tir dont le verre est adapté pour voir le guidon net.</p></details><details class="card faq-item"><summary>Pourquoi tire-t-on à une seule main ?</summary><p>C'est la règle des épreuves de pistolet ISSF. Cela demande plus de stabilité, ce qui fait tout l'intérêt technique de la discipline.</p></details></div><div class="faq-group" data-cat="technique"><h3>Technique</h3><details class="card faq-item"><summary>Je tremble beaucoup, est-ce normal ?</summary><p>Oui. Personne ne tient l'arme immobile, même les champions. L'entraînement réduit la zone d'oscillation ; le secret est de garder un bon alignement et un lâcher régulier malgré le mouvement.</p></details><details class="card faq-item"><summary>Dois-je regarder la cible ou le guidon ?</summary><p>Le guidon. L'œil ne peut pas faire la mise au point partout à la fois : on garde le guidon net, bien aligné dans le cran de mire, et la cible reste floue.</p></details><details class="card faq-item"><summary>Pourquoi mes impacts partent-ils en bas à gauche ?</summary><p>Chez un droitier, c'est le plus souvent un coup de doigt ou une crispation de la main au moment du départ. Travaillez une pression continue sur la détente, notamment en tir à sec.</p></details><details class="card faq-item"><summary>Combien de temps faut-il viser ?</summary><p>Le moins longtemps possible une fois stable : quelques secondes. Si le coup n'est pas parti, reposez l'arme et recommencez votre routine plutôt que d'insister.</p></details></div><div class="faq-group" data-cat="mental"><h3>Mental</h3><details class="card faq-item"><summary>Je perds mes moyens en compétition, que faire ?</summary><p>C'est très courant. Préparez un plan de match, gardez exactement la même routine qu'à l'entraînement, utilisez la respiration ventrale entre les séries et concentrez-vous sur le geste, pas sur le score.</p></details><details class="card faq-item"><summary>Faut-il regarder chaque impact ?</summary><p>Regarder l'impact sert à vérifier votre annonce, pas à calculer votre score. Si cela vous perturbe, regardez moins souvent et annoncez chaque coup avant de le voir.</p></details><details class="card faq-item"><summary>Comment ne pas m'énerver après un mauvais coup ?</summary><p>Un coup tiré est terminé. Posez l'arme, analysez-le en une phrase, respirez, puis reprenez votre routine depuis le début. Le prochain coup est le seul qui compte.</p></details></div><div class="faq-group" data-cat="materiel"><h3>Matériel</h3><details class="card faq-item"><summary>Air comprimé ou CO2 ?</summary><p>Les pistolets 10 m modernes fonctionnent très majoritairement à l'air comprimé, plus régulier. Le CO2 se rencontre encore sur certaines armes d'initiation.</p></details><details class="card faq-item"><summary>Quels plombs choisir ?</summary><p>Des plombs « match » de 4,5 mm à tête plate. Testez-en plusieurs : un même pistolet groupe souvent mieux avec une marque ou un lot qu'avec un autre.</p></details><details class="card faq-item"><summary>Puis-je régler mon pistolet moi-même ?</summary><p>Les réglages courants (cran de mire, poignée, position de la détente) oui, un à la fois et en notant ce que vous faites. Pour les réglages internes et le poids de départ, demandez à l'entraîneur ou à l'armurier.</p></details><details class="card faq-item"><summary>À quoi sert une cible électronique ?</summary><p>Elle affiche chaque impact instantanément sur un écran : pratique pour analyser ses groupements, suivre ses progrès et s'entraîner dans les conditions d'une compétition.</p></details></div><div class="faq-group" data-cat="physique"><h3>Physique</h3><details class="card faq-item"><summary>Faut-il une bonne condition physique ?</summary><p>Pas pour commencer. Le tir demande surtout concentration et régularité. Gainage, renforcement des épaules et endurance douce aident ensuite à tenir l'arme et à durer tout un match.</p></details><details class="card faq-item"><summary>Le café influence-t-il le tir ?</summary><p>Les excitants peuvent accentuer les tremblements chez certains tireurs. Testez à l'entraînement ce qui vous convient, et ne changez pas vos habitudes le jour d'une compétition.</p></details></div><div class="faq-group" data-cat="tactique"><h3>Compétition</h3><details class="card faq-item"><summary>Comment se passe une première compétition ?</summary><p>On s'installe au poste, on dispose d'un temps de préparation et de coups d'essai, puis le match commence dans un temps limité. Un concours de club ou un championnat départemental est idéal pour découvrir.</p></details><details class="card faq-item"><summary>Combien de coups d'essai faire ?</summary><p>Autant qu'il en faut pour retrouver vos sensations et vérifier votre réglage, sans vous fatiguer. Dès que les sensations sont bonnes et le groupement centré, passez au match.</p></details></div><div class="faq-group" data-cat="progresser"><h3>Progresser</h3><details class="card faq-item"><summary>Combien de plombs tire-t-on lors d'une séance d'entraînement ?</summary><p>Généralement, lors d'une séance d'une heure à une heure et demie, on tire entre 50 et 200 plombs, selon les exercices et les compétences travaillées. Une séance centrée sur le tir à sec ou sur la qualité du lâcher en consomme moins qu'une simulation de match.</p></details><details class="card faq-item"><summary>Combien de temps pour progresser ?</summary><p>Avec une à deux séances par semaine, les progrès sont nets en quelques mois. La régularité compte plus que la durée des séances.</p></details><details class="card faq-item"><summary>Puis-je m'entraîner chez moi ?</summary><p>Oui, par le tir à sec, la visualisation et la préparation physique, dans le respect strict des règles de sécurité et de la réglementation sur la détention d'armes. Demandez conseil à votre club.</p></details><details class="card faq-item"><summary>Faut-il tenir un carnet de tir ?</summary><p>C'est vivement conseillé : séances, sensations, réglages et résultats. Il révèle vos tendances et vous aide à voir vos progrès réels.</p></details></div><p id="faq-empty" class="tip" style="display:none"><b>Aucune question trouvée.</b> Essayez un autre mot, ou écrivez-nous : contact@MonTirSportif.fr</p><div class="tip"><b>Vous ne trouvez pas votre réponse ?</b> Écrivez-nous à <a href="mailto:contact@MonTirSportif.fr">contact@MonTirSportif.fr</a> : les meilleures questions rejoindront cette page.</div></section></main>
+<main class="view" id="epreuves" style="--acc:#2c6fb7"><div class="theme-head"><div class="kicker">Les épreuves</div><h1>Les disciplines du pistolet</h1><p class="lead">Une page par discipline : l'essentiel, le déroulement d'une épreuve, les règles et incidents à connaître et, quand elle existe, la finale. D'après les mémentos d'arbitrage de la FFTir (mis à jour en 2026).</p></div><section class="first" id="epreuves-liste"><h2 style="display:none">Toutes les disciplines</h2><div class="tiles disc"><a class="tile" href="epreuves/pistolet-10m.html" style="--t:#2c6fb7"><b>Pistolet 10 m</b><small>L'épreuve olympique de précision à l'air comprimé : la discipline idéale pour découvrir le pistolet et la base de toutes les autres.</small></a><a class="tile" href="epreuves/pistolet-vitesse-10m.html" style="--t:#2c6fb7"><b>Pistolet vitesse 10 m</b><small>Le tir rapide à l'air comprimé : des séries de 5 coups sur des cibles basculantes, pour travailler le rythme et le retour de visée.</small></a><a class="tile" href="epreuves/pistolet-25m.html" style="--t:#2c6fb7"><b>Pistolet 25 m</b><small>L'épreuve olympique au petit calibre qui combine une partie précision et une partie vitesse, où la cible n'apparaît que quelques secondes.</small></a><a class="tile" href="epreuves/vitesse-olympique.html" style="--t:#2c6fb7"><b>Pistolet vitesse olympique 25 m</b><small>L'épreuve olympique la plus spectaculaire : 5 cibles à toucher en 8, 6 puis 4 secondes.</small></a><a class="tile" href="epreuves/pistolet-standard.html" style="--t:#2c6fb7"><b>Pistolet standard 25 m</b><small>Des séries de 5 coups sur une même cible, avec un temps de plus en plus court : la régularité sous la pression du chrono.</small></a><a class="tile" href="epreuves/percussion-centrale.html" style="--t:#2c6fb7"><b>Pistolet percussion centrale 25 m</b><small>Le même principe que le pistolet 25 m (précision puis vitesse), avec un pistolet de gros calibre et un recul bien plus marqué.</small></a><a class="tile" href="epreuves/pistolet-50m.html" style="--t:#2c6fb7"><b>Pistolet 50 m</b><small>La précision à longue distance, au petit calibre : 60 coups où le moindre défaut de lâcher se voit sur la cible.</small></a><a class="tile" href="#autres-disciplines" style="--t:#2c6fb7"><b>Autres disciplines au pistolet</b><small>Armes anciennes, armes réglementaires, tir sportif de vitesse, silhouettes métalliques.</small></a></div><div class="tip" style="margin-top:1.2rem"><b>Bon à savoir :</b> les règlements évoluent chaque saison. Pour une compétition, référez-vous toujours aux textes officiels de la FFTir et de l'ISSF.</div></section></main>
+
+
+
+
+
+
+
+<main class="view" id="plan" style="--acc:#e5473d">
+<div class="theme-head"><div class="kicker">Navigation</div><h1>Plan du site</h1><p class="lead">Toutes les pages et rubriques de MonTirSportif en un coup d'œil. Cliquez sur une rubrique pour y aller directement.</p></div>
+<section class="first"><div class="pl-root"><span>MonTirSportif</span></div><div class="pl-tree"><div class="pl-node" style="--t:#e5473d"><a class="pl-head" href="#accueil"><b>Accueil</b></a><ul><li><a href="#themes">Les 5 grands thèmes de la préparation</a></li><li><a href="#parcours">Faire le point sur ma pratique</a></li><li><a href="#premiers-pas">La séance découverte</a></li><li><a href="#disciplines">Les disciplines du pistolet ISSF</a></li><li><a href="#famille">La famille MonTirSportif</a></li><li><a href="#partenaire">Sport Quantum</a></li></ul></div><div class="pl-node" style="--t:#e0601f"><a class="pl-head" href="#technique"><span class="pl-num">1</span><b>Préparation technique</b></a><ul><li><a href="#position">La position : un socle stable et naturel</a></li><li><a href="#prise">La prise en main : la même, à chaque coup</a></li><li><a href="#position-loupe">La position à la loupe</a></li><li><a href="#visee">La visée : le guidon net, la cible floue</a></li><li><a href="#visee-erreurs">Erreur parallèle, erreur angulaire</a></li><li><a href="#respiration">La respiration : un temps calme pour tirer</a></li><li><a href="#lacher">Le lâcher : presser sans perturber</a></li><li><a href="#lacher-types">Les différents types de lâcher</a></li><li><a href="#tenue-annonce">Les vertus de la tenue et de l'annonce</a></li><li><a href="#routine">La routine de tir : chaque coup, la même séquence</a></li><li><a href="#sequence-20">Une séquence de tir complète en 20 étapes</a></li><li><a href="#erreurs">Les 6 erreurs les plus fréquentes</a></li><li><a href="#entrainement">Exercices d'entraînement</a></li><li><a href="#construire-exercices">Construire ses exercices d'entraînement</a></li><li class="ext">Pour aller plus loin : liens vers les sites MonTirSportif</li></ul></div><div class="pl-node" style="--t:#7656d6"><a class="pl-head" href="#mental"><span class="pl-num">2</span><b>Préparation mentale</b></a><ul><li><a href="#mental-bases">Penser au geste, pas au score</a></li><li><a href="#concentration">La concentration</a></li><li><a href="#stress">Gérer le stress</a></li><li><a href="#visualisation">La visualisation</a></li><li><a href="#confiance">Confiance et objectifs</a></li><li><a href="#mental-bensport">Le mental dès le premier jour</a></li><li class="ext">Pour aller plus loin : liens vers les sites MonTirSportif</li></ul></div><div class="pl-node" style="--t:#12938a"><a class="pl-head" href="#materiel"><span class="pl-num">3</span><b>Préparation matérielle</b></a><ul><li><a href="#pistolet">Le pistolet 10 m</a></li><li><a href="#reglages">Les réglages essentiels</a></li><li><a href="#equipement">L'équipement du tireur</a></li><li><a href="#entretien">Entretien et sac de tir</a></li><li><a href="#air-comprime">L'air comprimé en toute sécurité</a></li><li><a href="#regler-detente-hausse">Régler sa hausse et sa détente</a></li><li><a href="#arme-a-feu">Entretenir et transporter une arme à feu</a></li><li class="ext">Pour aller plus loin : liens vers les sites MonTirSportif</li></ul></div><div class="pl-node" style="--t:#3d8f2a"><a class="pl-head" href="#physique"><span class="pl-num">4</span><b>Préparation physique</b></a><ul><li><a href="#pourquoi-physique">Le tir, un sport physique ?</a></li><li><a href="#exercices-physiques">Les exercices utiles</a></li><li><a href="#semaine-type">Une semaine type</a></li><li><a href="#hygiene">Échauffement et hygiène de vie</a></li><li><a href="#echauffement-10">L'échauffement en 10 minutes</a></li><li><a href="#stabilite">Mesurer et améliorer sa stabilité</a></li><li class="ext">Pour aller plus loin : liens vers les sites MonTirSportif</li></ul></div><div class="pl-node" style="--t:#b07a00"><a class="pl-head" href="#tactique"><span class="pl-num">5</span><b>Préparation tactique</b></a><ul><li><a href="#tactique-bases">La tactique au pistolet</a></li><li><a href="#reglement">Connaître le déroulement</a></li><li><a href="#essais">Bien utiliser les coups d'essai</a></li><li><a href="#temps">Gérer son temps</a></li><li><a href="#imprevus">Faire face aux imprévus</a></li><li><a href="#plan-match">Mon plan de match</a></li><li><a href="#apres-match">Analyser son match</a></li><li><a href="#checklist-competiteur">La check-list du compétiteur</a></li><li><a href="#championnat-papier">Un championnat sur cibles papier, pas à pas</a></li><li><a href="#analyse-bensport">Fiche d'analyse de match et dopage</a></li><li class="ext">Pour aller plus loin : liens vers les sites MonTirSportif</li></ul></div><div class="pl-node" style="--t:#e5473d"><a class="pl-head" href="#infos"><b>Infos pratiques</b></a><ul><li><a href="#securite">Les règles de sécurité</a></li><li><a href="#securite-8">Les 8 règles de sécurité et les bons gestes</a></li><li><a href="#lexique">Lexique du pistolier</a></li><li class="ext">Pour aller plus loin : liens vers les sites MonTirSportif</li></ul></div><div class="pl-node" style="--t:#2c6fb7"><a class="pl-head" href="#autres-disciplines"><b>Autres disciplines au pistolet</b></a><ul><li><a href="#autres-intro">D'autres façons de tirer au pistolet</a></li><li><a href="#armes-anciennes">Armes anciennes (poudre noire)</a></li><li><a href="#tar">Tir aux armes réglementaires (TAR)</a></li><li><a href="#tsv">Tir sportif de vitesse (TSV)</a></li><li><a href="#silhouettes">Silhouettes métalliques</a></li></ul></div><div class="pl-node" style="--t:#e5473d"><a class="pl-head" href="#bensport"><b>Bensport : « Zen tir »</b></a><ul><li><a href="#bensport-integre">Les fiches intégrées</a></li><li><a href="#bensport-articles">Tous les articles</a></li></ul></div><div class="pl-node" style="--t:#e5473d"><a class="pl-head" href="#faq"><b>Questions fréquentes</b></a><ul><li><a href="#faq">Découvrir le tir</a></li><li><a href="#faq">Technique</a></li><li><a href="#faq">Mental</a></li><li><a href="#faq">Matériel</a></li><li><a href="#faq">Physique</a></li><li><a href="#faq">Compétition</a></li><li><a href="#faq">Progresser</a></li></ul></div><div class="pl-node" style="--t:#2c6fb7"><a class="pl-head" href="#epreuves"><b>Les disciplines du pistolet</b></a><ul></ul></div><div class="pl-node" style="--t:#2c6fb7"><a class="pl-head" href="epreuves/pistolet-10m.html"><b>Pistolet 10 m</b></a><ul><li><a href="epreuves/pistolet-10m.html#p10-carac">Les caractéristiques</a></li><li><a href="epreuves/pistolet-10m.html#p10-commandements">Les commandements</a></li><li><a href="epreuves/pistolet-10m.html#p10-controles">Contrôles et règles</a></li><li><a href="epreuves/pistolet-10m.html#p10-incidents">Les incidents les plus courants</a></li><li><a href="epreuves/pistolet-10m.html#p10-finale">La finale</a></li><li><a href="epreuves/pistolet-10m.html#p10-crosse">La règle sur les poignées</a></li></ul></div><div class="pl-node" style="--t:#2c6fb7"><a class="pl-head" href="epreuves/pistolet-vitesse-10m.html"><b>Pistolet vitesse 10 m</b></a><ul><li><a href="epreuves/pistolet-vitesse-10m.html#pv10-carac">Les caractéristiques</a></li><li><a href="epreuves/pistolet-vitesse-10m.html#pv10-commandements">Les commandements</a></li><li><a href="epreuves/pistolet-vitesse-10m.html#pv10-incidents">Les incidents</a></li><li><a href="epreuves/pistolet-vitesse-10m.html#pv10-finale">La finale</a></li></ul></div><div class="pl-node" style="--t:#2c6fb7"><a class="pl-head" href="epreuves/pistolet-25m.html"><b>Pistolet 25 m</b></a><ul><li><a href="epreuves/pistolet-25m.html#p25-carac">Les caractéristiques</a></li><li><a href="epreuves/pistolet-25m.html#p25-commandements">Les commandements</a></li><li><a href="epreuves/pistolet-25m.html#p25-regles">Règles et incidents</a></li><li><a href="epreuves/pistolet-25m.html#p25-entrainement">S'entraîner au tir sur temps réduit</a></li><li><a href="epreuves/pistolet-25m.html#p25-finale">La finale (pistolet 25 m dames)</a></li><li><a href="epreuves/pistolet-25m.html#p25-crosse">La règle sur les poignées</a></li></ul></div><div class="pl-node" style="--t:#2c6fb7"><a class="pl-head" href="epreuves/vitesse-olympique.html"><b>Pistolet vitesse olympique 25 m</b></a><ul><li><a href="epreuves/vitesse-olympique.html#vo-carac">Les caractéristiques</a></li><li><a href="epreuves/vitesse-olympique.html#vo-commandements">Les commandements</a></li><li><a href="epreuves/vitesse-olympique.html#vo-incidents">Règles et incidents</a></li><li><a href="epreuves/vitesse-olympique.html#vo-entrainement">S'entraîner au tir sur temps réduit</a></li><li><a href="epreuves/vitesse-olympique.html#vo-finale">La finale</a></li></ul></div><div class="pl-node" style="--t:#2c6fb7"><a class="pl-head" href="epreuves/pistolet-standard.html"><b>Pistolet standard 25 m</b></a><ul><li><a href="epreuves/pistolet-standard.html#std-carac">Les caractéristiques</a></li><li><a href="epreuves/pistolet-standard.html#std-commandements">Les commandements</a></li><li><a href="epreuves/pistolet-standard.html#std-incidents">Règles et incidents</a></li><li><a href="epreuves/pistolet-standard.html#std-entrainement">S'entraîner au tir sur temps réduit</a></li></ul></div><div class="pl-node" style="--t:#2c6fb7"><a class="pl-head" href="epreuves/percussion-centrale.html"><b>Pistolet percussion centrale 25 m</b></a><ul><li><a href="epreuves/percussion-centrale.html#pc-carac">Les caractéristiques</a></li><li><a href="epreuves/percussion-centrale.html#pc-commandements">Les commandements</a></li><li><a href="epreuves/percussion-centrale.html#pc-regles">Règles et incidents</a></li></ul></div><div class="pl-node" style="--t:#2c6fb7"><a class="pl-head" href="epreuves/pistolet-50m.html"><b>Pistolet 50 m</b></a><ul><li><a href="epreuves/pistolet-50m.html#p50-carac">Les caractéristiques</a></li><li><a href="epreuves/pistolet-50m.html#p50-commandements">Les commandements</a></li><li><a href="epreuves/pistolet-50m.html#p50-incidents">Règles et incidents</a></li></ul></div></div></section>
+</main>
+
+<footer>
+  <img class="footlogo" src="img/logo.png" alt="MonTirSportif">
+  <p><b>MonTirSportif</b> — La passion du tir et du partage.</p>
+  <p class="foot-links"><a href="#faq">Questions fréquentes</a> · <a href="#plan">Plan du site</a> · 
+    <a href="https://www.montirsportif.fr/" target="_blank" rel="noopener">montirsportif.fr</a> ·
+    <a href="https://www.montirsportif.com/" target="_blank" rel="noopener">montirsportif.com</a> ·
+    <a href="https://entrainement.montirsportif.fr/" target="_blank" rel="noopener">entrainement.montirsportif.fr</a>
+  </p>
+  <p class="foot-links">
+    <a href="https://www.youtube.com/@montirsportif" target="_blank" rel="noopener">YouTube</a> ·
+    <a href="https://www.facebook.com/montirsportif" target="_blank" rel="noopener">Facebook</a> ·
+    <a href="https://www.instagram.com/montirsportif/" target="_blank" rel="noopener">Instagram</a> ·
+    <a href="https://www.tiktok.com/@montirsportif" target="_blank" rel="noopener">TikTok</a>
+  </p>
+  <p class="foot-partner">Partenaire principal<br><a href="https://sportquantum.com/" target="_blank" rel="noopener"><img src="img/sportquantum.png" alt="Sport Quantum"></a></p>
+  <p>Nous écrire : <a href="mailto:contact@MonTirSportif.fr">contact@MonTirSportif.fr</a></p>
+  <p style="margin-top:1rem">Ce site est un support pédagogique : il ne remplace pas l'encadrement d'un entraîneur diplômé. Règlement officiel : ISSF et FFTir.</p>
+</footer>
+
+<script>
+  function openTab(id){
+    var panel=document.getElementById(id); if(!panel) return;
+    var sec=panel.closest('section');
+    sec.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on', x.dataset.p===id)});
+    sec.querySelectorAll('.panel').forEach(function(x){x.classList.toggle('on', x===panel)});
+  }
+  document.querySelectorAll('.tabs button').forEach(function(b){ b.addEventListener('click',function(){ openTab(b.dataset.p); }); });
+  document.querySelectorAll('[data-go]').forEach(function(a){ a.addEventListener('click',function(){ openTab(a.dataset.go); }); });
+
+  /* Navigation entre les thèmes */
+  var navLinks=[].slice.call(document.querySelectorAll('#nav a'));
+  function route(){
+    var h=(location.hash||'').slice(1)||'accueil';
+    var el=null; try{ el=document.getElementById(h); }catch(e){}
+    if(!el) el=document.getElementById('accueil');
+    var view=el.classList.contains('view')?el:el.closest('.view');
+    if(!view){ view=document.getElementById('accueil'); el=view; }
+    document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('on', v===view); });
+    navLinks.forEach(function(a){
+      var on=a.getAttribute('href')==='#'+view.id; a.classList.toggle('on',on);
+      if(on){ document.getElementById('nav').style.setProperty('--navc',a.dataset.c);
+        var n=document.getElementById('nav'); var x=a.offsetLeft-n.offsetLeft; if(x<n.scrollLeft||x+a.offsetWidth>n.scrollLeft+n.clientWidth) n.scrollLeft=a.offsetLeft-n.offsetLeft-20; }
+    });
+    if(el===view){ window.scrollTo({top:0,left:0,behavior:'instant'}); }
+    else { var p=el.closest('.panel'); if(p && !p.classList.contains('on')) openTab(p.id);
+           setTimeout(function(){ el.scrollIntoView({behavior:'auto',block:'start'}); },0); }
+  }
+  window.addEventListener('hashchange',route);
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href^="#"]'); if(!a) return;
+    if(a.getAttribute('href')===location.hash){ e.preventDefault(); route(); }
+  });
+  route();
+
+  /* Bilan */
+  var labels={
+    position:['La position','trouver votre point naturel, sans forcer avec le bras','#position'],
+    prise:['La prise en main','une pression modérée et identique','#prise'],
+    visee:['La visée','la netteté sur le guidon, pas sur la cible','#visee'],
+    respiration:['La respiration','des visées plus courtes, dans une pause calme','#respiration'],
+    lacher:['Le lâcher','une pression continue, sans coup de doigt','#lacher'],
+    routine:['La routine','la même séquence à chaque coup','#routine'],
+    mental:['La préparation mentale','penser au geste, pas au score','#mental'],
+    reglages:['Le réglage de l’arme','centrer son groupement avec le cran de mire','#reglages'],
+    physique:['La préparation physique','renforcer la tenue et l’endurance du bras','#physique'],
+    tactique:['La préparation tactique','gérer son temps et ses émotions en match','#tactique']
+  };
+  var order=['position','prise','visee','respiration','lacher','routine','mental','reglages','physique','tactique'];
+  document.querySelectorAll('#bilan input').forEach(function(c){
+    c.addEventListener('change',function(){
+      var on={}; document.querySelectorAll('#bilan input:checked').forEach(function(x){on[x.dataset.s]=1});
+      var keys=order.filter(function(k){return on[k]});
+      var box=document.getElementById('reco');
+      if(!keys.length){ box.innerHTML='<p style="color:var(--mut)">Cochez une ou plusieurs cases : les rubriques à travailler en priorité s’afficheront ici.</p>'; return; }
+      box.innerHTML='<p>Travaillez dans cet ordre :</p>'+keys.map(function(k,i){var l=labels[k];return '<a href="'+l[2]+'"><span>'+(i+1)+'. '+l[0]+'</span> — '+l[1]+'</a>';}).join('');
+    });
+  });
+
+  /* FAQ */
+  (function(){
+    var cat='all', q=document.getElementById('faq-search'); if(!q) return;
+    function norm(t){return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+    function apply(){
+      var term=norm(q.value.trim()), any=false;
+      document.querySelectorAll('.faq-group').forEach(function(g){
+        var vis=0, okcat=(cat==='all'||g.dataset.cat===cat);
+        g.querySelectorAll('.faq-item').forEach(function(it){
+          var ok=okcat && (!term || norm(it.textContent).indexOf(term)>=0);
+          it.style.display=ok?'':'none'; if(ok){vis++; if(term) it.open=true;}
+        });
+        g.style.display=vis?'':'none'; if(vis) any=true;
+      });
+      document.getElementById('faq-empty').style.display=any?'none':'block';
+    }
+    q.addEventListener('input',apply);
+    document.querySelectorAll('.faq-cats button').forEach(function(b){
+      b.addEventListener('click',function(){ cat=b.dataset.cat;
+        document.querySelectorAll('.faq-cats button').forEach(function(x){x.classList.toggle('on',x===b)}); apply(); });
+    });
+  })();
+
+  /* Plan de match */
+  var btn=document.getElementById('copyplan');
+  if(btn) btn.addEventListener('click',function(){
+    var t='MON PLAN DE MATCH\n'; document.querySelectorAll('#planform label').forEach(function(l){
+      var f=l.querySelector('input,textarea'); if(f) t+='\n'+l.firstChild.textContent.trim()+' : '+(f.value.trim()||'—');
+    });
+    var msg=document.getElementById('copied');
+    try{ navigator.clipboard.writeText(t).then(function(){msg.textContent='Copié !';},function(){msg.textContent='Copie impossible ici : sélectionnez le texte à la main.';}); }
+    catch(e){ msg.textContent='Copie impossible ici : sélectionnez le texte à la main.'; }
+  });
+</script>
+</body>
+</html>
