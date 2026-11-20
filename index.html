@@ -210,6 +210,17 @@
   @media(max-width:980px){.pl-tree{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:560px){.pl-tree{grid-template-columns:1fr}}
 
+  .bar{position:relative}
+  #prep-btn{font:inherit;font-size:.9rem;color:var(--mut);background:none;border:0;padding:.35rem .65rem;border-radius:99px;cursor:pointer;white-space:nowrap}
+  #prep-btn:hover,#prep-btn[aria-expanded="true"]{background:var(--card);color:var(--txt)}
+  #prep-btn.on{color:#fff;background:var(--navc,#e0601f)}
+  .prep-menu{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:.3rem;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(27,36,48,.15);padding:.5rem;z-index:20;min-width:260px}
+  .prep-menu.open{display:grid;gap:.15rem}
+  .prep-menu a{display:flex;align-items:center;gap:.6rem;padding:.55rem .7rem;border-radius:10px;text-decoration:none;color:var(--txt);font-size:.95rem}
+  .prep-menu a:hover{background:var(--bg2)}
+  .prep-menu a span{width:1.6rem;height:1.6rem;border-radius:7px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.85rem;flex:none}
+  .prep-menu a.sub{padding-left:2.9rem;font-size:.88rem;color:var(--mut)}
+
   .sec-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.6rem;margin-top:1.2rem}
   .sec-tiles a{display:flex;flex-direction:column;gap:.2rem;background:var(--card);border:1px solid var(--line);border-top:3px solid var(--acc);border-radius:12px;padding:.7rem .85rem;text-decoration:none;color:var(--txt);box-shadow:0 1px 2px rgba(27,36,48,.05);transition:transform .12s,border-color .12s}
   .sec-tiles a:hover{transform:translateY(-2px);border-color:var(--acc)}
@@ -222,7 +233,14 @@
 </head>
 <body>
 <header><div class="bar"><a class="logo" href="#accueil" aria-label="MonTirSportif — accueil"><img src="img/logo.png" alt="MonTirSportif"></a>
-<nav id="nav"><a href="#accueil" data-c="#e5473d">Accueil</a><a href="#epreuves" data-c="#2c6fb7">Disciplines</a><a href="#technique" data-c="#e0601f">Technique</a><a href="#mental" data-c="#7656d6">Mental</a><a href="#materiel" data-c="#12938a">Matériel</a><a href="#physique" data-c="#3d8f2a">Physique</a><a href="#tactique" data-c="#b07a00">Tactique</a><a href="#infos" data-c="#5a6676">Infos pratiques</a><a href="#faq" data-c="#e5473d">Questions fréquentes</a><a href="#a-propos" data-c="#e5473d">À propos</a><a href="#plan" data-c="#e5473d">Plan du site</a></nav></div></header>
+<nav id="nav"><a href="#accueil" data-c="#e5473d">Accueil</a><a href="#epreuves" data-c="#2c6fb7">Disciplines</a><button type="button" id="prep-btn" aria-haspopup="true" aria-expanded="false" aria-controls="prep-menu">Préparation du tireur ▾</button><a href="#infos" data-c="#5a6676">Infos pratiques</a><a href="#faq" data-c="#e5473d">Questions fréquentes</a><a href="#a-propos" data-c="#e5473d">À propos</a><a href="#plan" data-c="#e5473d">Plan du site</a></nav><div class="prep-menu" id="prep-menu" role="menu"><a role="menuitem" href="#technique"><span style="background:#e0601f">1</span>Préparation technique</a><a role="menuitem" href="#mental"><span style="background:#7656d6">2</span>Préparation mentale</a><a role="menuitem" href="#materiel"><span style="background:#12938a">3</span>Préparation matérielle</a><a role="menuitem" href="#physique"><span style="background:#3d8f2a">4</span>Préparation physique</a><a role="menuitem" href="#tactique"><span style="background:#b07a00">5</span>Préparation tactique</a><a role="menuitem" class="sub" href="#dopage">Le dopage</a><a role="menuitem" class="sub" href="#faire-le-point">Faire le point sur ma pratique</a></div><script>(function(){var b=document.getElementById("prep-btn"),m=document.getElementById("prep-menu");if(!b||!m)return;
+function close(){m.classList.remove("open");b.setAttribute("aria-expanded","false");}
+function place(){var bar=m.parentNode.getBoundingClientRect(),r=b.getBoundingClientRect(),w=m.offsetWidth||260;var x=r.left-bar.left+r.width/2;x=Math.max(w/2+8,Math.min(bar.width-w/2-8,x));m.style.left=x+"px";}
+b.addEventListener("click",function(e){e.stopPropagation();var o=m.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");if(o)place();});
+window.addEventListener("resize",function(){if(m.classList.contains("open"))place();});
+m.addEventListener("click",function(e){if(e.target.closest("a"))close();});
+document.addEventListener("click",function(e){if(!m.contains(e.target)&&e.target!==b)close();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});})();</script></div></header>
 <main class="view" id="accueil" style="--acc:#e5473d">
 <div class="hero">
   <div>
@@ -1650,6 +1668,8 @@
     else { var p=el.closest('.panel'); if(p && !p.classList.contains('on')) openTab(p.id);
            setTimeout(function(){ el.scrollIntoView({behavior:'auto',block:'start'}); },0); }
   }
+  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a'};
+    var bt=document.getElementById('prep-btn');if(!bt||!v)return;var t=cols[v.id];bt.classList.toggle('on',!!t);if(t){document.getElementById('nav').style.setProperty('--navc',t);navLinks.forEach(function(a){a.classList.remove('on');});}};})();
   window.addEventListener('hashchange',route);
   document.addEventListener('click',function(e){
     var a=e.target.closest('a[href^="#"]'); if(!a) return;
