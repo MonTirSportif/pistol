@@ -282,6 +282,15 @@
   .t18 td:first-child{white-space:nowrap}
   @media(max-width:820px){.t18-wrap table{display:table}}
 
+  .sq-vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin:1rem 0}
+  .sq-ex .sq-dl{display:grid;grid-template-columns:8.5rem 1fr;gap:.35rem .8rem;margin:.4rem 0 .8rem}
+  .sq-dl dt{font-weight:600;color:var(--mut);font-size:.88rem}.sq-dl dd{margin:0}
+  .sq-lv{font-size:.9rem;margin:.6rem 0}.sq-lv td{vertical-align:top}
+  .sq-dot{display:inline-block;width:.8em;height:.8em;border-radius:50%;border:1px solid #9aa4b1;margin:0 .3em -.05em 0}
+  .sq-jeux{display:flex;flex-wrap:wrap;gap:.4rem}.sq-jeux span{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:.25rem .7rem;font-size:.88rem}
+  .sq-ex .yt{margin-top:.6rem}
+  @media(max-width:820px){.sq-ex .sq-dl{grid-template-columns:1fr}.sq-dl dt{margin-top:.4rem}}
+
   .disc-strip{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
   .disc-strip a{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--txt);background:var(--card);border:1px solid var(--line);border-radius:99px;padding:.4rem .9rem .4rem .45rem;font-size:.92rem}
   .disc-strip a span{background:#2c6fb7;color:#fff;font-weight:700;font-size:.78rem;border-radius:99px;padding:.15rem .5rem}
@@ -353,6 +362,7 @@ window.addEventListener("resize",function(){if(m.classList.contains("open"))plac
 m.addEventListener("click",function(e){if(e.target.closest("a"))close();});
 document.addEventListener("click",function(e){if(!m.contains(e.target)&&e.target!==b)close();});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});})();</script></div></header>
+
 
 
 
@@ -598,7 +608,7 @@ s.addEventListener('change',f);q.addEventListener('input',f);f()})();</script>
     if(!view){ view=document.querySelector('.view'); el=view; }
     document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('on', v===view); });
     navLinks.forEach(function(a){
-      var parent={'dopage':'physique','scatt':'technique','cibles':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
+      var parent={'dopage':'physique','scatt':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
       var on=a.dataset.v===(parent[view.id]||view.id); a.classList.toggle('on',on);
       if(on){ document.getElementById('nav').style.setProperty('--navc',a.dataset.c);
         var n=document.getElementById('nav'); var x=a.offsetLeft-n.offsetLeft; if(x<n.scrollLeft||x+a.offsetWidth>n.scrollLeft+n.clientWidth) n.scrollLeft=a.offsetLeft-n.offsetLeft-20; }
@@ -607,7 +617,7 @@ s.addEventListener('change',f);q.addEventListener('input',f);f()})();</script>
     else { var p=el.closest('.panel'); if(p && !p.classList.contains('on')) openTab(p.id);
            setTimeout(function(){ el.scrollIntoView({behavior:'auto',block:'start'}); },0); }
   }
-  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',cibles:'#12938a'};
+  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
     var bt=document.getElementById('prep-btn');if(!bt||!v)return;var t=cols[v.id];bt.classList.toggle('on',!!t);if(t){document.getElementById('nav').style.setProperty('--navc',t);navLinks.forEach(function(a){a.classList.remove('on');});}};})();
   window.addEventListener('hashchange',route);
   document.addEventListener('click',function(e){
