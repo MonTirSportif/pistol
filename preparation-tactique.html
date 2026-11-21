@@ -372,6 +372,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 
 
 
+
 <main class="view" id="tactique" style="--acc:#b07a00"><div class="theme-head"><a class="back" href="index.html">← Retour</a><div class="kicker">Thème 5 sur 5</div><h1><span class="num">5</span>Préparation tactique</h1><p class="lead">Gérer son temps, ses essais et les imprévus : bien se préparer pour la compétition.</p><div class="sec-tiles"><a href="#tactique-bases"><small>C'est quoi ?</small><b>La tactique au pistolet</b></a><a href="#competitions"><small>S'engager</small><b>Les compétitions : de l'amical au national</b></a><a href="#reglement"><small>Avant le match</small><b>Connaître le déroulement</b></a><a href="#essais"><small>Pendant le match</small><b>Bien utiliser les coups d'essai</b></a><a href="#temps"><small>Pendant le match</small><b>Gérer son temps</b></a><a href="#imprevus"><small>Pendant le match</small><b>Faire face aux imprévus</b></a><a href="#plan-match"><small>Préparer</small><b>Mon plan de match</b></a><a href="#apres-match"><small>Après</small><b>Analyser son match</b></a><a href="#checklist-competiteur"><small>Approfondir · Bensport</small><b>La check-list du compétiteur</b></a><a href="#championnat-papier"><small>Approfondir · Bensport</small><b>Un championnat sur cibles papier, pas à pas</b></a><a href="#analyse-bensport"><small>Approfondir · Bensport</small><b>Fiche d'analyse de match et dopage</b></a><a href="#lexique-armes"><small>Vocabulaire</small><b>Le lexique des armes</b></a></div></div>
 <section id="tactique-bases" class="first">
   <div class="kicker">C'est quoi ?</div>
@@ -590,7 +591,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     if(!view){ view=document.querySelector('.view'); el=view; }
     document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('on', v===view); });
     navLinks.forEach(function(a){
-      var parent={'dopage':'physique','scatt':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
+      var parent={'dopage':'physique','scatt':'technique','sentrainer':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
       var on=a.dataset.v===(parent[view.id]||view.id); a.classList.toggle('on',on);
       if(on){ document.getElementById('nav').style.setProperty('--navc',a.dataset.c);
         var n=document.getElementById('nav'); var x=a.offsetLeft-n.offsetLeft; if(x<n.scrollLeft||x+a.offsetWidth>n.scrollLeft+n.clientWidth) n.scrollLeft=a.offsetLeft-n.offsetLeft-20; }
@@ -599,7 +600,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     else { var p=el.closest('.panel'); if(p && !p.classList.contains('on')) openTab(p.id);
            setTimeout(function(){ el.scrollIntoView({behavior:'auto',block:'start'}); },0); }
   }
-  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
+  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',sentrainer:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
     var bt=document.getElementById('prep-btn');if(!bt||!v)return;var t=cols[v.id];bt.classList.toggle('on',!!t);if(t){document.getElementById('nav').style.setProperty('--navc',t);navLinks.forEach(function(a){a.classList.remove('on');});}};})();
   window.addEventListener('hashchange',route);
   document.addEventListener('click',function(e){

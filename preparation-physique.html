@@ -370,6 +370,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 
 
 
+
 <main class="view" id="physique" style="--acc:#3d8f2a"><div class="theme-head"><a class="back" href="index.html">← Retour</a><div class="kicker">Thème 4 sur 5</div><h1><span class="num">4</span>Préparation physique</h1><p class="lead">Tenir l'arme, rester stable et durer tout un match : la condition physique du pistolier.</p><div class="sec-tiles"><a href="#pourquoi-physique"><small>Pourquoi ?</small><b>Le tir, un sport physique ?</b></a><a href="#physique-principes"><small>Approfondir · MonTirSportif</small><b>Les principes de la préparation physique</b></a><a href="#exercices-physiques"><small>S'entraîner</small><b>Les exercices utiles</b></a><a href="#hors-pas-de-tir"><small>Approfondir · MonTirSportif</small><b>Hors du pas de tir : 4 familles d'exercices</b></a><a href="#sur-pas-de-tir"><small>Approfondir · MonTirSportif</small><b>Sur le pas de tir : la préparation physique au pistolet</b></a><a href="#semaine-type"><small>Organiser</small><b>Une semaine type</b></a><a href="#hygiene"><small>Au quotidien</small><b>Échauffement et hygiène de vie</b></a><a href="#echauffement-10"><small>Approfondir · Bensport</small><b>L'échauffement en 10 minutes</b></a><a href="#stabilite"><small>Approfondir · Bensport</small><b>Mesurer et améliorer sa stabilité</b></a><a href="#sante"><small>Santé</small><b>Le plomb et la plombémie</b></a><a href="dopage.html" class="tile-page"><small>Santé · page dédiée</small><b>Le dopage →</b></a></div></div>
 <section id="pourquoi-physique" class="first">
   <div class="kicker">Pourquoi ?</div>
@@ -556,6 +557,8 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     <li>Nettoyer ses armes au stand, ou loin de la famille et des pièces de vie.</li></ul></div>
 </div>
 
+<div class="grid2" style="margin-top:1rem;align-items:center"><div><div class="yt" data-id="Trh_5289imw"><button type="button" class="yt-btn" aria-label="Lire la vidéo : Pendant le tir je ne mange pas, après le tir je me lave les mains"><img src="https://i.ytimg.com/vi/Trh_5289imw/hqdefault.jpg" alt="Aperçu de la vidéo : Pendant le tir je ne mange pas, après le tir je me lave les mains" loading="lazy"><span class="yt-play" aria-hidden="true">▶</span></button></div><p class="yt-link" style="text-align:left">Pendant le tir je ne mange pas, après le tir je me lave les mains</p></div><p>« Pendant le tir je ne mange pas, après le tir je me lave les mains » : la règle d'hygiène à retenir, en vidéo. <a href="https://drive.google.com/file/d/1HU2JZpg6wJLO_OLa50j8Ev-u1NzmkJ2K/view?usp=sharing" target="_blank" rel="noopener">Version imprimable ↗</a></p></div>
+
 <h3 style="margin-top:1.6rem" id="plombemie">La plombémie</h3>
 <p>La plombémie mesure la quantité de plomb qui circule dans le sang, en microgrammes par litre (µg/L), par une simple prise de sang. Seule une partie du plomb circule : le reste est stocké dans les os et peut être relâché lors d'une grossesse, de l'allaitement, d'une fracture ou d'une immobilisation prolongée.</p>
 <table><thead><tr><th>Seuil</th><th>Ce qu'il signifie</th></tr></thead><tbody>
@@ -669,7 +672,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     if(!view){ view=document.querySelector('.view'); el=view; }
     document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('on', v===view); });
     navLinks.forEach(function(a){
-      var parent={'dopage':'physique','scatt':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
+      var parent={'dopage':'physique','scatt':'technique','sentrainer':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
       var on=a.dataset.v===(parent[view.id]||view.id); a.classList.toggle('on',on);
       if(on){ document.getElementById('nav').style.setProperty('--navc',a.dataset.c);
         var n=document.getElementById('nav'); var x=a.offsetLeft-n.offsetLeft; if(x<n.scrollLeft||x+a.offsetWidth>n.scrollLeft+n.clientWidth) n.scrollLeft=a.offsetLeft-n.offsetLeft-20; }
@@ -678,7 +681,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     else { var p=el.closest('.panel'); if(p && !p.classList.contains('on')) openTab(p.id);
            setTimeout(function(){ el.scrollIntoView({behavior:'auto',block:'start'}); },0); }
   }
-  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
+  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',sentrainer:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
     var bt=document.getElementById('prep-btn');if(!bt||!v)return;var t=cols[v.id];bt.classList.toggle('on',!!t);if(t){document.getElementById('nav').style.setProperty('--navc',t);navLinks.forEach(function(a){a.classList.remove('on');});}};})();
   window.addEventListener('hashchange',route);
   document.addEventListener('click',function(e){

@@ -369,6 +369,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 
 
 
+
 <main class="view" id="cible-electronique" style="--acc:#12938a">
 <div class="theme-head"><a class="back" href="preparation-materielle.html">← Retour</a><div class="kicker"><a href="preparation-materielle.html" style="color:inherit;text-decoration:none">Préparation matérielle</a> › Cible électronique</div><h1>Ma cible électronique SQ Air</h1>
 <p class="lead">Les outils d'entraînement, le tir de précision, les contrats et les jeux de la cible électronique SQ Air de Sport Quantum, avec des exercices prêts à l'emploi pour le tireur et l'entraîneur.</p><div class="sec-tiles"><a href="#sq-presentation"><small>Pour commencer</small><b>Ce que propose la cible</b></a><a href="#sq-carton-blanc"><small>Outils d'entraînement</small><b>Le carton blanc</b></a><a href="#sq-rond-noir"><small>Outils d'entraînement</small><b>Le rond noir (visuel non zoné)</b></a><a href="#sq-bandes-verticales"><small>Outils d'entraînement</small><b>La bande verticale (et les deux bandes)</b></a><a href="#sq-bande-horizontale"><small>Outils d'entraînement</small><b>La bande horizontale</b></a><a href="#sq-precision"><small>Tir de précision</small><b>Entrée en cible, centrage, cible floue</b></a><a href="#sq-contrats"><small>Tir de précision</small><b>Les contrats SQ Air</b></a><a href="#sq-ludique"><small>Apprentissage ludique</small><b>Les jeux et l'arbre de duel</b></a><a href="#sq-suivi"><small>Suivi</small><b>Exporter ses résultats et entretenir la cible</b></a></div></div>
@@ -559,7 +560,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     if(!view){ view=document.querySelector('.view'); el=view; }
     document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('on', v===view); });
     navLinks.forEach(function(a){
-      var parent={'dopage':'physique','scatt':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
+      var parent={'dopage':'physique','scatt':'technique','sentrainer':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
       var on=a.dataset.v===(parent[view.id]||view.id); a.classList.toggle('on',on);
       if(on){ document.getElementById('nav').style.setProperty('--navc',a.dataset.c);
         var n=document.getElementById('nav'); var x=a.offsetLeft-n.offsetLeft; if(x<n.scrollLeft||x+a.offsetWidth>n.scrollLeft+n.clientWidth) n.scrollLeft=a.offsetLeft-n.offsetLeft-20; }
@@ -568,7 +569,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     else { var p=el.closest('.panel'); if(p && !p.classList.contains('on')) openTab(p.id);
            setTimeout(function(){ el.scrollIntoView({behavior:'auto',block:'start'}); },0); }
   }
-  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
+  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',sentrainer:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
     var bt=document.getElementById('prep-btn');if(!bt||!v)return;var t=cols[v.id];bt.classList.toggle('on',!!t);if(t){document.getElementById('nav').style.setProperty('--navc',t);navLinks.forEach(function(a){a.classList.remove('on');});}};})();
   window.addEventListener('hashchange',route);
   document.addEventListener('click',function(e){

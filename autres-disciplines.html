@@ -374,6 +374,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 
 
 
+
 <main class="view" id="autres-disciplines" style="--acc:#2c6fb7"><div class="theme-head"><a class="back" href="disciplines.html">← Retour</a><div class="kicker"><a href="disciplines.html" style="color:inherit;text-decoration:none">Disciplines</a> › Autres disciplines</div><h1>Autres disciplines au pistolet</h1><p class="lead">Armes anciennes, armes réglementaires, tir sportif de vitesse et silhouettes métalliques : la technique du pistolet au-delà des épreuves ISSF.</p><div class="sec-tiles"><a href="#autres-intro"><small>Au-delà de l'ISSF</small><b>D'autres façons de tirer au pistolet</b></a><a href="#armes-anciennes"><small>Discipline mondiale</small><b>Armes anciennes (poudre noire)</b></a><a href="#tar"><small>Discipline nationale</small><b>Tir aux armes réglementaires (TAR)</b></a><a href="#tsv"><small>Discipline mondiale</small><b>Tir sportif de vitesse (TSV)</b></a><a href="#silhouettes"><small>Discipline mondiale</small><b>Silhouettes métalliques</b></a></div></div>
 <section id="autres-intro" class="first"><div class="kicker">Au-delà de l'ISSF</div><h2>D'autres façons de tirer au pistolet</h2>
 <p>La base gestuelle acquise au 10 m se transpose à de nombreuses disciplines : armes historiques, armes réglementaires, tir dynamique ou silhouettes métalliques. Certaines sont mondiales, d'autres nationales.</p>
@@ -448,7 +449,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     if(!view){ view=document.querySelector('.view'); el=view; }
     document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('on', v===view); });
     navLinks.forEach(function(a){
-      var parent={'dopage':'physique','scatt':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
+      var parent={'dopage':'physique','scatt':'technique','sentrainer':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
       var on=a.dataset.v===(parent[view.id]||view.id); a.classList.toggle('on',on);
       if(on){ document.getElementById('nav').style.setProperty('--navc',a.dataset.c);
         var n=document.getElementById('nav'); var x=a.offsetLeft-n.offsetLeft; if(x<n.scrollLeft||x+a.offsetWidth>n.scrollLeft+n.clientWidth) n.scrollLeft=a.offsetLeft-n.offsetLeft-20; }
@@ -457,7 +458,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     else { var p=el.closest('.panel'); if(p && !p.classList.contains('on')) openTab(p.id);
            setTimeout(function(){ el.scrollIntoView({behavior:'auto',block:'start'}); },0); }
   }
-  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
+  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',sentrainer:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
     var bt=document.getElementById('prep-btn');if(!bt||!v)return;var t=cols[v.id];bt.classList.toggle('on',!!t);if(t){document.getElementById('nav').style.setProperty('--navc',t);navLinks.forEach(function(a){a.classList.remove('on');});}};})();
   window.addEventListener('hashchange',route);
   document.addEventListener('click',function(e){

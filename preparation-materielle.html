@@ -367,6 +367,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 
 
 
+
 <main class="view" id="materiel" style="--acc:#12938a"><div class="theme-head"><a class="back" href="index.html">← Retour</a><div class="kicker">Thème 3 sur 5</div><h1><span class="num">3</span>Préparation matérielle</h1><p class="lead">Choisir, régler et entretenir son pistolet et son équipement pour qu'ils travaillent pour vous.</p><div class="sec-tiles"><a href="#pistolet"><small>L'arme</small><b>Le pistolet 10 m</b></a><a href="#reglages"><small>Ajuster l'arme à soi</small><b>Les réglages essentiels</b></a><a href="#reglage-clics"><small>Régler la hausse</small><b>Faire des clics pour régler son pistolet</b></a><a href="#crosses"><small>Le lien avec l'arme</small><b>Les crosses</b></a><a href="#crosses-issf-2026"><small>Règlement 2026</small><b>Crosses : les nouvelles règles ISSF 2026</b></a><a href="#equipement"><small>Autour de l'arme</small><b>L'équipement du tireur</b></a><a href="#filtres"><small>Bien voir</small><b>Les filtres de couleur</b></a><a href="#longues-vues"><small>Voir ses impacts</small><b>Les longues-vues</b></a><a href="#chaussures"><small>Des appuis stables</small><b>Les chaussures de tir</b></a><a href="#ciblerie"><small>Les cibles</small><b>Ciblerie papier et ciblerie électronique</b></a><a href="imprimer-ses-cibles.html" class="tile-page"><small>À imprimer · page dédiée</small><b>Imprimer ses cibles →</b></a><a href="ma-cible-electronique.html" class="tile-page"><small>SQ Air · page dédiée</small><b>Ma cible électronique →</b></a><a href="#entretien"><small>Durer</small><b>Entretien et sac de tir</b></a><a href="#air-comprime"><small>Approfondir · Bensport</small><b>L'air comprimé en toute sécurité</b></a><a href="#regler-detente-hausse"><small>Approfondir · Bensport</small><b>Régler sa hausse et sa détente</b></a><a href="#arme-a-feu"><small>Approfondir · Bensport</small><b>Entretenir et transporter une arme à feu</b></a></div></div>
 <section id="pistolet" class="first">
   <div class="kicker">L'arme</div>
@@ -786,7 +787,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     if(!view){ view=document.querySelector('.view'); el=view; }
     document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('on', v===view); });
     navLinks.forEach(function(a){
-      var parent={'dopage':'physique','scatt':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
+      var parent={'dopage':'physique','scatt':'technique','sentrainer':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
       var on=a.dataset.v===(parent[view.id]||view.id); a.classList.toggle('on',on);
       if(on){ document.getElementById('nav').style.setProperty('--navc',a.dataset.c);
         var n=document.getElementById('nav'); var x=a.offsetLeft-n.offsetLeft; if(x<n.scrollLeft||x+a.offsetWidth>n.scrollLeft+n.clientWidth) n.scrollLeft=a.offsetLeft-n.offsetLeft-20; }
@@ -795,7 +796,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     else { var p=el.closest('.panel'); if(p && !p.classList.contains('on')) openTab(p.id);
            setTimeout(function(){ el.scrollIntoView({behavior:'auto',block:'start'}); },0); }
   }
-  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
+  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#b07a00',dopage:'#3d8f2a',scatt:'#e0601f',sentrainer:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
     var bt=document.getElementById('prep-btn');if(!bt||!v)return;var t=cols[v.id];bt.classList.toggle('on',!!t);if(t){document.getElementById('nav').style.setProperty('--navc',t);navLinks.forEach(function(a){a.classList.remove('on');});}};})();
   window.addEventListener('hashchange',route);
   document.addEventListener('click',function(e){
