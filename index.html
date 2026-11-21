@@ -18,10 +18,11 @@
 <meta property="og:title" content="Tir au pistolet ISSF : techniques, préparation et épreuves – MonTirSportif">
 <meta property="og:description" content="Apprendre le tir au pistolet ISSF : préparation technique, mentale, matérielle, physique et tactique, épreuves FFTir de 10 m à 50 m, commandements et conseils.">
 <meta property="og:url" content="https://pistol.montirsportif.com/">
-<meta property="og:image" content="https://pistol.montirsportif.com/img/logo.png">
+<meta property="og:image" content="https://pistol.montirsportif.com/img/partage/index.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Le pistolet ISSF : se préparer, s’entraîner, progresser">
 <link rel="icon" type="image/png" href="img/coeur.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#e9ecf0; --bg2:#f4f6f8; --card:#ffffff; --line:#d3d9e1;
@@ -378,6 +379,37 @@
 .totop:hover{border-color:var(--mut)}
 @media print{.totop,.srch-btn{display:none}}
 </style>
+<style id="fonts-local">
+@font-face{font-family:"Inter";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/inter-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/inter-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/inter-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/barlow-condensed-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-700-normal.woff2) format("woff2")}
+</style>
+<link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pistol.montirsportif.com/img/partage/index.jpg">
+<style id="print-css">
+@media print{
+ @page{margin:14mm 12mm}
+ html,body{background:#fff!important;color:#000!important;font-size:11pt}
+ header,footer,nav,.prep-menu,.chips,.sec-tiles,.back,.nextnav,.totop,.srch,.srch-btn,#ck,.dop-btn,.yt-btn{display:none!important}
+ main.view{display:block!important}
+ section{break-inside:auto;padding:0!important;margin:0 0 6mm!important;border:none!important}
+ h1,h2,h3{break-after:avoid;color:#000!important}
+ .card,.lv,figure,table,.tip{break-inside:avoid;box-shadow:none!important}
+ .card,.lv{border:1px solid #bbb!important}
+ img{max-width:100%!important}
+ a{color:#000!important;text-decoration:none}
+ .links a{border:1px solid #bbb!important}
+ .yt{display:block!important;height:auto!important;aspect-ratio:auto!important;background:none!important;border:1px dashed #999!important;padding:2mm 3mm!important}
+ .yt>*{display:none!important}
+ .yt::after{content:"Vidéo : youtube.com/watch?v=" attr(data-id);font-size:9pt;color:#333}
+ .print-src{display:block!important}
+}
+.print-src{display:none}
+</style>
+<style>.print-btn{border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:99px;padding:.35rem .85rem;font:inherit;font-size:.85rem;cursor:pointer;margin-left:.5rem}.print-btn:hover{border-color:var(--mut)}@media print{.print-btn{display:none}}</style>
 </head>
 <body>
 <header><div class="bar"><a class="logo" href="#accueil" aria-label="MonTirSportif — accueil"><img src="img/logo.png" alt="MonTirSportif"></a>
@@ -424,7 +456,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     <a class="partner-badge" href="https://sportquantum.com/" target="_blank" rel="noopener"><span>Partenaire principal</span><img src="img/sportquantum.png" alt="Sport Quantum"><small>Cibles électroniques interactives</small></a>
   </div>
 </section>
-</main>
+<p class="print-src" style="margin-top:8mm;font-size:9pt;color:#444">MonTirSportif – https://pistol.montirsportif.com/</p></main>
 
 
 
