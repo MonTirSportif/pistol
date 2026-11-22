@@ -400,6 +400,6 @@
 /* Bouton S'abonner YouTube */
 .yt-sub{display:inline-flex;align-items:center;gap:.45rem;background:#c4302b;color:#fff!important;text-decoration:none;font-weight:600;font-size:.9rem;border-radius:99px;padding:.45rem 1rem}.yt-sub svg{width:1.2rem;height:1.2rem}.yt-sub:hover{background:#a82722}
 .une{display:grid;grid-template-columns:1.3fr 1fr;gap:1.4rem;align-items:center}.une .yt{max-width:none;margin:0}@media (max-width:760px){.une{grid-template-columns:1fr}}
-/* Page Moniteurs */
-.tiles.mon .tile{cursor:default}
-.mon-ini{display:inline-flex;align-items:center;justify-content:center;width:3rem;height:3rem;border-radius:50%;background:var(--t);color:#fff;font-family:"Barlow Condensed";font-weight:700;font-size:1.3rem}
+/* Page Entraîneurs fédéraux */
+.tiles.ent .tile{cursor:default}
+.ent-ini{display:inline-flex;align-items:center;justify-content:center;width:3rem;height:3rem;border-radius:50%;background:var(--t);color:#fff;font-family:"Barlow Condensed";font-weight:700;font-size:1.3rem}
