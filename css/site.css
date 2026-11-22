@@ -397,3 +397,6 @@
 :root{--r-s:10px;--r-m:14px;--r-pill:99px}
 .fact,.links a,.pn,.cib,.partner,.partner-badge,#ck.ck,.srch-box,.cx-lex summary,#faq-search,.lex-filter input,.pl-root span{border-radius:var(--r-m)}
 .card,.tile,.fig,.yt,.comp,.lv,.filtre{border-color:var(--line)}
+/* Bouton S'abonner YouTube */
+.yt-sub{display:inline-flex;align-items:center;gap:.45rem;background:#c4302b;color:#fff!important;text-decoration:none;font-weight:600;font-size:.9rem;border-radius:99px;padding:.45rem 1rem}.yt-sub svg{width:1.2rem;height:1.2rem}.yt-sub:hover{background:#a82722}
+.une{display:grid;grid-template-columns:1.3fr 1fr;gap:1.4rem;align-items:center}.une .yt{max-width:none;margin:0}@media (max-width:760px){.une{grid-template-columns:1fr}}

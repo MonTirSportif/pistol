@@ -12,6 +12,7 @@
     close: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
     home: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
     compass: '<circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9 16.2 7.8"/>',
+    play: '<polygon points="6 3 20 12 6 21 6 3"/>',
     map: '<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>'
   };
   function ico(k) { return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + P[k] + '</svg>'; }
@@ -26,6 +27,7 @@
     'preparation-materielle.html': ['Préparation matérielle', PREP],
     'preparation-physique.html': ['Préparation physique', PREP],
     'preparation-tactique.html': ['Préparation tactique', PREP],
+    'preparation-technique-approfondir.html': ['Approfondir', 'preparation-technique.html'],
     'scatt.html': ['SCATT', 'preparation-technique.html'],
     's-entrainer.html': ["S'entraîner", 'preparation-technique.html'],
     'journal-main-gauche.html': ['Changer de main', 'preparation-technique.html'],
@@ -51,6 +53,7 @@
     'a-propos.html': ['À propos', 'index.html'],
     'plan-du-site.html': ['Plan du site', 'navigation.html'],
     'navigation.html': ['Naviguer dans le site', 'index.html'],
+    'videotheque.html': ['La vidéothèque', 'index.html'],
     'bibliotheque-bensport.html': ['Bensport : « Zen tir »', 'index.html'],
     'hors-pistolet/index.html': ['Hors pistolet', 'index.html'],
     'hors-pistolet/club.html': ['La vie du club', 'hors-pistolet/index.html'],
@@ -132,6 +135,7 @@
     h('Se repérer');
     add(rel('navigation.html'), ico('compass') + 'Naviguer dans le site');
     add(rel('plan-du-site.html'), ico('map') + 'Plan du site');
+    add(rel('videotheque.html'), ico('play') + 'La vidéothèque');
     document.body.appendChild(m);
 
     function place() { var r = document.querySelector('header').getBoundingClientRect(); m.style.top = Math.max(0, r.bottom) + 'px'; }
