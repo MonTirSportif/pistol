@@ -48,7 +48,7 @@
     'autres-disciplines.html': ['Autres disciplines', 'disciplines.html'],
     'faire-le-point.html': ['Faire le point', 'index.html'],
     'outils.html': ['Mes outils', 'index.html'],
-    'infos-pratiques.html': ['Infos pratiques', 'index.html'],
+    'infos-pratiques.html': ['Sécurité', 'index.html'],
     'questions-frequentes.html': ['Questions fréquentes', 'index.html'],
     'a-propos.html': ['À propos', 'index.html'],
     'plan-du-site.html': ['Plan du site', 'navigation.html'],
