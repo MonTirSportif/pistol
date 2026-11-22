@@ -1,0 +1,155 @@
+/* MonTirSportif – navigation : menu ☰ sur mobile, fil d'Ariane, bouton « haut de page » */
+(function () {
+  var me = document.currentScript || document.querySelector('script[src$="js/nav.js"]');
+  var base = me ? me.src.replace(/js\/nav\.js(\?.*)?$/, '') : '';
+  var here = location.href.split('#')[0].split('?')[0];
+  var key = base && here.indexOf(base) === 0 ? here.slice(base.length) : '';
+  if (key === '' || /\/$/.test(key)) key += 'index.html';
+  function rel(p) { return base + p; }
+
+  /* ---------- Arborescence : page -> [libellé court, parent] ---------- */
+  var PREP = 'index.html#themes';
+  var T = {
+    'index.html': ['Accueil', null],
+    'index.html#themes': ['Préparation du tireur', 'index.html'],
+    'preparation-technique.html': ['Préparation technique', PREP],
+    'preparation-mentale.html': ['Préparation mentale', PREP],
+    'preparation-materielle.html': ['Préparation matérielle', PREP],
+    'preparation-physique.html': ['Préparation physique', PREP],
+    'preparation-tactique.html': ['Préparation tactique', PREP],
+    'scatt.html': ['SCATT', 'preparation-technique.html'],
+    's-entrainer.html': ["S'entraîner", 'preparation-technique.html'],
+    'journal-main-gauche.html': ['Changer de main', 'preparation-technique.html'],
+    'imprimer-ses-cibles.html': ['Imprimer ses cibles', 'preparation-materielle.html'],
+    'ma-cible-electronique.html': ['Ma cible électronique SQ Air', 'preparation-materielle.html'],
+    'dopage.html': ['Le dopage', 'preparation-physique.html'],
+    'disciplines.html': ['Disciplines', 'index.html'],
+    'epreuves/pistolet-10m.html': ['Pistolet 10 m', 'disciplines.html'],
+    'epreuves/pistolet-vitesse-10m.html': ['Pistolet vitesse 10 m', 'disciplines.html'],
+    'epreuves/pistolet-standard-10m.html': ['Pistolet standard 10 m', 'disciplines.html'],
+    'epreuves/pistolet-25m.html': ['Pistolet 25 m', 'disciplines.html'],
+    'epreuves/vitesse-olympique.html': ['Vitesse olympique 25 m', 'disciplines.html'],
+    'epreuves/pistolet-standard.html': ['Pistolet standard 25 m', 'disciplines.html'],
+    'epreuves/percussion-centrale.html': ['Percussion centrale 25 m', 'disciplines.html'],
+    'epreuves/pistolet-50m.html': ['Pistolet 50 m', 'disciplines.html'],
+    'ecole-de-tir.html': ["L'école de tir", 'disciplines.html'],
+    'arbitrage.html': ["L'arbitrage", 'disciplines.html'],
+    'autres-disciplines.html': ['Autres disciplines', 'disciplines.html'],
+    'faire-le-point.html': ['Faire le point', 'index.html'],
+    'outils.html': ['Mes outils', 'index.html'],
+    'infos-pratiques.html': ['Infos pratiques', 'index.html'],
+    'questions-frequentes.html': ['Questions fréquentes', 'index.html'],
+    'a-propos.html': ['À propos', 'index.html'],
+    'plan-du-site.html': ['Plan du site', 'navigation.html'],
+    'navigation.html': ['Naviguer dans le site', 'index.html'],
+    'bibliotheque-bensport.html': ['Bensport : « Zen tir »', 'index.html'],
+    'hors-pistolet/index.html': ['Hors pistolet', 'index.html'],
+    'hors-pistolet/club.html': ['La vie du club', 'hors-pistolet/index.html'],
+    'hors-pistolet/competitions.html': ['Compétitions et quiz', 'hors-pistolet/index.html']
+  };
+
+  var css = '' +
+    /* fil d'Ariane */
+    '.crumbs{font-size:.82rem;color:var(--mut,#667);margin:0 0 .7rem;line-height:1.5}' +
+    '.crumbs a{color:var(--mut,#667);text-decoration:none}.crumbs a:hover{color:var(--acc);text-decoration:underline}' +
+    '.crumbs .sep{margin:0 .35rem;opacity:.6}.crumbs [aria-current]{color:var(--txt,#1b2430);font-weight:600}' +
+    /* menu ☰ */
+    '.burger{display:none;border:1px solid var(--line,#d5dbe3);background:var(--card,#fff);color:var(--txt,#1b2430);border-radius:99px;height:38px;padding:0 .8rem;font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;align-items:center;gap:.35rem;margin-left:auto}' +
+    '.mnav{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--bg,#e9ecf0);overflow-y:auto;padding:.6rem 1rem 2rem;border-top:1px solid var(--line,#d5dbe3)}' +
+    '.mnav[hidden]{display:none}' +
+    '.mnav a{display:flex;align-items:center;gap:.6rem;padding:.7rem .8rem;margin:.15rem 0;border-radius:10px;background:var(--card,#fff);color:var(--txt,#1b2430);text-decoration:none;font-size:1rem}' +
+    '.mnav a.cur{outline:2px solid var(--acc);font-weight:600}' +
+    '.mnav a span{display:inline-grid;place-items:center;width:1.5rem;height:1.5rem;border-radius:6px;color:#fff;font-size:.8rem;font-weight:700}' +
+    '.mnav a.sub{margin-left:1.2rem;font-size:.92rem}' +
+    '.mnav h4{margin:1rem 0 .3rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mut,#667)}' +
+    '@media (max-width:900px){header #nav{display:none!important}.burger{display:inline-flex}header .srch-btn{margin-left:.4rem}}' +
+    'body.mnav-open{overflow:hidden}' +
+    '@media print{.crumbs,.burger,.mnav,.totop{display:none!important}}';
+  var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+
+  /* ---------- Fil d'Ariane + bouton Retour vers la page parente ---------- */
+  function crumbs() {
+    var back = document.querySelector('.back');
+    if (!back || !T[key]) return;
+    var chain = [], k = key, guard = 0;
+    while (k && T[k] && guard++ < 8) { chain.unshift(k); k = T[k][1]; }
+    var d = document.createElement('div');
+    d.className = 'crumbs'; d.setAttribute('role', 'navigation'); d.setAttribute('aria-label', "Fil d'Ariane");
+    chain.forEach(function (c, i) {
+      if (i) { var s = document.createElement('span'); s.className = 'sep'; s.textContent = '›'; d.appendChild(s); }
+      if (i === chain.length - 1) {
+        var cur = document.createElement('span'); cur.setAttribute('aria-current', 'page'); cur.textContent = T[c][0]; d.appendChild(cur);
+      } else {
+        var a = document.createElement('a'); a.href = rel(c); a.textContent = T[c][0]; d.appendChild(a);
+      }
+    });
+    back.parentNode.insertBefore(d, back);
+    var parent = T[key][1];
+    if (parent) { back.href = rel(parent); back.title = 'Retour : ' + T[parent][0]; }
+  }
+
+  /* ---------- Menu ☰ (téléphone et tablette) ---------- */
+  function burger() {
+    var bar = document.querySelector('header .bar'), nav = document.getElementById('nav');
+    if (!bar || !nav) return;
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'burger'; b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', 'mnav');
+    b.innerHTML = '<span aria-hidden="true">☰</span> Menu';
+    var srch = bar.querySelector('.srch-btn');
+    bar.insertBefore(b, srch || null);
+
+    var m = document.createElement('div'); m.className = 'mnav'; m.id = 'mnav'; m.hidden = true;
+    function add(href, html, cls) {
+      var a = document.createElement('a'); a.href = href; a.innerHTML = html; if (cls) a.className = cls;
+      var k = a.href.split('#')[0]; if (k === here && !/#/.test(href)) a.classList.add('cur');
+      m.appendChild(a); return a;
+    }
+    function h(t) { var e = document.createElement('h4'); e.textContent = t; m.appendChild(e); }
+    add(rel('index.html'), '🏠 Accueil');
+    var prep = document.getElementById('prep-menu');
+    if (prep) {
+      h('Préparation du tireur');
+      Array.prototype.forEach.call(prep.querySelectorAll('a'), function (a) {
+        var href = a.getAttribute('href');
+        if (/^#/.test(href)) href = here + href;
+        add(href, a.innerHTML, a.classList.contains('sub') ? 'sub' : '');
+      });
+    }
+    h('Les rubriques');
+    Array.prototype.forEach.call(nav.querySelectorAll('a'), function (a) {
+      if (a.textContent.trim() !== 'Accueil') add(a.getAttribute('href'), a.innerHTML);
+    });
+    add(rel('hors-pistolet/index.html'), 'Hors pistolet');
+    h('Se repérer');
+    add(rel('navigation.html'), '🧭 Naviguer dans le site');
+    add(rel('plan-du-site.html'), '🗺️ Plan du site');
+    document.body.appendChild(m);
+
+    function place() { var r = document.querySelector('header').getBoundingClientRect(); m.style.top = Math.max(0, r.bottom) + 'px'; }
+    function open(o) {
+      m.hidden = !o; b.setAttribute('aria-expanded', String(o));
+      b.innerHTML = o ? '<span aria-hidden="true">✕</span> Fermer' : '<span aria-hidden="true">☰</span> Menu';
+      document.body.classList.toggle('mnav-open', o); if (o) place();
+    }
+    b.addEventListener('click', function (e) { e.stopPropagation(); open(m.hidden); });
+    m.addEventListener('click', function (e) { if (e.target.closest('a')) open(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    window.addEventListener('resize', function () { if (window.innerWidth > 900) open(false); else if (!m.hidden) place(); });
+  }
+
+  /* ---------- Bouton « haut de page » ---------- */
+  function totop() {
+    var t = document.querySelector('.totop');
+    if (!t) {
+      t = document.createElement('button'); t.type = 'button'; t.className = 'totop';
+      t.setAttribute('aria-label', 'Revenir en haut de la page'); t.title = 'Haut de page'; t.textContent = '↑';
+      document.body.appendChild(t);
+    }
+    t.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    function upd() { t.classList.toggle('on', window.scrollY > 600); }
+    window.addEventListener('scroll', upd, { passive: true }); upd();
+  }
+
+  function init() { crumbs(); burger(); totop(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
