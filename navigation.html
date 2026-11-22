@@ -457,6 +457,30 @@
 }
 @media(max-width:420px){.mosa .tile small{display:none}.mosa .tile{min-height:110px}}
 @media print{.botnav,.prc-pills,.prc-foot{display:none!important}}
+.device-hint{display:flex;gap:.8rem;align-items:center;margin-top:1rem;background:var(--card);border:1px dashed var(--acc);border-radius:14px;padding:.75rem 1rem;font-size:.95rem}
+.device-hint svg{flex:none;width:28px;height:28px;color:var(--acc)}
+.device-hint b{color:var(--acc)}
+.dev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem}
+.dev{position:relative;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--d);border-radius:14px;padding:1rem 1.1rem;box-shadow:0 1px 2px rgba(27,36,48,.06)}
+.dev svg{width:34px;height:34px;color:var(--d)}
+.dev h3{margin:.4rem 0 .5rem;color:var(--d)}
+.dev ul{margin:0;padding-left:1.1rem;font-size:.92rem}
+.dev li{margin-bottom:.35rem}
+.dev kbd{font:600 .78rem Inter,sans-serif;background:var(--bg2);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:.05rem .35rem}
+.dev .here{display:none;position:absolute;top:.8rem;right:.8rem;background:var(--d);color:#fff;font-size:.72rem;font-weight:700;border-radius:99px;padding:.15rem .55rem}
+.dev.is-here{border-color:var(--d);box-shadow:0 0 0 2px var(--d)}
+.dev.is-here .here{display:inline-block}
+.dev button{margin-top:.5rem;font:inherit;font-size:.88rem;padding:.45rem .85rem;border-radius:10px;border:1px solid var(--d);background:var(--card);color:var(--d);cursor:pointer}
+.rail{display:none}
+@media(min-width:1400px){.rail{display:flex;flex-direction:column;gap:.3rem;position:fixed;left:1rem;top:50%;transform:translateY(-50%);z-index:30;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.6rem;box-shadow:0 4px 14px rgba(27,36,48,.08);max-width:190px}
+ .rail b{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);padding:0 .4rem .2rem}
+ .rail a{font-size:.85rem;text-decoration:none;color:var(--txt);padding:.35rem .5rem;border-radius:8px}
+ .rail a:hover,.rail a.cur{background:var(--bg2);color:var(--acc)}}
+.prc-hint{font-size:.8rem;color:var(--mut);padding:0 1.2rem .4rem}
+.print-all{display:none}
+@media(max-width:980px){.dev-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.dev-grid{grid-template-columns:1fr}}
+@media print{#acces-direct,#parcours-guide,#appareils>.kicker,#appareils>h2{display:none!important}.var-cards,.device-hint,.dev-grid,.mosa,.prc,.rail,#appareils>p{display:none!important}.print-all{display:block!important}.print-all h3{margin:4mm 0 1mm}.print-all ul{margin:0 0 2mm;columns:2}}
 </style>
 </head>
 <body>
@@ -496,9 +520,10 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 
 
 <main class="view" id="navigation" style="--acc:#e5473d">
-<div class="theme-head"><a class="back" href="index.html">← Retour</a><div class="kicker">Navigation</div><h1>Naviguer dans le site</h1><p class="lead">Cette page vous propose plusieurs façons de découvrir le contenu de MonTirSportif. Les rubriques sont les mêmes, seule la manière de les parcourir change : choisissez la variante qui vous convient, selon que vous cherchez un sujet précis ou que vous souhaitez tout découvrir pas à pas.</p>
-<div class="var-cards"><a class="var-card" href="#acces-direct"><span class="vn">1</span><div><b>Accès direct par thème</b><small>Vous savez ce que vous cherchez : tous les thèmes sont visibles d'un coup d'œil, ouvrez celui qui vous intéresse.</small></div></a><a class="var-card" href="#parcours-guide"><span class="vn">2</span><div><b>Parcours guidé, thème après thème</b><small>Vous voulez tout découvrir : suivez les cinq préparations dans l'ordre, rubrique après rubrique.</small></div></a></div>
-<div class="sec-tiles"><a href="#acces-direct"><small>Variante 1</small><b>Accès direct par thème</b></a><a href="#parcours-guide"><small>Variante 2</small><b>Parcours guidé</b></a><a href="plan-du-site.html"><small>Tout voir</small><b>Le plan du site complet</b></a></div></div>
+<div class="theme-head"><a class="back" href="index.html">← Retour</a><button type="button" class="print-btn" onclick="window.print()" title="Imprimer la liste de toutes les rubriques">🖨 Imprimer</button><div class="kicker">Navigation</div><h1>Naviguer dans le site</h1><p class="lead">Cette page vous propose plusieurs façons de découvrir le contenu de MonTirSportif. Les rubriques sont les mêmes, seule la manière de les parcourir change : choisissez la variante qui vous convient, selon que vous cherchez un sujet précis ou que vous souhaitez tout découvrir pas à pas.</p>
+<div class="var-cards"><a class="var-card" href="#acces-direct"><span class="vn">1</span><div><b>Accès direct par thème</b><small>Vous savez ce que vous cherchez : tous les thèmes sont visibles d'un coup d'œil, ouvrez celui qui vous intéresse.</small></div></a><a class="var-card" href="#parcours-guide"><span class="vn">2</span><div><b>Parcours guidé, thème après thème</b><small>Vous voulez tout découvrir : suivez les cinq préparations dans l'ordre, rubrique après rubrique.</small></div></a><a class="var-card" href="#appareils" style="grid-column:1/-1"><span class="vn">3</span><div><b>Selon votre écran</b><small>Téléphone, tablette, ordinateur ou papier : la navigation s'adapte à votre appareil. Découvrez les raccourcis et gestes disponibles sur chacun.</small></div></a></div>
+<div class="device-hint" id="device-hint" hidden></div>
+<div class="sec-tiles"><a href="#acces-direct"><small>Variante 1</small><b>Accès direct par thème</b></a><a href="#parcours-guide"><small>Variante 2</small><b>Parcours guidé</b></a><a href="#appareils"><small>Variante 3</small><b>Selon votre écran</b></a><a href="plan-du-site.html"><small>Tout voir</small><b>Le plan du site complet</b></a></div></div>
 
 <section id="acces-direct" class="first"><div class="kicker">Variante 1</div><h2>Accès direct par thème</h2>
 <p>Idéale pour aller droit au but. Touchez une tuile pour ouvrir la rubrique.</p>
@@ -509,11 +534,22 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 <div class="prc" id="prc">
 <div class="prc-pills" id="prc-pills" role="tablist" aria-label="Les 5 thèmes de la préparation"></div>
 <div class="prc-head"><h3 id="prc-title"></h3><p id="prc-txt"></p><div class="gauge"><div id="prc-bar"></div></div><span class="prc-pos" id="prc-pos"></span></div>
-<ul class="prc-list" id="prc-list"></ul>
+<p class="prc-hint" id="prc-hint"></p><ul class="prc-list" id="prc-list"></ul>
 <div class="prc-foot"><button type="button" id="prc-prev">← Thème précédent</button><a id="prc-open" href="#">Ouvrir la page du thème</a><button type="button" id="prc-next">Thème suivant →</button></div>
 </div>
 <noscript><p>Le parcours guidé a besoin de JavaScript. Utilisez l'accès direct par thème ou le <a href="plan-du-site.html">plan du site</a>.</p></noscript>
 </section>
+<section id="appareils"><div class="kicker">Variante 3</div><h2>Selon votre écran</h2>
+<p>Le site s'adapte à l'appareil que vous utilisez. Voici, pour chacun, la façon la plus pratique de naviguer. Votre écran actuel est signalé.</p>
+<div class="dev-grid">
+<div class="dev" id="dev-tel" style="--d:#e5473d"><span class="here">Votre écran</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg><h3>Téléphone</h3><ul><li>La <b>barre en bas de l'écran</b> reste toujours à portée du pouce : Accueil, Thèmes, Disciplines, Outils, Plan.</li><li>Dans le parcours guidé, <b>balayez vers la gauche ou la droite</b> pour changer de thème.</li><li>Le bouton <b>↑</b> remonte en haut de la page.</li></ul></div>
+<div class="dev" id="dev-tab" style="--d:#7656d6"><span class="here">Votre écran</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M11 18h2"/></svg><h3>Tablette</h3><ul><li>Les tuiles s'affichent <b>sur deux colonnes</b>, faciles à toucher.</li><li>Le menu du haut défile du doigt ; « Préparation du tireur » ouvre les 5 thèmes.</li><li>Le balayage fonctionne aussi dans le parcours guidé.</li></ul></div>
+<div class="dev" id="dev-ord" style="--d:#12938a"><span class="here">Votre écran</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><h3>Ordinateur</h3><ul><li>Touches <kbd>←</kbd> <kbd>→</kbd> : thème précédent ou suivant dans le parcours.</li><li>Touches <kbd>1</kbd> à <kbd>5</kbd> : ouvrir directement un thème du parcours.</li><li><kbd>/</kbd> : rechercher dans tout le site. <kbd>Tab</kbd> : se déplacer de lien en lien.</li><li>Sur grand écran, un <b>sommaire flottant</b> reste visible à gauche.</li></ul></div>
+<div class="dev" id="dev-imp" style="--d:#b07a00"><span class="here">Votre écran</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg><h3>Sur papier</h3><ul><li>Imprimez cette page : vous obtenez <b>la liste complète des thèmes et rubriques</b>, à garder dans votre sac de tir.</li><li>Chaque page du site a aussi son bouton « Imprimer ».</li></ul><button type="button" onclick="window.print()">🖨 Imprimer la liste</button></div>
+</div>
+<div class="print-all" id="print-all"></div>
+</section>
+<nav class="rail" aria-label="Sommaire de la page"><b>Sommaire</b><a href="#navigation">Haut de page</a><a href="#acces-direct">1. Accès direct</a><a href="#parcours-guide">2. Parcours guidé</a><a href="#appareils">3. Selon votre écran</a><a href="plan-du-site.html">Plan du site</a></nav>
 <p class="print-src" style="margin-top:8mm;font-size:9pt;color:#444">MonTirSportif – https://pistol.montirsportif.com/navigation.html</p></main>
 
 <nav class="botnav" aria-label="Navigation rapide"><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Accueil</a><a href="navigation.html" class="cur" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Thèmes</a><a href="disciplines.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Disciplines</a><a href="outils.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="7"/><path d="M12 9v4l2.5 2.5M9 3h6"/></svg>Outils</a><a href="plan-du-site.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Plan</a></nav>
@@ -540,6 +576,30 @@ document.getElementById('prc-prev').addEventListener('click',function(){show(cur
 document.getElementById('prc-next').addEventListener('click',function(){show(cur+1);});
 var st=0;try{st=+sessionStorage.getItem('mts-parcours')||0;}catch(e){}
 show(st);
+/* Gestes tactiles : balayer pour changer de thème */
+var x0=null,y0=null;box.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
+box.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
+if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){show(cur+(dx<0?1:-1));}x0=null;},{passive:true});
+/* Clavier : flèches et touches 1 à 5 quand le parcours est visible */
+function prcVisible(){var r=box.getBoundingClientRect();return r.top<innerHeight*.8&&r.bottom>innerHeight*.2;}
+document.addEventListener('keydown',function(e){var t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)||e.ctrlKey||e.metaKey||e.altKey)return;
+if(document.querySelector('.srch.open'))return;if(!prcVisible())return;
+if(e.key==='ArrowRight'){show(cur+1);e.preventDefault();}else if(e.key==='ArrowLeft'){show(cur-1);e.preventDefault();}
+else if(/^[1-5]$/.test(e.key)){show(+e.key-1);e.preventDefault();}});
+/* Détection de l'appareil */
+var coarse=matchMedia('(pointer:coarse)').matches,w=Math.min(screen.width,innerWidth),dev=coarse?(w<700?'tel':'tab'):'ord';
+var el=document.getElementById('dev-'+dev);if(el)el.classList.add('is-here');
+var ico=el?el.querySelector('svg').outerHTML:'';
+var msg={tel:'Vous êtes sur <b>téléphone</b> : utilisez la barre en bas de l’écran et balayez le parcours guidé du doigt.',
+tab:'Vous êtes sur <b>tablette</b> : touchez les tuiles de l’accès direct ou balayez le parcours guidé.',
+ord:'Vous êtes sur <b>ordinateur</b> : dans le parcours guidé, les flèches <b>← →</b> et les touches <b>1 à 5</b> changent de thème.'}[dev];
+var h=document.getElementById('device-hint');h.innerHTML=ico+'<span>'+msg+' <a href="#appareils">Voir toutes les façons de naviguer</a></span>';h.hidden=false;
+document.getElementById('prc-hint').textContent=coarse?'Astuce : balayez vers la gauche ou la droite pour changer de thème.':'Astuce : touches ← → ou 1 à 5 pour changer de thème.';
+/* Version imprimable : tous les thèmes et leurs rubriques */
+document.getElementById('print-all').innerHTML='<h2>Toutes les rubriques, thème par thème</h2>'+T.map(function(t){return '<h3>'+t.n+'. '+t.nom+'</h3><ul>'+t.items.concat(t.pages).map(function(x){return '<li>'+x[0]+'</li>';}).join('')+'</ul>';}).join('');
+/* Sommaire flottant : rubrique en cours */
+var rl=[].slice.call(document.querySelectorAll('.rail a[href^="#"]'));
+addEventListener('scroll',function(){var c=null;rl.forEach(function(a){var t=document.getElementById(a.getAttribute('href').slice(1));if(t&&t.getBoundingClientRect().top<innerHeight*.4)c=a;});rl.forEach(function(a){a.classList.toggle('cur',a===c);});},{passive:true});
 })();
 </script>
 
