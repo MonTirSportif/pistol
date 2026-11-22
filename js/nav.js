@@ -54,6 +54,7 @@
     'plan-du-site.html': ['Plan du site', 'navigation.html'],
     'navigation.html': ['Naviguer dans le site', 'index.html'],
     'videotheque.html': ['La vidéothèque', 'index.html'],
+    'c-est-nouveau.html': ["C'est nouveau", 'index.html'],
     'bibliotheque-bensport.html': ['Bensport : « Zen tir »', 'index.html'],
     'hors-pistolet/index.html': ['Hors pistolet', 'index.html'],
     'hors-pistolet/club.html': ['La vie du club', 'hors-pistolet/index.html'],
