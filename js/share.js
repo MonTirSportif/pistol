@@ -8,11 +8,22 @@
     '.share-menu[hidden]{display:none}' +
     '.share-menu a,.share-menu button{display:flex;align-items:center;gap:.55rem;padding:.45rem .6rem;border:0;background:none;border-radius:8px;font:inherit;font-size:.88rem;color:var(--txt,#1b2430);text-decoration:none;text-align:left;cursor:pointer;white-space:nowrap}' +
     '.share-menu a:hover,.share-menu button:hover{background:rgba(127,140,155,.12)}' +
-    '.share-menu i{font-style:normal;width:1.2rem;text-align:center}' +
+    '.share-menu i{font-style:normal;width:1.3rem;display:inline-flex;justify-content:center}.share-menu i .ico{margin:0}' +
+    '.share-badge{display:inline-grid;place-items:center;width:1.15rem;height:1.15rem;border-radius:5px;color:#fff;font-size:.62rem;font-weight:800;font-family:Inter,Arial,sans-serif}' +
     '.share-ok{color:#3d8f2a;font-size:.8rem;padding:.2rem .6rem}' +
     '.share-home{margin:.8rem 0 0}.share-home .share-wrap{margin-left:0}' +
     '@media print{.share-wrap{display:none!important}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+
+  var P = {
+    share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/>',
+    mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/>',
+    sms: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+    copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+    device: '<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>'
+  };
+  function ico(n) { return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + P[n] + '</svg>'; }
+  function badge(txt, col) { return '<b class="share-badge" style="background:' + col + '">' + txt + '</b>'; }
 
   function build() {
     var url = location.href.split('#')[0];
@@ -20,23 +31,23 @@
     var title = document.title || 'MonTirSportif';
     var u = encodeURIComponent(url), t = encodeURIComponent(title);
     var links = [
-      ['✉️', 'E-mail', 'mailto:?subject=' + t + '&body=' + encodeURIComponent(title + '\n' + url)],
-      ['📘', 'Facebook', 'https://www.facebook.com/sharer/sharer.php?u=' + u],
-      ['💬', 'WhatsApp', 'https://wa.me/?text=' + encodeURIComponent(title + ' ' + url)],
-      ['✖️', 'X (Twitter)', 'https://twitter.com/intent/tweet?url=' + u + '&text=' + t],
-      ['💼', 'LinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=' + u],
-      ['✈️', 'Telegram', 'https://t.me/share/url?url=' + u + '&text=' + t],
-      ['🦋', 'Bluesky', 'https://bsky.app/intent/compose?text=' + encodeURIComponent(title + ' ' + url)],
-      ['📱', 'SMS', 'sms:?&body=' + encodeURIComponent(title + ' ' + url)]
+      [ico('mail'), 'E-mail', 'mailto:?subject=' + t + '&body=' + encodeURIComponent(title + '\n' + url)],
+      [badge('f', '#1877f2'), 'Facebook', 'https://www.facebook.com/sharer/sharer.php?u=' + u],
+      [badge('W', '#25d366'), 'WhatsApp', 'https://wa.me/?text=' + encodeURIComponent(title + ' ' + url)],
+      [badge('X', '#111'), 'X (Twitter)', 'https://twitter.com/intent/tweet?url=' + u + '&text=' + t],
+      [badge('in', '#0a66c2'), 'LinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=' + u],
+      [badge('T', '#229ed9'), 'Telegram', 'https://t.me/share/url?url=' + u + '&text=' + t],
+      [badge('B', '#1185fe'), 'Bluesky', 'https://bsky.app/intent/compose?text=' + encodeURIComponent(title + ' ' + url)],
+      [ico('sms'), 'SMS', 'sms:?&body=' + encodeURIComponent(title + ' ' + url)]
     ];
     var wrap = document.createElement('span'); wrap.className = 'share-wrap';
     var btn = document.createElement('button');
-    btn.type = 'button'; btn.className = 'share-btn'; btn.textContent = '🔗 Partager';
+    btn.type = 'button'; btn.className = 'share-btn'; btn.innerHTML = ico('share') + 'Partager';
     btn.setAttribute('aria-haspopup', 'true'); btn.setAttribute('aria-expanded', 'false');
     btn.title = 'Partager cette page par e-mail ou sur les réseaux sociaux';
     var menu = document.createElement('div'); menu.className = 'share-menu'; menu.hidden = true; menu.setAttribute('role', 'menu');
     if (navigator.share) {
-      var n = document.createElement('button'); n.type = 'button'; n.innerHTML = '<i>📤</i>Partager via l’appareil…';
+      var n = document.createElement('button'); n.type = 'button'; n.innerHTML = '<i>' + ico('device') + '</i>Partager via l’appareil…';
       n.addEventListener('click', function () { navigator.share({ title: title, url: url }).catch(function () {}); close(); });
       menu.appendChild(n);
     }
@@ -47,7 +58,7 @@
       a.addEventListener('click', close);
       menu.appendChild(a);
     });
-    var cp = document.createElement('button'); cp.type = 'button'; cp.innerHTML = '<i>📋</i>Copier le lien';
+    var cp = document.createElement('button'); cp.type = 'button'; cp.innerHTML = '<i>' + ico('copy') + '</i>Copier le lien';
     var ok = document.createElement('div'); ok.className = 'share-ok'; ok.hidden = true; ok.textContent = 'Lien copié ✓';
     cp.addEventListener('click', function () {
       var done = function () { ok.hidden = false; setTimeout(function () { ok.hidden = true; close(); }, 1200); };

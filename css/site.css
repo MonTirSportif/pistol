@@ -386,7 +386,14 @@
 .print-src{display:none}
 
 .print-btn{border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:99px;padding:.35rem .85rem;font:inherit;font-size:.85rem;cursor:pointer;margin-left:.5rem}.print-btn:hover{border-color:var(--mut)}@media print{.print-btn{display:none}}
-.ck{position:fixed;left:1rem;right:1rem;bottom:1rem;z-index:99;max-width:720px;margin:0 auto;background:#fff;color:#1b2430;border:1px solid #d3d9e1;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.18);padding:1rem 1.2rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap;font-size:.92rem}
-.ck[hidden]{display:none}.ck p{margin:0;flex:1;min-width:240px}.ck-act{display:flex;gap:.6rem;flex-wrap:wrap}
+#ck.ck{position:fixed;left:1rem;right:1rem;bottom:1rem;z-index:99;max-width:720px;margin:0 auto;background:#fff;color:#1b2430;border:1px solid #d3d9e1;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.18);padding:1rem 1.2rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap;font-size:.92rem}
+#ck.ck[hidden]{display:none}#ck.ck p{margin:0;flex:1;min-width:240px}.ck-act{display:flex;gap:.6rem;flex-wrap:wrap}
 .ck-btn{font:inherit;font-weight:600;border-radius:10px;padding:.65rem 1.1rem;min-height:44px;cursor:pointer;border:2px solid #1b2430;background:#1b2430;color:#fff}
 .ck-btn.ck-sec{background:#fff;color:#1b2430}
+
+/* Icônes au trait */
+.ico{width:1.05em;height:1.05em;vertical-align:-.17em;margin-right:.4rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+/* Harmonisation : 3 arrondis seulement — 10px (petits éléments), 14px (blocs), 99px (boutons/pastilles) */
+:root{--r-s:10px;--r-m:14px;--r-pill:99px}
+.fact,.links a,.pn,.cib,.partner,.partner-badge,#ck.ck,.srch-box,.cx-lex summary,#faq-search,.lex-filter input,.pl-root span{border-radius:var(--r-m)}
+.card,.tile,.fig,.yt,.comp,.lv,.filtre{border-color:var(--line)}
