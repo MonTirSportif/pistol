@@ -413,3 +413,9 @@
 .herologo{flex-direction:column;gap:1rem}.herologo .home-bs{margin:0}.herologo .home-bs img{width:200px;max-width:none}
 .herologo-in{display:flex;flex-direction:column;align-items:flex-start;gap:1rem;width:100%;max-width:440px}.herologo-in>img{width:100%}
 @media(max-width:820px){.herologo-in{max-width:260px}}
+.bs-ref{display:flex;gap:.9rem;align-items:center;margin:1.2rem 0 .2rem;padding:.7rem .9rem;background:var(--card);border:1px solid var(--line);border-left:4px solid #404040;border-radius:var(--r-m,14px)}
+.bs-ref-logo{flex:0 0 auto;line-height:0}.bs-ref-logo img{width:84px;height:auto;border-radius:6px;display:block}
+.bs-ref-t{margin:0 0 .2rem;font-size:.75rem;font-weight:700;letter-spacing:.04em;color:var(--mut)}
+.bs-ref-l{margin:0;font-size:.9rem;line-height:1.5}.bs-ref-l span{color:var(--mut);margin:0 .4rem}
+@media(max-width:520px){.bs-ref{flex-direction:column;align-items:flex-start}}
+@media print{.bs-ref-logo{display:none}}
