@@ -29,6 +29,7 @@
     'preparation-tactique.html': ['Préparation tactique', PREP],
     'preparation-technique-approfondir.html': ['Approfondir', 'preparation-technique.html'],
     'scatt.html': ['SCATT', 'preparation-technique.html'],
+    'scatt-presentation.html': ['SCATT : présentation', 'scatt.html'],
     's-entrainer.html': ["S'entraîner", 'preparation-technique.html'],
     'journal-main-gauche.html': ['Changer de main', 'preparation-technique.html'],
     'imprimer-ses-cibles.html': ['Imprimer ses cibles', 'preparation-materielle.html'],
