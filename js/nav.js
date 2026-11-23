@@ -24,6 +24,7 @@
     'index.html#themes': ['Préparation du tireur', 'index.html'],
     'preparation-technique.html': ['Préparation technique', PREP],
     'preparation-mentale.html': ['Préparation mentale', PREP],
+    'preparation-mentale-performance.html': ['Préparation mentale et performance', 'preparation-mentale.html'],
     'preparation-materielle.html': ['Préparation matérielle', PREP],
     'preparation-physique.html': ['Préparation physique', PREP],
     'preparation-tactique.html': ['Préparation tactique', PREP],
