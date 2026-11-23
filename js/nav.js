@@ -140,6 +140,8 @@
     add(rel('navigation.html'), ico('compass') + 'Naviguer dans le site');
     add(rel('plan-du-site.html'), ico('map') + 'Plan du site');
     add(rel('videotheque.html'), ico('play') + 'La vidéothèque');
+    h('Aussi chez MonTirSportif');
+    var rc = add('https://rifle.montirsportif.com/', 'Le site Carabine ↗'); rc.target = '_blank'; rc.rel = 'noopener';
     document.body.appendChild(m);
 
     function place() { var r = document.querySelector('header').getBoundingClientRect(); m.style.top = Math.max(0, r.bottom) + 'px'; }
