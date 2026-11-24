@@ -51,6 +51,7 @@
     'autres-disciplines.html': ['Autres disciplines', 'disciplines.html'],
     'faire-le-point.html': ['Faire le point', 'index.html'],
     'outils.html': ['Mes outils', 'index.html'],
+    'feuille-de-match.html': ['Ma feuille de match', 'outils.html'],
     'infos-pratiques.html': ['Sécurité', 'index.html'],
     'questions-frequentes.html': ['Questions fréquentes', 'index.html'],
     'a-propos.html': ['À propos', 'index.html'],
@@ -69,6 +70,10 @@
     '.crumbs{font-size:.82rem;color:var(--mut,#667);margin:0 0 .7rem;line-height:1.5}' +
     '.crumbs a{color:var(--mut,#667);text-decoration:none}.crumbs a:hover{color:var(--acc);text-decoration:underline}' +
     '.crumbs .sep{margin:0 .35rem;opacity:.6}.crumbs [aria-current]{color:var(--txt,#1b2430);font-weight:600}' +
+    '.site-sw{display:inline-flex;align-items:stretch;border:1px solid var(--line,#d5dbe3);border-radius:99px;overflow:hidden;vertical-align:middle;background:var(--card,#fff);margin-right:.1rem}' +
+    '.site-sw>*{padding:.1rem .6rem;line-height:1.5}' +
+    '.crumbs .site-sw .on{background:var(--txt,#1b2430);color:#fff;font-weight:600}' +
+    '.crumbs .site-sw a{color:var(--mut,#667);text-decoration:none;font-weight:500}.crumbs .site-sw a:hover{color:var(--acc);background:var(--bg2,#f4f6f8);text-decoration:none}' +
     /* menu ☰ */
     '.burger{display:none;border:1px solid var(--line,#d5dbe3);background:var(--card,#fff);color:var(--txt,#1b2430);border-radius:99px;height:38px;padding:0 .8rem;font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;align-items:center;gap:0;margin-left:auto}' +
     '.mnav{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--bg,#e9ecf0);overflow-y:auto;padding:.6rem 1rem 2rem;border-top:1px solid var(--line,#d5dbe3)}' +
@@ -91,6 +96,11 @@
     while (k && T[k] && guard++ < 8) { chain.unshift(k); k = T[k][1]; }
     var d = document.createElement('div');
     d.className = 'crumbs'; d.setAttribute('role', 'navigation'); d.setAttribute('aria-label', "Fil d'Ariane");
+    /* site où l'on est + changement de site */
+    var sw = document.createElement('span'); sw.className = 'site-sw'; sw.setAttribute('role', 'group'); sw.setAttribute('aria-label', 'Changer de site');
+    sw.innerHTML = '<span class="on" aria-current="true" title="Vous êtes sur le site Pistolet">Site Pistolet</span><a href="https://rifle.montirsportif.com/" title="Aller sur le site Carabine">Carabine</a>';
+    d.appendChild(sw);
+    var s0 = document.createElement('span'); s0.className = 'sep'; s0.textContent = '›'; d.appendChild(s0);
     chain.forEach(function (c, i) {
       if (i) { var s = document.createElement('span'); s.className = 'sep'; s.textContent = '›'; d.appendChild(s); }
       if (i === chain.length - 1) {
