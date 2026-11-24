@@ -844,10 +844,6 @@ async function buildPDF(){
     head(D.kind==='hit'?'Touchés et manqués':'Répartition des coups');
     bars(counts,bins.map(b=>b.l),{min:0,h:32,fmt:v=>`${v} · ${Math.round(v/S.n*100)} %`,color:(v,i)=>i===0?[27,36,48]:[110,120,135]});
   }
-  // signatures
-  if(y>252){doc.addPage();y=16}
-  {y=Math.max(y+4,y);doc.setDrawColor(150,160,175);doc.setFontSize(8);doc.setTextColor(110,120,135);
-    ['Signature du tireur','Signature de l\'arbitre ou de l\'entraîneur'].forEach((l,i)=>{const x=mL+i*(cw/2);doc.text(pdfTxt(l),x,y);doc.roundedRect(x,y+2,cw/2-6,20,2,2,'S')})}
   const np=doc.getNumberOfPages();for(let pg=1;pg<=np;pg++){doc.setPage(pg);doc.setFontSize(8);doc.setTextColor(140,150,165);doc.text(pdfTxt(`MonTirSportif · pistol.montirsportif.com/feuille-de-match.html · ${new Date().toLocaleDateString('fr-FR')}${np>1?` · page ${pg}/${np}`:''}`),W/2,290,{align:'center'})}
   const fname=`feuille-de-match-${(M.date||today())}-${D.code}`.replace(/[^\w\-]+/g,'-')+'.pdf';
   return{doc,fname};
