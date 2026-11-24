@@ -52,6 +52,8 @@
     'faire-le-point.html': ['Faire le point', 'index.html'],
     'outils.html': ['Mes outils', 'index.html'],
     'feuille-de-match.html': ['Ma feuille de match', 'outils.html'],
+    'reglage-clics.html': ['Mes clics de réglage', 'outils.html'],
+    'ma-progression.html': ['Ma progression', 'outils.html'],
     'infos-pratiques.html': ['Sécurité', 'index.html'],
     'questions-frequentes.html': ['Questions fréquentes', 'index.html'],
     'a-propos.html': ['À propos', 'index.html'],

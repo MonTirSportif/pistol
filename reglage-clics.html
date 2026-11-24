@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}(function(){var c=null;try{c=JSON.parse(localStorage.getItem('mts-consent')||'null');}catch(e){}var ok=c&&c.v==='yes'&&(Date.now()-c.t)<3.4e10;window.MTS_CONSENT=c;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:ok?'granted':'denied'});window.mtsLoadGTM=function(){if(window.mtsGTM)return;window.mtsGTM=1;dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtm.js?id=GTM-5FBNSMQH';document.head.appendChild(s);};if(ok)window.mtsLoadGTM();})();</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mes clics de réglage – Pistolet ISSF – MonTirSportif</title>
+<meta name="description" content="Calculer les clics de réglage de la hausse et de la dérive : touchez le centre de votre groupement sur la cible, l’outil donne le nombre de clics et le sens.">
+<link rel="canonical" href="https://pistol.montirsportif.com/reglage-clics.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MonTirSportif">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Mes clics de réglage – Pistolet ISSF – MonTirSportif">
+<meta property="og:description" content="Calculer les clics de réglage de la hausse et de la dérive : touchez le centre de votre groupement sur la cible, l’outil donne le nombre de clics et le sens.">
+<meta property="og:url" content="https://pistol.montirsportif.com/reglage-clics.html">
+<meta property="og:image" content="https://pistol.montirsportif.com/img/partage/faire-le-point.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mes clics de réglage">
+<link rel="icon" type="image/png" href="img/coeur.png">
+<link rel="stylesheet" href="css/site.css?v=20261124b">
+<script src="js/routes.js" data-base=""></script>
+
+
+<link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pistol.montirsportif.com/img/partage/faire-le-point.jpg">
+
+
+<style>
+#rc .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem;margin:0 0 1rem}
+#rc .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem}
+@media (max-width:760px){#rc .grid{grid-template-columns:1fr}}
+#rc label{display:flex;flex-direction:column;gap:.25rem;font-size:.85rem;font-weight:600}
+#rc select,#rc input{font:inherit;font-weight:400;padding:.5rem .6rem;border:1px solid var(--line);border-radius:10px;background:#fff;min-width:0}
+#rc .row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:flex-end}
+#rc .row>label{flex:1;min-width:130px}
+#rc svg{width:100%;max-width:420px;display:block;margin:0 auto;touch-action:manipulation;cursor:crosshair}
+#rc .out{font-size:1.05rem}
+#rc .big{display:flex;gap:.8rem;flex-wrap:wrap;margin:.6rem 0}
+#rc .big div{flex:1;min-width:150px;border-radius:12px;padding:.8rem;background:#f4f6f9;text-align:center}
+#rc .big b{display:block;font-family:"Barlow Condensed",sans-serif;font-size:2rem;line-height:1.05;color:var(--acc)}
+#rc .muted{color:var(--mut,#667);font-size:.85rem}
+#rc button{font:inherit;padding:.45rem .9rem;border:1px solid var(--line);border-radius:99px;background:#fff;cursor:pointer}
+#rc button.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
+</style>
+</head>
+<body>
+<header><div class="bar"><a class="logo" href="index.html" aria-label="MonTirSportif — accueil"><img src="img/logo.png" alt="MonTirSportif"></a>
+<nav id="nav"><a data-v="accueil" href="index.html" data-c="#e5473d">Accueil</a><a data-v="epreuves" href="disciplines.html" data-c="#2c6fb7">Disciplines</a><button type="button" id="prep-btn" aria-haspopup="true" aria-expanded="false" aria-controls="prep-menu">Préparation du tireur ▾</button><a data-v="infos" href="infos-pratiques.html" data-c="#5a6676">Sécurité</a><a data-v="faq" href="questions-frequentes.html" data-c="#44546a">Questions fréquentes</a><a data-v="a-propos" href="a-propos.html" data-c="#44546a">À propos</a><a href="https://rifle.montirsportif.com/" target="_blank" rel="noopener">Le site Carabine ↗</a></nav><button type="button" class="srch-btn" id="srch-btn" aria-label="Rechercher dans le site" title="Rechercher (touche /)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span>Rechercher</span></button><div class="prep-menu" id="prep-menu" role="menu"><a role="menuitem" href="preparation-technique.html"><span style="background:#e0601f">1</span>Préparation technique</a><a role="menuitem" href="preparation-mentale.html"><span style="background:#7656d6">2</span>Préparation mentale</a><a role="menuitem" href="preparation-materielle.html"><span style="background:#12938a">3</span>Préparation matérielle</a><a role="menuitem" href="preparation-physique.html"><span style="background:#3d8f2a">4</span>Préparation physique</a><a role="menuitem" href="preparation-tactique.html"><span style="background:#8a5f00">5</span>Préparation tactique</a><a role="menuitem" class="sub" href="#faire-le-point">Faire le point sur ma pratique</a></div><script>(function(){var b=document.getElementById("prep-btn"),m=document.getElementById("prep-menu");if(!b||!m)return;
+function close(){m.classList.remove("open");b.setAttribute("aria-expanded","false");}
+function place(){var bar=m.parentNode.getBoundingClientRect(),r=b.getBoundingClientRect(),w=m.offsetWidth||260;var x=r.left-bar.left+r.width/2;x=Math.max(w/2+8,Math.min(bar.width-w/2-8,x));m.style.left=x+"px";}
+b.addEventListener("click",function(e){e.stopPropagation();var o=m.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");if(o)place();});
+window.addEventListener("resize",function(){if(m.classList.contains("open"))place();});
+m.addEventListener("click",function(e){if(e.target.closest("a"))close();});
+document.addEventListener("click",function(e){if(!m.contains(e.target)&&e.target!==b)close();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});})();</script></div></header>
+
+<main class="view" id="reglage-clics" style="--acc:#2c6fb7"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1>Mes clics de réglage</h1><p class="lead">Votre groupement n’est pas au centre ? Touchez son centre sur la cible : l’outil calcule le nombre de clics à donner sur la hausse et la dérive, et dans quel sens.</p></div>
+<section class="first" id="clics"><div id="rc">
+<div class="card"><div class="row">
+<label>Cible<select id="rcT">
+<option value="p10">Pistolet 10 m</option><option value="c10">Carabine 10 m</option><option value="p50">Pistolet 25 m précision / 50 m</option><option value="vo">Pistolet vitesse 25 m (VO, standard)</option><option value="c50">Carabine 50 m</option></select></label>
+<label>Valeur d’un clic (mm à la cible)<input id="rcV" type="text" inputmode="decimal" autocomplete="off" placeholder="ex. 1,5"></label>
+</div>
+<p class="muted" style="margin-top:.5rem">La valeur d’un clic dépend de l’arme et de la distance : regardez la notice de votre arme, ou mesurez-la avec le calibrage plus bas. Elle est retenue pour chaque cible dans ce navigateur.</p></div>
+<div class="grid">
+<div class="card"><p style="margin:0 0 .5rem"><b>1. Touchez le centre de votre groupement</b> <span class="muted">(ou saisissez l’écart en mm)</span></p>
+<svg id="rcSvg" viewBox="-110 -110 220 220" role="img" aria-label="Cible : touchez le centre du groupement"></svg>
+<div class="row" style="margin-top:.6rem"><label>À droite (+) / à gauche (−), mm<input id="rcX" type="text" inputmode="decimal" autocomplete="off" value="0"></label><label>En haut (+) / en bas (−), mm<input id="rcY" type="text" inputmode="decimal" autocomplete="off" value="0"></label></div>
+<p style="margin-top:.6rem"><button id="rcReset" type="button">Remettre au centre</button></p></div>
+<div class="card out"><p style="margin:0"><b>2. Les clics à donner</b></p><div id="rcOut"></div>
+<p class="muted" style="margin-top:.6rem">Règle générale : on déplace la <b>hausse</b> (cran de mire, dioptre) <b>dans le sens où l’on veut envoyer les impacts</b>. Si l’on règle le <b>guidon</b>, c’est l’inverse. Faites une série de contrôle après chaque réglage, et réglez sur un groupement d’au moins 5 coups, jamais sur un seul impact.</p></div>
+</div>
+<div class="card"><p style="margin:0 0 .5rem"><b>Calibrage : mesurer la valeur d’un clic</b></p>
+<p class="muted" style="margin:0 0 .6rem">Tirez un groupement, donnez un nombre de clics connu (par exemple 10 vers le haut), tirez un second groupement et mesurez de combien son centre s’est déplacé.</p>
+<div class="row"><label>Nombre de clics donnés<input id="rcCn" type="number" inputmode="numeric" min="1" value="10"></label><label>Déplacement mesuré (mm)<input id="rcCd" type="text" inputmode="decimal" autocomplete="off" placeholder="ex. 15"></label><button id="rcCalc" type="button" class="primary">Utiliser cette valeur</button></div></div>
+</div></section>
+<p class="print-src" style="margin-top:8mm;font-size:9pt;color:#444">MonTirSportif – https://pistol.montirsportif.com/reglage-clics.html</p></main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer>
+  <img class="footlogo" src="img/logo.png" alt="MonTirSportif">
+  <p><b>MonTirSportif</b> — La passion du tir et du partage. Nous écrire : <a href="mailto:contact@MonTirSportif.fr">contact@MonTirSportif.fr</a></p>
+  <p class="foot-links"><a href="a-propos.html">À propos</a> · <a href="bensport.html">bensport</a> · <a href="questions-frequentes.html">Questions fréquentes</a> · <a href="plan-du-site.html">Plan du site</a> · <a href="https://rifle.montirsportif.com/" target="_blank" rel="noopener">Site Carabine</a> · <a href="https://edt.montirsportif.com/" target="_blank" rel="noopener">Site École de tir</a> · <a href="videotheque.html">Vidéothèque</a> · <a href="c-est-nouveau.html">C'est nouveau</a> · <a href="hors-pistolet/index.html">Hors pistolet</a> · <a href="a-propos.html#cookies" data-cookies>Cookies</a> · 
+    <a href="https://www.montirsportif.fr/" target="_blank" rel="noopener">montirsportif.fr</a> ·
+    <a href="https://www.montirsportif.com/" target="_blank" rel="noopener">montirsportif.com</a> ·
+    <a href="https://entrainement.montirsportif.fr/" target="_blank" rel="noopener">entrainement.montirsportif.fr</a>
+  </p>
+  <p class="foot-links">
+    <a href="https://www.youtube.com/@montirsportif" target="_blank" rel="noopener">YouTube</a> ·
+    <a href="https://www.facebook.com/montirsportif" target="_blank" rel="noopener">Facebook</a> ·
+    <a href="https://www.instagram.com/montirsportif/" target="_blank" rel="noopener">Instagram</a> ·
+    <a href="https://www.tiktok.com/@montirsportif" target="_blank" rel="noopener">TikTok</a>
+  </p>
+  <p class="foot-sub"><a class="yt-sub" href="https://www.youtube.com/@montirsportif?sub_confirmation=1" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .6 12a31 31 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .4-4.8 31 31 0 0 0-.4-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg>S'abonner à la chaîne YouTube</a></p>
+  <p class="foot-partner">Partenaire principal<br><a href="https://sportquantum.com/" target="_blank" rel="noopener"><img src="img/sportquantum.png" alt="Sport Quantum"></a></p>
+  <p style="margin-top:1rem">Ce site est un support pédagogique : il ne remplace pas l'encadrement d'un entraîneur diplômé. (<a href="entraineurs.html">Mon entraîneur</a>)</p>
+</footer>
+
+<script>
+  function openTab(id){
+    var panel=document.getElementById(id); if(!panel) return;
+    var sec=panel.closest('section');
+    sec.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on', x.dataset.p===id)});
+    sec.querySelectorAll('.panel').forEach(function(x){x.classList.toggle('on', x===panel)});
+  }
+  document.querySelectorAll('.tabs button').forEach(function(b){ b.addEventListener('click',function(){ openTab(b.dataset.p); }); });
+  document.querySelectorAll('[data-go]').forEach(function(a){ a.addEventListener('click',function(){ openTab(a.dataset.go); }); });
+
+  /* Navigation entre les thèmes */
+  var navLinks=[].slice.call(document.querySelectorAll('#nav a'));
+  function route(){
+    var fv=document.querySelector('.view');var h=(location.hash||'').slice(1)||(fv&&fv.id)||'accueil';
+    var el=null; try{ el=document.getElementById(h); }catch(e){}
+    if(!el) el=document.querySelector('.view');
+    var view=el.classList.contains('view')?el:el.closest('.view');
+    if(!view){ view=document.querySelector('.view'); el=view; }
+    document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('on', v===view); });
+    navLinks.forEach(function(a){
+      var parent={'dopage':'physique','scatt':'technique','sentrainer':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
+      var on=a.dataset.v===(parent[view.id]||view.id); a.classList.toggle('on',on);
+      if(on){ document.getElementById('nav').style.setProperty('--navc',a.dataset.c);
+        var n=document.getElementById('nav'); var x=a.offsetLeft-n.offsetLeft; if(x<n.scrollLeft||x+a.offsetWidth>n.scrollLeft+n.clientWidth) n.scrollLeft=a.offsetLeft-n.offsetLeft-20; }
+    });
+    if(el===view){ window.scrollTo({top:0,left:0,behavior:'instant'}); }
+    else { var p=el.closest('.panel'); if(p && !p.classList.contains('on')) openTab(p.id);
+           setTimeout(function(){ el.scrollIntoView({behavior:'auto',block:'start'}); },0); }
+  }
+  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#8a5f00',dopage:'#3d8f2a',scatt:'#e0601f',sentrainer:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
+    var bt=document.getElementById('prep-btn');if(!bt||!v)return;var t=cols[v.id];bt.classList.toggle('on',!!t);if(t){document.getElementById('nav').style.setProperty('--navc',t);navLinks.forEach(function(a){a.classList.remove('on');});}};})();
+  window.addEventListener('hashchange',route);
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href^="#"]'); if(!a) return;
+    if(a.getAttribute('href')===location.hash){ e.preventDefault(); route(); }
+  });
+  route();
+
+  /* Bilan */
+  var labels={
+    position:['La position','trouver votre point naturel, sans forcer avec le bras','#position'],
+    prise:['La prise en main','une pression modérée et identique','#prise'],
+    visee:['La visée','la netteté sur le guidon, pas sur la cible','#visee'],
+    respiration:['La respiration','des visées plus courtes, dans une pause calme','#respiration'],
+    lacher:['Le lâcher','une pression continue, sans coup de doigt','#lacher'],
+    routine:['La routine','la même séquence à chaque coup','#routine'],
+    mental:['La préparation mentale','penser au geste, pas au score','#mental'],
+    reglages:['Le réglage de l’arme','centrer son groupement avec le cran de mire','#reglages'],
+    physique:['La préparation physique','renforcer la tenue et l’endurance du bras','#physique'],
+    tactique:['La préparation tactique','gérer son temps et ses émotions en match','#tactique']
+  };
+  var order=['position','prise','visee','respiration','lacher','routine','mental','reglages','physique','tactique'];
+  document.querySelectorAll('#bilan input').forEach(function(c){
+    c.addEventListener('change',function(){
+      var on={}; document.querySelectorAll('#bilan input:checked').forEach(function(x){on[x.dataset.s]=1});
+      var keys=order.filter(function(k){return on[k]});
+      var box=document.getElementById('reco');
+      if(!keys.length){ box.innerHTML='<p style="color:var(--mut)">Cochez une ou plusieurs cases : les rubriques à travailler en priorité s’afficheront ici.</p>'; return; }
+      box.innerHTML='<p>Travaillez dans cet ordre :</p>'+keys.map(function(k,i){var l=labels[k];return '<a href="'+l[2]+'"><span>'+(i+1)+'. '+l[0]+'</span> — '+l[1]+'</a>';}).join('');
+    });
+  });
+
+  /* FAQ */
+  (function(){
+    var cat='all', q=document.getElementById('faq-search'); if(!q) return;
+    function norm(t){return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+    function apply(){
+      var term=norm(q.value.trim()), any=false;
+      document.querySelectorAll('.faq-group').forEach(function(g){
+        var vis=0, okcat=(cat==='all'||g.dataset.cat===cat);
+        g.querySelectorAll('.faq-item').forEach(function(it){
+          var ok=okcat && (!term || norm(it.textContent).indexOf(term)>=0);
+          it.style.display=ok?'':'none'; if(ok){vis++; if(term) it.open=true;}
+        });
+        g.style.display=vis?'':'none'; if(vis) any=true;
+      });
+      document.getElementById('faq-empty').style.display=any?'none':'block';
+    }
+    q.addEventListener('input',apply);
+    document.querySelectorAll('.faq-cats button').forEach(function(b){
+      b.addEventListener('click',function(){ cat=b.dataset.cat;
+        document.querySelectorAll('.faq-cats button').forEach(function(x){x.classList.toggle('on',x===b)}); apply(); });
+    });
+  })();
+
+  /* Plan de match */
+  var btn=document.getElementById('copyplan');
+  if(btn) btn.addEventListener('click',function(){
+    var t='MON PLAN DE MATCH\n'; document.querySelectorAll('#planform label').forEach(function(l){
+      var f=l.querySelector('input,textarea'); if(f) t+='\n'+l.firstChild.textContent.trim()+' : '+(f.value.trim()||'—');
+    });
+    var msg=document.getElementById('copied');
+    try{ navigator.clipboard.writeText(t).then(function(){msg.textContent='Copié !';},function(){msg.textContent='Copie impossible ici : sélectionnez le texte à la main.';}); }
+    catch(e){ msg.textContent='Copie impossible ici : sélectionnez le texte à la main.'; }
+  });
+</script>
+<script>(function(){var n=0;window.addEventListener("hashchange",function(){n++;});
+document.addEventListener("click",function(e){var a=e.target.closest("a.back");if(!a)return;
+if(n>0){e.preventDefault();history.back();return;}
+try{var r=document.referrer&&new URL(document.referrer);if(r&&r.host===location.host&&r.pathname!==location.pathname){e.preventDefault();history.back();}}catch(x){}});})();</script>
+<div id="ck" class="ck" role="dialog" aria-live="polite" aria-label="Cookies" hidden>
+<p><b>Cookies de mesure d'audience</b><br>Nous aimerions mesurer la fréquentation du site (Google) pour l'améliorer. Rien n'est déposé sans votre accord. <a href="a-propos.html#cookies">En savoir plus</a></p>
+<div class="ck-act"><button type="button" class="ck-btn ck-sec" id="ck-no">Tout refuser</button><button type="button" class="ck-btn" id="ck-yes">Accepter</button></div>
+</div>
+
+<script>(function(){var b=document.getElementById('ck');function save(v){try{localStorage.setItem('mts-consent',JSON.stringify({v:v,t:Date.now()}));}catch(e){}
+gtag('consent','update',{analytics_storage:v==='yes'?'granted':'denied'});if(v==='yes')window.mtsLoadGTM();b.hidden=true;}
+var c=window.MTS_CONSENT;var valid=c&&((c.v==='yes'&&Date.now()-c.t<3.4e10)||(c.v==='no'&&Date.now()-c.t<1.58e10));if(!valid)b.hidden=false;
+document.getElementById('ck-yes').addEventListener('click',function(){save('yes');});
+document.getElementById('ck-no').addEventListener('click',function(){save('no');});
+document.addEventListener('click',function(e){if(e.target.closest('[data-cookies]')){e.preventDefault();b.hidden=false;document.getElementById('ck-no').focus();}});})();</script>
+
+<script>(function(){
+var T={p10:{n:'Pistolet 10 m',ten:11.5,step:16,black:59.5,last:1},c10:{n:'Carabine 10 m',ten:0.5,step:5,black:30.5,last:1},p50:{n:'Pistolet 25/50 m',ten:50,step:50,black:200,last:1},vo:{n:'Vitesse 25 m',ten:100,step:80,black:500,last:5},c50:{n:'Carabine 50 m',ten:10.4,step:16,black:112.4,last:1}};
+var $=function(s){return document.getElementById(s)};var sv=$('rcSvg'),t=$('rcT'),v=$('rcV'),X=$('rcX'),Y=$('rcY'),out=$('rcOut');
+function get(k,d){try{var x=localStorage.getItem(k);return x===null?d:JSON.parse(x)}catch(e){return d}}function set(k,x){try{localStorage.setItem(k,JSON.stringify(x))}catch(e){}}
+var clicks=get('mts-clics',{});t.value=get('mts-clics-t','p10');
+function num(e){var s=String(e.value).replace(',','.');var n=parseFloat(s);return isNaN(n)?null:n}
+function R(){var c=T[t.value];return c.ten/2+(10-c.last)*c.step/2}
+function draw(){var c=T[t.value],r=R(),k=100/r,h='';
+ h+='<rect x="-110" y="-110" width="220" height="220" fill="#f3efe6"/>';
+ h+='<circle r="'+(c.black/2*k)+'" fill="#1b2430"/>';
+ for(var ring=c.last;ring<=10;ring++){var d=c.ten+(10-ring)*c.step,rr=d/2*k,inb=d<=c.black+0.01;h+='<circle r="'+rr+'" fill="none" stroke="'+(inb?'#fff':'#1b2430')+'" stroke-width="0.5"/>';if(ring<10&&ring<9){var lab=rr-(c.step/4*k);h+='<text x="'+lab+'" y="2" font-size="5" text-anchor="middle" fill="'+(inb?'#fff':'#1b2430')+'">'+ring+'</text>'}}
+ var x=num(X)||0,y=num(Y)||0,px=x*k,py=-y*k;
+ h+='<line x1="-110" x2="110" y1="0" y2="0" stroke="#e5473d" stroke-width=".3" stroke-dasharray="2 2"/><line y1="-110" y2="110" x1="0" x2="0" stroke="#e5473d" stroke-width=".3" stroke-dasharray="2 2"/>';
+ if(x||y){h+='<line x1="'+px+'" y1="'+py+'" x2="0" y2="0" stroke="#3d8f2a" stroke-width="1.2" marker-end="url(#ar)"/>'}
+ h+='<defs><marker id="ar" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#3d8f2a"/></marker></defs>';
+ h+='<circle cx="'+px+'" cy="'+py+'" r="5" fill="rgba(229,71,61,.35)" stroke="#e5473d" stroke-width="1"/><circle cx="'+px+'" cy="'+py+'" r="1" fill="#e5473d"/>';
+ sv.innerHTML=h;}
+function calc(){var c=T[t.value],cv=num(v),x=num(X)||0,y=num(Y)||0,h='';
+ if(!x&&!y){out.innerHTML='<p class="muted">Touchez la cible à l’endroit du centre de votre groupement.</p>';return}
+ var dist=Math.sqrt(x*x+y*y).toFixed(1).replace('.',',');
+ h+='<p class="muted" style="margin:.4rem 0 0">Groupement : '+Math.abs(x).toFixed(1).replace('.',',')+' mm '+(x>=0?'à droite':'à gauche')+', '+Math.abs(y).toFixed(1).replace('.',',')+' mm '+(y>=0?'en haut':'en bas')+' ('+dist+' mm du centre)</p>';
+ if(!cv||cv<=0){out.innerHTML=h+'<p><b>Indiquez la valeur d’un clic</b> pour obtenir le nombre de clics.</p>';return}
+ var ch=Math.round(Math.abs(y)/cv),cd=Math.round(Math.abs(x)/cv);
+ h+='<div class="big"><div><span class="muted">Hausse</span><b>'+(ch?ch+' clic'+(ch>1?'s':''):'—')+'</b>'+(ch?(y>0?'vers le <strong>bas</strong> ↓':'vers le <strong>haut</strong> ↑'):'rien à changer')+'</div>';
+ h+='<div><span class="muted">Dérive</span><b>'+(cd?cd+' clic'+(cd>1?'s':''):'—')+'</b>'+(cd?(x>0?'vers la <strong>gauche</strong> ←':'vers la <strong>droite</strong> →'):'rien à changer')+'</div></div>';
+ var rx=Math.abs(Math.abs(x)-cd*cv),ry=Math.abs(Math.abs(y)-ch*cv);
+ h+='<p class="muted">Après réglage, le centre du groupement devrait être à moins de '+Math.max(rx,ry).toFixed(1).replace('.',',')+' mm du centre.</p>';
+ out.innerHTML=h;}
+function load(){v.value=clicks[t.value]!=null?String(clicks[t.value]).replace('.',','):'';draw();calc()}
+sv.addEventListener('click',function(e){var p=sv.createSVGPoint();p.x=e.clientX;p.y=e.clientY;var q=p.matrixTransform(sv.getScreenCTM().inverse());var k=100/R();X.value=(q.x/k).toFixed(1).replace('.',',');Y.value=(-q.y/k).toFixed(1).replace('.',',');draw();calc()});
+[X,Y].forEach(function(e){e.addEventListener('input',function(){draw();calc()})});
+v.addEventListener('input',function(){var n=num(v);if(n&&n>0){clicks[t.value]=n;set('mts-clics',clicks)}calc()});
+t.addEventListener('change',function(){set('mts-clics-t',t.value);X.value=0;Y.value=0;load()});
+$('rcReset').addEventListener('click',function(){X.value=0;Y.value=0;draw();calc()});
+$('rcCalc').addEventListener('click',function(){var n=num($('rcCn')),d=num($('rcCd'));if(!n||!d){$('rcCd').focus();return}var cv=Math.round(d/n*100)/100;v.value=String(cv).replace('.',',');clicks[t.value]=cv;set('mts-clics',clicks);calc()});
+load();})();</script>
+<script src="js/share.js"></script>
+<script src="js/nav.js?v=20261124c"></script>
+<script src="js/search.js" data-base=""></script>
+</body>
+</html>
