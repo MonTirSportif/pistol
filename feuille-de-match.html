@@ -253,7 +253,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       </div>
       <div id="serBox" hidden>
         <h2>Détail par série</h2>
-        <p class="muted" style="margin:4px 0 8px">Écart : différence avec la moyenne de vos séries complètes. Dispersion : écart entre le meilleur et le plus faible coup de la série.</p>
+        <p class="muted" style="margin:4px 0 8px">Écart : différence avec la moyenne de vos séries complètes.</p>
         <div class="scroll"><table class="sertab"><thead id="sdHead"></thead><tbody id="sdBody"></tbody></table></div>
       </div>
       <h2 id="distTitle">Répartition des coups</h2>
@@ -621,15 +621,15 @@ function drawSerStats(S){
   const D=d(),box=$('#serBox');box.hidden=!D.prec;if(!D.prec)return;
   const full=S.ser.filter(s=>s.full),avgSer=full.length?full.reduce((a,s)=>a+s.tot,0)/full.length:null;
   const ten=D.dec?10:10;
-  $('#sdHead').innerHTML=`<tr><th style="text-align:left">Série</th><th>Total</th><th>Moy./coup</th><th>10${D.mouche?' (X)':''}</th><th>Plus faible</th><th>Dispersion</th><th>Écart</th><th></th></tr>`;
+  $('#sdHead').innerHTML=`<tr><th style="text-align:left">Série</th><th>Total</th><th>Moy./coup</th><th>10${D.mouche?' (X)':''}</th><th>Plus faible</th><th>Écart</th><th></th></tr>`;
   const lo=D.max*D.shots*0.8,hi=D.max*D.shots;
   $('#sdBody').innerHTML=S.ser.map((s,i)=>{
-    if(!s.shots.length)return `<tr><td style="text-align:left">S${i+1}</td><td colspan="7" class="muted">–</td></tr>`;
+    if(!s.shots.length)return `<tr><td style="text-align:left">S${i+1}</td><td colspan="6" class="muted">–</td></tr>`;
     const v=s.shots.map(x=>x.v),mn=Math.min(...v),mx=Math.max(...v),n10=v.filter(x=>x>=ten).length,nx=s.shots.filter(x=>x.x).length;
     const diff=s.full&&avgSer!==null?s.tot-avgSer:null;
     const w=Math.max(0,Math.min(1,(s.tot/s.shots.length*D.shots-lo)/(hi-lo)));
     const cls=s.full&&S.best&&S.best.i===i?'bestr':s.full&&S.worst&&S.worst.i===i&&S.best.i!==i?'worstr':'';
-    return `<tr class="${cls}"><td style="text-align:left">S${i+1}${s.full?'':' <span class="muted">('+s.shots.length+')</span>'}</td><td class="b">${fmt(s.tot,D.dec)}</td><td>${(s.tot/s.shots.length).toFixed(2).replace('.',',')}</td><td>${n10}${D.mouche?` (${nx})`:''}</td><td>${fmt(mn,D.dec)}</td><td>${fmt(mx-mn,D.dec)}</td><td class="${diff===null?'':diff>=0.05?'pos':diff<=-0.05?'neg':''}">${diff===null?'–':(diff>=0?'+':'−')+Math.abs(diff).toFixed(1).replace('.',',')}</td><td><span class="bar"><i style="width:${(w*100).toFixed(0)}%"></i></span></td></tr>`;
+    return `<tr class="${cls}"><td style="text-align:left">S${i+1}${s.full?'':' <span class="muted">('+s.shots.length+')</span>'}</td><td class="b">${fmt(s.tot,D.dec)}</td><td>${(s.tot/s.shots.length).toFixed(2).replace('.',',')}</td><td>${n10}${D.mouche?` (${nx})`:''}</td><td>${fmt(mn,D.dec)}</td><td class="${diff===null?'':diff>=0.05?'pos':diff<=-0.05?'neg':''}">${diff===null?'–':(diff>=0?'+':'−')+Math.abs(diff).toFixed(1).replace('.',',')}</td><td><span class="bar"><i style="width:${(w*100).toFixed(0)}%"></i></span></td></tr>`;
   }).join('');
 }
 function rankStats(){
