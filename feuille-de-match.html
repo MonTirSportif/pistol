@@ -9,19 +9,19 @@
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ma feuille de match 10 m – Pistolet ISSF – MonTirSportif</title>
-<meta name="description" content="Feuille de match gratuite pour un tireur : saisie coup par coup (Standard, Vitesse, Pistolet 10 m, Carabine 10 m), totaux, moyennes, statistiques par coup ou par cible, loupe et historique.">
+<title>Ma feuille de match – Pistolet ISSF – MonTirSportif</title>
+<meta name="description" content="Feuille de match gratuite pour un tireur : saisie coup par coup à 10 m, 25 m et 50 m (pistolet) et en carabine 10 m, totaux, moyennes, statistiques par coup ou par cible, loupe et historique.">
 <link rel="canonical" href="https://pistol.montirsportif.com/feuille-de-match.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="MonTirSportif">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:title" content="Ma feuille de match 10 m – Pistolet ISSF – MonTirSportif">
-<meta property="og:description" content="Feuille de match gratuite pour un tireur : saisie coup par coup (Standard, Vitesse, Pistolet 10 m, Carabine 10 m), totaux, moyennes, statistiques par coup ou par cible, loupe et historique.">
+<meta property="og:title" content="Ma feuille de match – Pistolet ISSF – MonTirSportif">
+<meta property="og:description" content="Feuille de match gratuite pour un tireur : saisie coup par coup à 10 m, 25 m et 50 m (pistolet) et en carabine 10 m, totaux, moyennes, statistiques par coup ou par cible, loupe et historique.">
 <meta property="og:url" content="https://pistol.montirsportif.com/feuille-de-match.html">
 <meta property="og:image" content="https://pistol.montirsportif.com/img/partage/faire-le-point.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Ma feuille de match 10 m">
+<meta property="og:image:alt" content="Ma feuille de match">
 <link rel="icon" type="image/png" href="img/coeur.png">
 <link rel="stylesheet" href="css/site.css">
 <script src="js/routes.js" data-base=""></script>
@@ -160,11 +160,12 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .tg em{font-style:normal;font-size:.72rem;font-weight:600}
 #fm .tg.weak em{color:var(--accent)}
 #fm .tg.top em{color:var(--good)}
+#fm small.ph{display:block;font-size:.68rem;color:var(--muted);font-weight:400;line-height:1}
 #fm .msg{font-size:.9rem;color:var(--good);min-height:1.2em}
 #fm .note{font-size:.85rem;color:var(--warn);margin:0}
 #fm footer{font-size:.82rem;color:var(--muted)}
 @media (max-width:560px){#fm .tg b{font-size:1.2rem}#fm .lpnav b{font-size:1.25rem}}
-</style><main class="view" id="feuille-de-match" style="--acc:#12938a"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1>Ma feuille de match 10 m</h1><p class="lead">Notez vos points coup par coup, au stand ou après le match : totaux, moyennes, statistiques par coup ou par cible et suivi de vos matchs, directement dans le navigateur.</p></div>
+</style><main class="view" id="feuille-de-match" style="--acc:#12938a"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1>Ma feuille de match</h1><p class="lead">Notez vos points coup par coup, à 10 m, 25 m ou 50 m, au stand ou après le match : totaux, moyennes, statistiques par coup ou par cible et suivi de vos matchs, directement dans le navigateur.</p></div>
 <section class="first" id="feuille">
 <div id="fm">
 
@@ -176,6 +177,11 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
           <option value="vit10">Pistolet Vitesse 10 m · 8 × 5 cibles</option>
           <option value="p10">Pistolet 10 m · 6 × 10 coups</option>
           <option value="c10">Carabine 10 m · 6 × 10 coups au dixième</option>
+          <option value="p25">Pistolet 25 m · 6 × 5 précision + 6 × 5 vitesse</option>
+          <option value="pc25">Pistolet 25 m percussion centrale · 6 × 5 + 6 × 5</option>
+          <option value="vo25">Pistolet vitesse olympique 25 m · 12 × 5 cibles</option>
+          <option value="std25">Pistolet standard 25 m · 4 × 150 s, 4 × 20 s, 4 × 10 s</option>
+          <option value="p50">Pistolet 50 m · 6 × 10 coups</option>
         </select>
       </label>
       <label for="mDate">Date<input id="mDate" type="date"></label>
@@ -411,14 +417,19 @@ const DISC={
   std10:{label:'Pistolet Standard 10 m',n:8,shots:5,max:10,dec:false,mouche:true,kind:'int'},
   vit10:{label:'Pistolet Vitesse 10 m',n:8,shots:5,max:1,dec:false,mouche:false,kind:'hit'},
   p10:{label:'Pistolet 10 m',n:6,shots:10,max:10,dec:false,mouche:true,kind:'int'},
-  c10:{label:'Carabine 10 m',n:6,shots:10,max:10.9,dec:true,mouche:false,kind:'dec'}
+  c10:{label:'Carabine 10 m',n:6,shots:10,max:10.9,dec:true,mouche:false,kind:'dec'},
+  p25:{label:'Pistolet 25 m',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Préc.','Préc.','Préc.','Préc.','Vit.','Vit.','Vit.','Vit.','Vit.','Vit.']},
+  pc25:{label:'Pistolet 25 m percussion centrale',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Préc.','Préc.','Préc.','Préc.','Vit.','Vit.','Vit.','Vit.','Vit.','Vit.']},
+  vo25:{label:'Pistolet vitesse olympique 25 m',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',targets:true,ph:['8 s','8 s','6 s','6 s','4 s','4 s','8 s','8 s','6 s','6 s','4 s','4 s']},
+  std25:{label:'Pistolet standard 25 m',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['150 s','150 s','150 s','150 s','20 s','20 s','20 s','20 s','10 s','10 s','10 s','10 s']},
+  p50:{label:'Pistolet 50 m',n:6,shots:10,max:10,dec:false,mouche:true,kind:'int'}
 };
 const today=()=>new Date().toISOString().slice(0,10);
 const SAMPLE=[10,9,9,8,10, 9,{v:10,x:1},8,9,9, 10,9,8,9,7, 9,9,10,8,9, {v:10,x:1},9,9,10,8, 8,9,9,9,10, 9,8,10,9,9, 9,10,9,8].map(s=>typeof s==='number'?{v:s,x:0}:s);
 let M=store.get('mts-solo-cur',null);
 if(!M)M={disc:'std10',date:today(),name:'Entraînement (exemple)',place:'',shots:SAMPLE,sample:true};
 let H=store.get('mts-solo-hist',[]);
-let sel=null,pendingInt=null;
+let sel=null,pendingInt=null,wantDisc=null;
 const d=()=>DISC[M.disc];
 const N=()=>d().n*d().shots;
 const save=()=>store.set('mts-solo-cur',M);
@@ -494,7 +505,7 @@ function render(){
   const curSer=sel!==null?Math.floor(sel/per):Math.min(D.n-1,Math.floor(n/per));
   $('#serTitle').textContent=S.complete&&sel===null?'Match complet':`Série ${curSer+1} sur ${D.n}`;
   const ct=S.ser[curSer];
-  $('#serInfo').textContent=sel!==null?`Correction du coup ${sel%per+1}`:`${ct.shots.length}/${per} coups · ${fmt(ct.tot,D.dec)} pts`;
+  $('#serInfo').textContent=sel!==null?`Correction du coup ${sel%per+1}`:`${D.ph?D.ph[curSer]+' · ':''}${ct.shots.length}/${per} coups · ${fmt(ct.tot,D.dec)} pts`;
   $('#clearSel').hidden=sel===null;
   $('#undo').textContent=sel!==null?'Annuler la correction':'Effacer le dernier coup';
   renderPending();
@@ -515,7 +526,7 @@ function render(){
   let fb='';
   const viewSer=loupeSer!==null?loupeSer:curSer;
   S.ser.forEach((s,i)=>{
-    fb+=`<tr class="${i===curSer&&!S.complete?'cur':''}${i===viewSer?' show':''}"><td style="text-align:left">S${i+1}</td>`;
+    fb+=`<tr class="${i===curSer&&!S.complete?'cur':''}${i===viewSer?' show':''}"><td style="text-align:left">S${i+1}${D.ph?`<small class="ph">${D.ph[i]}</small>`:''}</td>`;
     for(let k=0;k<per;k++){const idx=i*per+k,x=s.shots[k];
       const cls=x?(idx===sel?'sel':''):idx===n&&sel===null?'next':'empty';
       fb+=`<td class="sh"><button class="${cls}" data-idx="${idx}" ${idx>n?'disabled':''} aria-label="Série ${i+1}, coup ${k+1}">${x?label(x):idx===n?'?':'·'}</button></td>`}
@@ -560,8 +571,9 @@ function rankStats(){
 function drawTargets(){
   const D=d(),hit=D.kind==='hit';
   $('#tgtBox').hidden=false;
-  $('#tgtTitle').textContent=hit?'Impacts par cible':'Moyenne par rang de coup';
-  $('#tgtHelp').textContent=hit?"Cibles numérotées de gauche à droite, dans l'ordre de tir.":`Moyenne du 1er au ${D.shots}e coup de chaque série : repérez le coup où vous perdez des points.`;
+  const byT=hit||D.targets;
+  $('#tgtTitle').textContent=hit?'Impacts par cible':D.targets?'Moyenne par cible':'Moyenne par rang de coup';
+  $('#tgtHelp').textContent=byT?"Cibles numérotées de gauche à droite, dans l'ordre de tir.":`Moyenne du 1er au ${D.shots}e coup de chaque série : repérez le coup où vous perdez des points.`;
   const res=rankStats();
   const ps=res.filter(r=>r.p!==null).map(r=>r.p);
   const mx=ps.length?Math.max(...ps):null,mn=ps.length?Math.min(...ps):null;
@@ -576,7 +588,7 @@ function drawTargets(){
     const val=r.p===null?'–':hit?Math.round(r.p*100)+' %':r.avg.toFixed(D.dec?2:2).replace('.',',');
     const sub=hit?`${r.sum} / ${r.tot} touchée${r.sum>1?'s':''}`:`${r.tot} coup${r.tot>1?'s':''}`;
     const tag=weak?(hit?'la plus manquée':'le plus faible'):top?(hit?'la plus touchée':'le meilleur'):'';
-    return `<div class="tg${weak?' weak':''}${top?' top':''}"><span>${hit?'Cible':'Coup'} ${k+1}</span>
+    return `<div class="tg${weak?' weak':''}${top?' top':''}"><span>${byT?'Cible':'Coup'} ${k+1}</span>
       <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${rad}" fill="none" stroke="${line}" stroke-width="7"/>${arc}<circle cx="32" cy="32" r="12" fill="#121212"/><circle cx="32" cy="32" r="4" fill="none" stroke="#f6f5f0" stroke-width="1"/></svg>
       <b>${val}</b><span>${sub}</span>${tag?`<em>${tag}</em>`:''}</div>`}).join('');
 }
@@ -636,7 +648,7 @@ let newArmed=false;
 $('#newM').addEventListener('click',()=>{
   if(M.shots.length&&!M.from&&!M.sample&&!newArmed){newArmed=true;$('#newM').textContent='Effacer sans enregistrer ?';setTimeout(()=>{newArmed=false;$('#newM').textContent='Nouveau match'},4000);return}
   newArmed=false;$('#newM').textContent='Nouveau match';
-  M={disc:M.disc,date:today(),name:'',shots:[],sample:false};sel=null;pendingInt=null;save();syncMeta();render();flash('Nouveau match prêt.');
+  M={disc:wantDisc||M.disc,date:today(),name:'',shots:[],sample:false};wantDisc=null;sel=null;buildPad();pendingInt=null;save();syncMeta();render();flash('Nouveau match prêt.');
 });
 function summary(){
   const D=d(),S=stats(M);
@@ -668,6 +680,11 @@ $('#lpPrev').addEventListener('click',()=>{const per=d().shots,n=M.shots.length,
 $('#lpNext').addEventListener('click',()=>{const per=d().shots,n=M.shots.length,cur=sel!==null?Math.floor(sel/per):Math.min(d().n-1,Math.floor(n/per));const v=(loupeSer!==null?loupeSer:cur)+1;if(v<d().n){loupeSer=v===Math.min(d().n-1,Math.floor(n/per))?null:v;sel=null;render()}});
 let flashT=null;function flash(t){$('#msg').textContent=t;clearTimeout(flashT);flashT=setTimeout(()=>{$('#msg').textContent=''},5000)}
 
+(function(){let q=null;try{q=new URLSearchParams(location.search).get('epreuve')}catch(e){}
+  if(!q||!DISC[q]||q===M.disc)return;
+  if(!M.shots.length||M.sample){M={disc:q,date:today(),name:'',shots:[],sample:false};save()}
+  else{wantDisc=q;setTimeout(()=>flash(`Votre match en cours (${d().label}) est conservé. Pour ${DISC[q].label}, touchez « Nouveau match ».`),50)}
+})();
 if(store.get('mts-solo-loupe',false)){FM.classList.add('loupe');$('#loupe').setAttribute('aria-pressed','true')}
 syncMeta();buildPad();render();
 })();
