@@ -790,17 +790,65 @@ async function buildPDF(){
   doc.text('TOTAL',mL+2,y+6);doc.text(pdfTxt(`${fmt(S.tot,D.dec)} / ${fmt(D.max*N(),D.dec)}${S.complete?'':`  (${S.n} coups sur ${N()})`}`),mL+cw-2,y+6,{align:'right'});
   y+=15;
   // statistiques
-  const st=[];if(S.avg!==null&&D.kind!=='hit')st.push(['Moyenne par coup',S.avg.toFixed(2).replace('.',',')]);
-  if(D.mouche)st.push(['Mouches',String(S.mo)]);
-  if(S.best)st.push(['Meilleure série',`S${S.best.i+1} · ${fmt(S.best.tot,D.dec)}`]);
-  if(S.worst)st.push(['Moins bonne série',`S${S.worst.i+1} · ${fmt(S.worst.tot,D.dec)}`]);
-  if(st.length){const w=cw/st.length;st.forEach((x,i)=>{doc.setDrawColor(211,217,225);doc.roundedRect(mL+i*w+1,y,w-2,16,2,2,'S');doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(27,36,48);doc.text(pdfTxt(x[1]),mL+i*w+w/2,y+7.5,{align:'center'});doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(110,120,135);doc.text(pdfTxt(x[0]),mL+i*w+w/2,y+12.5,{align:'center'})});y+=22}
-  if(M.shots.length&&D.kind!=='hit'){const rs=rankStats();doc.setFontSize(9);doc.setTextColor(60,70,85);doc.setFont('helvetica','bold');doc.text('Moyenne par rang de coup',mL,y);doc.setFont('helvetica','normal');
-    const line=rs.map((r,k)=>`${k+1}) ${r.avg===null?'-':r.avg.toFixed(2).replace('.',',')}`).join('   ');doc.text(doc.splitTextToSize(pdfTxt(line),cw),mL,y+5);y+=14}
+  const ensure=h=>{if(y+h>282){doc.addPage();y=16}};
+  const head=(txt,need)=>{y+=3;ensure(need||52);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(27,36,48);doc.text(pdfTxt(txt),mL,y);y+=5};
+  const full=S.ser.filter(s=>s.full),avgSer=full.length?full.reduce((a,s)=>a+s.tot,0)/full.length:null;
+  const tiles=[];
+  if(S.avg!==null&&D.kind!=='hit')tiles.push(['Moyenne par coup',S.avg.toFixed(2).replace('.',',')]);
+  if(!S.complete&&S.proj!==null)tiles.push(['Total projeté',fmt(Math.round(S.proj*10)/10,D.dec)]);
+  if(D.mouche)tiles.push(['Mouches',String(S.mo)]);
+  if(D.kind==='hit')tiles.push(['Touchés',`${S.tot} / ${S.n}`]);
+  if(S.best)tiles.push(['Meilleure série',`S${S.best.i+1} · ${fmt(S.best.tot,D.dec)}`]);
+  if(S.worst)tiles.push(['Moins bonne série',`S${S.worst.i+1} · ${fmt(S.worst.tot,D.dec)}`]);
+  if(S.best&&S.worst)tiles.push(['Écart meilleure / moins bonne',fmt(Math.round((S.best.tot-S.worst.tot)*10)/10,D.dec)]);
+  if(tiles.length){const per2=Math.min(tiles.length,4),w=cw/per2;
+    tiles.forEach((x,i)=>{const r=Math.floor(i/per2),c=i%per2;if(c===0&&r>0)y+=19;ensure(18);
+      doc.setDrawColor(211,217,225);doc.roundedRect(mL+c*w+1,y,w-2,16,2,2,'S');doc.setFont('helvetica','bold');doc.setFontSize(12.5);doc.setTextColor(27,36,48);doc.text(pdfTxt(x[1]),mL+c*w+w/2,y+7.5,{align:'center'});doc.setFont('helvetica','normal');doc.setFontSize(7.5);doc.setTextColor(110,120,135);doc.text(pdfTxt(x[0]),mL+c*w+w/2,y+12.5,{align:'center'})});
+    y+=23}
+  // graphique en barres générique
+  const bars=(vals,labels,opt)=>{const H=opt.h||38;ensure(H+10);const x0=mL+8,w=cw-8,top=y,base=y+H;
+    const def=vals.filter(v=>v!==null);if(!def.length){y+=4;return}
+    let mn=opt.min!=null?opt.min:Math.min(...def),mx=opt.max!=null?opt.max:Math.max(...def);if(mx===mn){mn=mn-1;mx=mx+1}
+    doc.setDrawColor(211,217,225);doc.line(x0,base,x0+w,base);
+    const bw=w/vals.length;doc.setFontSize(7);
+    vals.forEach((v,i)=>{const cx=x0+i*bw+bw/2;doc.setTextColor(110,120,135);doc.text(pdfTxt(labels[i]),cx,base+4,{align:'center'});if(v===null)return;
+      const h=Math.max(1,(v-mn)/(mx-mn)*(H-8)+ (opt.min!=null?0:4));const col=opt.color?opt.color(v,i):[44,111,183];doc.setFillColor(...col);doc.rect(cx-bw*0.3,base-h,bw*0.6,h,'F');
+      doc.setTextColor(27,36,48);doc.text(pdfTxt(opt.fmt?opt.fmt(v):String(v)),cx,base-h-1.2,{align:'center'})});
+    if(opt.ref!=null){const ry=base-((opt.ref-mn)/(mx-mn)*(H-8)+(opt.min!=null?0:4));doc.setDrawColor(229,71,61);doc.setLineDashPattern([1.2,1],0);doc.line(x0,ry,x0+w,ry);doc.setLineDashPattern([],0);doc.setFontSize(6.5);doc.setTextColor(229,71,61);doc.text(pdfTxt(opt.refLabel||''),x0+w,ry-1,{align:'right'})}
+    y=base+9};
+  if(S.n){
+    head('Séries');
+    const tv=S.ser.map(s=>s.shots.length?s.tot:null);
+    bars(tv,S.ser.map((s,i)=>`S${i+1}`),{min:D.kind==='hit'?0:null,fmt:v=>fmt(v,D.dec),ref:avgSer,refLabel:avgSer!==null?`moyenne ${fmt(Math.round(avgSer*10)/10,D.dec)}`:'',color:(v,i)=>S.best&&S.best.i===i?[61,143,42]:(S.worst&&S.worst.i===i&&S.best.i!==i?[229,71,61]:[44,111,183])});
+    const rs=rankStats(),hit=D.kind==='hit',byT=hit||D.targets;
+    head(hit?'Impacts par cible':D.targets?'Moyenne par cible':'Moyenne par rang de coup');
+    const rv=rs.map(r=>hit?(r.tot?r.sum:null):r.avg);const def=rv.filter(v=>v!==null),rmx=def.length?Math.max(...def):null,rmn=def.length?Math.min(...def):null;
+    bars(rv,rs.map((r,k)=>byT?`C${k+1}`:`${k+1}`),{min:hit?0:null,fmt:v=>hit?String(v):v.toFixed(2).replace('.',','),color:v=>v===rmx&&rmx!==rmn?[61,143,42]:(v===rmn&&rmx!==rmn?[229,71,61]:[44,111,183])});
+    // détail par série
+    head('Détail par série',22);
+    const cols=['Série','Total','Moy./coup',D.kind==='hit'?'Touchés':`10${D.mouche?' (X)':''}`,'Plus faible','Écart'],cwd=cw/cols.length;
+    ensure(7);doc.setFillColor(27,36,48);doc.rect(mL,y,cw,6.5,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(8);cols.forEach((c,i)=>doc.text(pdfTxt(c),mL+i*cwd+cwd/2,y+4.4,{align:'center'}));y+=6.5;
+    doc.setFont('helvetica','normal');
+    S.ser.forEach((s,i)=>{ensure(6.5);if(i%2){doc.setFillColor(242,244,247);doc.rect(mL,y,cw,6.5,'F')}doc.setTextColor(27,36,48);doc.setFontSize(8.5);
+      if(!s.shots.length){doc.text(`S${i+1}`,mL+cwd/2,y+4.5,{align:'center'});doc.text('-',mL+cwd*1.5,y+4.5,{align:'center'});y+=6.5;return}
+      const v=s.shots.map(x=>x.v),mn=Math.min(...v),n10=D.kind==='hit'?v.filter(x=>x>=1).length:v.filter(x=>x>=10).length,nx=s.shots.filter(x=>x.x).length,diff=s.full&&avgSer!==null?s.tot-avgSer:null;
+      const row=[`S${i+1}${s.full?'':` (${s.shots.length})`}`,fmt(s.tot,D.dec),D.kind==='hit'?'-':(s.tot/s.shots.length).toFixed(2).replace('.',','),`${n10}${D.mouche&&nx?` (${nx})`:''}`,D.kind==='hit'?'-':fmt(mn,D.dec),diff===null?'-':(diff>0?'+':'')+fmt(Math.round(diff*10)/10,D.dec)];
+      row.forEach((c,k)=>{if(k===5&&diff!==null)doc.setTextColor(diff>=0?20:200,diff>=0?120:50,diff>=0?110:40);else doc.setTextColor(27,36,48);doc.text(pdfTxt(c),mL+k*cwd+cwd/2,y+4.5,{align:'center'})});y+=6.5});
+    doc.setFontSize(7);doc.setTextColor(110,120,135);ensure(6);doc.text('Écart : différence avec la moyenne des séries complètes.',mL,y+3.5);y+=9;
+    // répartition
+    let bins;
+    if(D.kind==='hit')bins=[{l:'Touché',f:s=>s.v===1},{l:'Manqué',f:s=>s.v===0}];
+    else if(D.kind==='dec')bins=[{l:'10,x',f:s=>s.v>=10},{l:'9,x',f:s=>s.v>=9&&s.v<10},{l:'8,x',f:s=>s.v>=8&&s.v<9},{l:'7,x',f:s=>s.v>=7&&s.v<8},{l:'< 7',f:s=>s.v<7}];
+    else{bins=[];if(D.mouche)bins.push({l:'X',f:s=>s.x});bins.push({l:'10',f:s=>s.v===10&&!s.x});[9,8,7,6].forEach(v=>bins.push({l:String(v),f:s=>s.v===v}));bins.push({l:'< 6',f:s=>s.v<6})}
+    const counts=bins.map(b=>M.shots.filter(b.f).length);
+    head(D.kind==='hit'?'Touchés et manqués':'Répartition des coups');
+    bars(counts,bins.map(b=>b.l),{min:0,h:32,fmt:v=>`${v} · ${Math.round(v/S.n*100)} %`,color:(v,i)=>i===0?[27,36,48]:[110,120,135]});
+  }
   // signatures
-  if(y<250){y=Math.max(y,236);doc.setDrawColor(150,160,175);doc.setFontSize(8);doc.setTextColor(110,120,135);
+  if(y>252){doc.addPage();y=16}
+  {y=Math.max(y+4,y);doc.setDrawColor(150,160,175);doc.setFontSize(8);doc.setTextColor(110,120,135);
     ['Signature du tireur','Signature de l\'arbitre ou de l\'entraîneur'].forEach((l,i)=>{const x=mL+i*(cw/2);doc.text(pdfTxt(l),x,y);doc.roundedRect(x,y+2,cw/2-6,20,2,2,'S')})}
-  doc.setFontSize(8);doc.setTextColor(140,150,165);doc.text(pdfTxt(`MonTirSportif · pistol.montirsportif.com/feuille-de-match.html · ${new Date().toLocaleDateString('fr-FR')}`),W/2,290,{align:'center'});
+  const np=doc.getNumberOfPages();for(let pg=1;pg<=np;pg++){doc.setPage(pg);doc.setFontSize(8);doc.setTextColor(140,150,165);doc.text(pdfTxt(`MonTirSportif · pistol.montirsportif.com/feuille-de-match.html · ${new Date().toLocaleDateString('fr-FR')}${np>1?` · page ${pg}/${np}`:''}`),W/2,290,{align:'center'})}
   const fname=`feuille-de-match-${(M.date||today())}-${D.code}`.replace(/[^\w\-]+/g,'-')+'.pdf';
   return{doc,fname};
 }
