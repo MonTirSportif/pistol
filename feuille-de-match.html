@@ -168,12 +168,17 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .sertab .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
 #fm .sertab tr.bestr td:first-child{color:var(--good);font-weight:600}
 #fm .sertab tr.worstr td:first-child{color:var(--accent);font-weight:600}
+#fm .fmt{margin:0;font-size:.92rem;color:var(--muted)}
+#fm .fmt b{color:var(--ink);font-family:var(--display);font-size:1.1rem;font-weight:700}
+#fm .fmt .warn{color:var(--warn)}
+#fm h1 .code{display:block;font-size:.55em;color:var(--muted);font-weight:600;margin-top:4px}
 #fm small.ph{display:block;font-size:.68rem;color:var(--muted);font-weight:400;line-height:1}
 #fm .msg{font-size:.9rem;color:var(--good);min-height:1.2em}
 #fm .note{font-size:.85rem;color:var(--warn);margin:0}
 #fm footer{font-size:.82rem;color:var(--muted)}
+#fmTitle .code{display:block;font-size:.5em;color:var(--mut);margin-top:.25em;letter-spacing:.02em}
 @media (max-width:560px){#fm .tg b{font-size:1.2rem}#fm .lpnav b{font-size:1.25rem}}
-</style><main class="view" id="feuille-de-match" style="--acc:#12938a"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1>Ma feuille de match</h1><p class="lead">Notez vos points coup par coup, à 10 m, 25 m ou 50 m, au stand ou après le match : totaux, moyennes, statistiques par coup ou par cible et suivi de vos matchs, directement dans le navigateur.</p></div>
+</style><main class="view" id="feuille-de-match" style="--acc:#12938a"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1 id="fmTitle">Ma feuille de match</h1><p class="lead">Notez vos points coup par coup, à 10 m, 25 m ou 50 m, au stand ou après le match : totaux, moyennes, statistiques par coup ou par cible et suivi de vos matchs, directement dans le navigateur.</p></div>
 <section class="first" id="feuille">
 <div id="fm">
 
@@ -181,20 +186,36 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     <div class="meta">
       <label for="disc">Épreuve
         <select id="disc">
-          <option value="std10">Pistolet Standard 10 m · 8 × 5 coups</option>
-          <option value="vit10">Pistolet Vitesse 10 m · 8 × 5 cibles</option>
-          <option value="p10">Pistolet 10 m · 6 × 10 coups</option>
-          <option value="c10">Carabine 10 m · 6 × 10 coups au dixième</option>
-          <option value="p25">Pistolet 25 m · 6 × 5 précision + 6 × 5 vitesse</option>
-          <option value="pc25">Pistolet 25 m percussion centrale · 6 × 5 + 6 × 5</option>
-          <option value="vo25">Pistolet vitesse olympique 25 m · 12 × 5 cibles</option>
-          <option value="std25">Pistolet standard 25 m · 4 × 150 s, 4 × 20 s, 4 × 10 s</option>
-          <option value="p50">Pistolet 50 m · 6 × 10 coups</option>
+          <option value="p10">Pistolet 10 m</option>
+          <option value="vit10">Pistolet vitesse 10 m</option>
+          <option value="std10">Pistolet standard 10 m</option>
+          <option value="c10">Carabine 10 m</option>
+          <option value="p25">Pistolet 25 m</option>
+          <option value="vo25">Pistolet vitesse olympique 25 m</option>
+          <option value="std25">Pistolet standard 25 m</option>
+          <option value="pc25">Pistolet percussion centrale 25 m</option>
+          <option value="p50">Pistolet 50 m</option>
+        </select>
+      </label>
+      <label for="cat">Catégorie du tireur
+        <select id="cat">
+          <option value="PO">Poussin (école de tir)</option>
+          <option value="BE">Benjamin (école de tir)</option>
+          <option value="MI">Minime (école de tir)</option>
+          <option value="CA">Cadet</option>
+          <option value="JU">Junior</option>
+          <option value="S1">Senior 1</option>
+          <option value="S2">Senior 2</option>
+          <option value="S3">Senior 3</option>
+          <option value="D1">Dame 1</option>
+          <option value="D2">Dame 2</option>
+          <option value="D3">Dame 3</option>
         </select>
       </label>
       <label for="mDate">Date<input id="mDate" type="date"></label>
       <label for="mName">Match ou séance<input id="mName" type="text" placeholder="Championnat, entraînement…"></label>
     </div>
+    <p class="fmt" id="fmtInfo"></p>
   </div>
 
   <div class="two">
@@ -440,20 +461,40 @@ const DISC={
 const today=()=>new Date().toISOString().slice(0,10);
 const SAMPLE=[10,9,9,8,10, 9,{v:10,x:1},8,9,9, 10,9,8,9,7, 9,9,10,8,9, {v:10,x:1},9,9,10,8, 8,9,9,9,10, 9,8,10,9,9, 9,10,9,8].map(s=>typeof s==='number'?{v:s,x:0}:s);
 let M=store.get('mts-solo-cur',null);
-if(!M)M={disc:'std10',date:today(),name:'Entraînement (exemple)',place:'',shots:SAMPLE,sample:true};
+if(!M)M={cat:'S1',disc:'std10',date:today(),name:'Entraînement (exemple)',place:'',shots:SAMPLE,sample:true};
 let H=store.get('mts-solo-hist',[]);
 let sel=null,pendingInt=null,wantDisc=null;
-const d=()=>DISC[M.disc];
+const DCODE={p10:'100',c10:'104',vit10:'102',std10:'103',p25:'252',pc25:'251',vo25:'253',std25:'250',p50:'500'};
+const EDT=['PO','BE','MI'];
+const CATN={PO:'Poussin',BE:'Benjamin',MI:'Minime',CA:'Cadet',JU:'Junior',S1:'Senior 1',S2:'Senior 2',S3:'Senior 3',D1:'Dame 1',D2:'Dame 2',D3:'Dame 3'};
+/* Nombre de coups selon l'épreuve et la catégorie (tableau FFTir 2018 et réforme des écoles de tir 2025-2026) */
+function spec(disc,cat){
+  const B=DISC[disc],edt=EDT.includes(cat);let code=DCODE[disc],label=B.label,shots=B.n*B.shots,warn='';
+  if(disc==='p10'){if(edt){code='150';label='Pistolet 10 m école de tir';shots=40}else if(cat==='D3')shots=40}
+  else if(disc==='c10'){if(edt){code='154';label='Carabine 10 m école de tir';shots=40;warn='Écoles de tir carabine : 30 ou 40 coups selon la compétition.'}else if(cat==='D3')shots=40}
+  else if(disc==='vit10'){if(edt){code='152';label='Pistolet vitesse 5 cibles 10 m école de tir';shots=30}}
+  else if(edt){warn='Épreuve non prévue pour cette catégorie : format adulte affiché.'}
+  return{...B,code,label,n:Math.round(shots/B.shots),warn};
+}
+const d=()=>spec(M.disc,M.cat||'S1');
 const N=()=>d().n*d().shots;
 const save=()=>store.set('mts-solo-cur',M);
 const fmt=(v,dec)=>v==null||isNaN(v)?'–':(dec?v.toFixed(1):String(Math.round(v))).replace('.',',');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 /* ---------- Méta ---------- */
-function syncMeta(){$('#disc').value=M.disc;$('#mDate').value=M.date||'';$('#mName').value=M.name||'';$('#sampleNote').hidden=!M.sample}
+function syncTitle(){const D=d();$('#fmTitle').innerHTML=`Ma feuille de match<span class="code">${D.code} · ${esc(D.label)}</span>`;
+  $('#fmtInfo').innerHTML=`<b>${D.n*D.shots} coups</b> · ${D.n} séries de ${D.shots} ${D.kind==='hit'?'cibles':'coups'} · ${esc(CATN[M.cat||'S1'])}${D.warn?` · <span class="warn">${esc(D.warn)}</span>`:''}`;
+  try{document.title=`Ma feuille de match · ${D.code} ${D.label}`}catch(e){}}
+function syncMeta(){$('#disc').value=M.disc;$('#cat').value=M.cat||'S1';syncTitle();$('#mDate').value=M.date||'';$('#mName').value=M.name||'';$('#sampleNote').hidden=!M.sample}
 [['mDate','date'],['mName','name']].forEach(([id,k])=>$('#'+id).addEventListener('input',e=>{M[k]=e.target.value;save();render()}));
+$('#cat').addEventListener('change',e=>{
+  M.cat=e.target.value;store.set('mts-solo-cat',M.cat);
+  if(M.shots.length>N()){flash(`Format ${N()} coups : les coups au-delà ont été retirés.`);M.shots=M.shots.slice(0,N())}
+  sel=null;pendingInt=null;loupeSer=null;save();syncTitle();render();
+});
 $('#disc').addEventListener('change',e=>{
-  M.disc=e.target.value;M.shots=M.shots.filter(s=>s.v<=d().max).slice(0,N());
+  M.disc=e.target.value;M.shots=M.shots.filter(s=>s.v<=d().max).slice(0,N());syncTitle();
   if(d().kind==='hit')M.shots=M.shots.map(s=>({v:s.v>=1?1:0,x:0}));
   sel=null;pendingInt=null;save();buildPad();render();
 });
@@ -502,7 +543,7 @@ document.addEventListener('keydown',e=>{
 
 /* ---------- Calculs ---------- */
 function stats(m){
-  const D=DISC[m.disc],per=D.shots,ser=[];
+  const D=spec(m.disc,m.cat||'S1'),per=D.shots,ser=[];
   for(let i=0;i<D.n;i++){const part=m.shots.slice(i*per,i*per+per);ser.push({shots:part,tot:Math.round(part.reduce((a,s)=>a+s.v,0)*10)/10,full:part.length===per})}
   const tot=Math.round(m.shots.reduce((a,s)=>a+s.v,0)*10)/10,n=m.shots.length;
   const full=ser.filter(s=>s.full);
@@ -641,11 +682,12 @@ function drawDist(){
 /* ---------- Historique ---------- */
 function renderHist(){
   const list=H.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')||a.saved-b.saved);
-  const same=list.filter(h=>h.disc===M.disc);
+  const key=h=>{const D=spec(h.disc,h.cat||'S1');return D.code+'/'+D.n*D.shots};const curKey=key(M);
+  const same=list.filter(h=>key(h)===curKey);
   const prog=$('#prog'),W=420,Hh=130;
   if(same.length<2){prog.innerHTML=`<text x="${W/2}" y="${Hh/2}" text-anchor="middle" fill="${css('--muted')}" font-size="13">${same.length?'Enregistrez un deuxième match pour voir votre progression.':'Enregistrez vos matchs pour suivre votre progression.'}</text>`}
   else{
-    const D=DISC[M.disc],v=same.map(h=>h.tot),lo=Math.min(...v),hi=Math.max(...v),pad=Math.max(1,(hi-lo)*0.2);
+    const D=d(),v=same.map(h=>h.tot),lo=Math.min(...v),hi=Math.max(...v),pad=Math.max(1,(hi-lo)*0.2);
     const L=36,R=14,T=16,B=22,x=i=>L+(W-L-R)*i/(same.length-1),y=t=>T+(Hh-T-B)*(1-(t-(lo-pad))/((hi+pad)-(lo-pad)));
     let g='';[lo,hi].forEach(t=>{g+=`<line x1="${L}" x2="${W-R}" y1="${y(t)}" y2="${y(t)}" stroke="${css('--line')}"/><text x="${L-6}" y="${y(t)+4}" text-anchor="end" font-size="10" fill="${css('--muted')}">${fmt(t,D.dec)}</text>`});
     g+=`<polyline points="${same.map((h,i)=>x(i)+','+y(h.tot)).join(' ')}" fill="none" stroke="${css('--accent')}" stroke-width="2"/>`;
@@ -654,21 +696,21 @@ function renderHist(){
     const lt=same[same.length-1];g+=`<text x="${x(same.length-1)-8}" y="${y(lt.tot)-9}" text-anchor="end" font-size="12" font-weight="600" fill="${css('--ink')}">${fmt(lt.tot,D.dec)}</text>`;
     prog.innerHTML=g;
   }
-  const rec={};H.forEach(h=>{if(h.complete&&(!rec[h.disc]||h.tot>rec[h.disc]))rec[h.disc]=h.tot});
-  $('#hist').innerHTML=list.length?list.slice().reverse().map(h=>{const D=DISC[h.disc];
-    const isRec=h.complete&&rec[h.disc]===h.tot;
-    return `<div class="hrow"><div><div>${esc(h.name)||'Match'}${isRec?' <span class="pill up">record</span>':''}</div><div class="muted">${h.date?new Date(h.date).toLocaleDateString('fr-FR'):''} · ${D.label}${h.complete?'':' · incomplet'}</div></div><b>${fmt(h.tot,D.dec)}</b><button class="del" data-open="${h.saved}">Ouvrir</button><button class="del" data-del="${h.saved}">Supprimer</button></div>`}).join('')
+  const rec={};H.forEach(h=>{const k=key(h);if(h.complete&&(!rec[k]||h.tot>rec[k]))rec[k]=h.tot});
+  $('#hist').innerHTML=list.length?list.slice().reverse().map(h=>{const D=spec(h.disc,h.cat||'S1');
+    const isRec=h.complete&&rec[key(h)]===h.tot;
+    return `<div class="hrow"><div><div>${esc(h.name)||'Match'}${isRec?' <span class="pill up">record</span>':''}</div><div class="muted">${h.date?new Date(h.date).toLocaleDateString('fr-FR'):''} · ${D.code} · ${D.label}${h.cat?' · '+(CATN[h.cat]||h.cat):''}${h.complete?'':' · incomplet'}</div></div><b>${fmt(h.tot,D.dec)}</b><button class="del" data-open="${h.saved}">Ouvrir</button><button class="del" data-del="${h.saved}">Supprimer</button></div>`}).join('')
     :'<p class="muted" style="margin:0">Aucun match enregistré.</p>';
 }
 $('#hist').addEventListener('click',e=>{
   const o=e.target.closest('[data-open]'),x=e.target.closest('[data-del]');
-  if(o){const h=H.find(h=>String(h.saved)===o.dataset.open);if(h){M={disc:h.disc,date:h.date,name:h.name,place:h.place,goal:h.goal,shots:h.shots.map(s=>({...s})),sample:false,from:h.saved};sel=null;save();syncMeta();buildPad();render();flash('Match ouvert : vos corrections seront enregistrées en touchant « Enregistrer ce match ».');window.scrollTo({top:0,behavior:'smooth'})}}
+  if(o){const h=H.find(h=>String(h.saved)===o.dataset.open);if(h){M={cat:h.cat||'S1',disc:h.disc,date:h.date,name:h.name,place:h.place,goal:h.goal,shots:h.shots.map(s=>({...s})),sample:false,from:h.saved};sel=null;save();syncMeta();buildPad();render();flash('Match ouvert : vos corrections seront enregistrées en touchant « Enregistrer ce match ».');window.scrollTo({top:0,behavior:'smooth'})}}
   if(x){if(x.dataset.armed!=='1'){x.dataset.armed='1';x.textContent='Confirmer';setTimeout(()=>{if(x.isConnected){x.dataset.armed='';x.textContent='Supprimer'}},3000);return}
     H=H.filter(h=>String(h.saved)!==x.dataset.del);store.set('mts-solo-hist',H);renderHist()}
 });
 $('#saveM').addEventListener('click',()=>{
   if(!M.shots.length){flash('Saisissez au moins un coup avant d’enregistrer.');return}
-  const S=stats(M);const rec={disc:M.disc,date:M.date,name:M.name,place:M.place,goal:M.goal,shots:M.shots.map(s=>({...s})),tot:S.tot,complete:S.complete,saved:M.from||Date.now()};
+  const S=stats(M);const rec={cat:M.cat||'S1',disc:M.disc,date:M.date,name:M.name,place:M.place,goal:M.goal,shots:M.shots.map(s=>({...s})),tot:S.tot,complete:S.complete,saved:M.from||Date.now()};
   const i=H.findIndex(h=>h.saved===rec.saved);if(i>=0)H[i]=rec;else H.push(rec);
   M.from=rec.saved;M.sample=false;store.set('mts-solo-hist',H);save();render();flash('Match enregistré.');
 });
@@ -676,11 +718,11 @@ let newArmed=false;
 $('#newM').addEventListener('click',()=>{
   if(M.shots.length&&!M.from&&!M.sample&&!newArmed){newArmed=true;$('#newM').textContent='Effacer sans enregistrer ?';setTimeout(()=>{newArmed=false;$('#newM').textContent='Nouveau match'},4000);return}
   newArmed=false;$('#newM').textContent='Nouveau match';
-  M={disc:wantDisc||M.disc,date:today(),name:'',shots:[],sample:false};wantDisc=null;sel=null;buildPad();pendingInt=null;save();syncMeta();render();flash('Nouveau match prêt.');
+  M={cat:M.cat||'S1',disc:wantDisc||M.disc,date:today(),name:'',shots:[],sample:false};wantDisc=null;sel=null;buildPad();pendingInt=null;save();syncMeta();render();flash('Nouveau match prêt.');
 });
 function summary(){
   const D=d(),S=stats(M);
-  const lines=[`${M.name||'Match'} · ${D.label}${M.date?' · '+new Date(M.date).toLocaleDateString('fr-FR'):''}`];
+  const lines=[`${M.name||'Match'} · ${D.code} ${D.label} · ${CATN[M.cat||'S1']}${M.date?' · '+new Date(M.date).toLocaleDateString('fr-FR'):''}`];
   S.ser.forEach((s,i)=>{if(s.shots.length)lines.push(`S${i+1} : ${fmt(s.tot,D.dec)}${D.prec?` · moy. ${(s.tot/s.shots.length).toFixed(2).replace('.',',')} · 10 : ${s.shots.filter(x=>x.v>=10).length}`:''}  (${s.shots.map(x=>D.kind==='hit'?(x.v?'T':'M'):x.x?'X':fmt(x.v,D.dec)).join(' ')})`)});
   lines.push(`Total : ${fmt(S.tot,D.dec)} / ${fmt(D.max*N(),D.dec)}${S.complete?'':` (${S.n} coups sur ${N()})`}`);
   if(S.avg!==null&&D.kind!=='hit')lines.push(`Moyenne par coup : ${S.avg.toFixed(2).replace('.',',')}`);
@@ -710,8 +752,8 @@ let flashT=null;function flash(t){$('#msg').textContent=t;clearTimeout(flashT);f
 
 (function(){let q=null;try{q=new URLSearchParams(location.search).get('epreuve')}catch(e){}
   if(!q||!DISC[q]||q===M.disc)return;
-  if(!M.shots.length||M.sample){M={disc:q,date:today(),name:'',shots:[],sample:false};save()}
-  else{wantDisc=q;setTimeout(()=>flash(`Votre match en cours (${d().label}) est conservé. Pour ${DISC[q].label}, touchez « Nouveau match ».`),50)}
+  if(!M.shots.length||M.sample){M={cat:M.cat||store.get('mts-solo-cat','S1'),disc:q,date:today(),name:'',shots:[],sample:false};save()}
+  else{wantDisc=q;setTimeout(()=>flash(`Votre match en cours (${d().label}) est conservé. Pour ${spec(q,M.cat||'S1').label}, touchez « Nouveau match ».`),50)}
 })();
 if(store.get('mts-solo-loupe',false)){FM.classList.add('loupe');$('#loupe').setAttribute('aria-pressed','true')}
 syncMeta();buildPad();render();
