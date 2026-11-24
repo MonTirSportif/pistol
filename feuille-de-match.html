@@ -178,7 +178,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm footer{font-size:.82rem;color:var(--muted)}
 #fmTitle .code{display:block;font-size:.5em;color:var(--mut);margin-top:.25em;letter-spacing:.02em}
 @media (max-width:560px){#fm .tg b{font-size:1.2rem}#fm .lpnav b{font-size:1.25rem}}
-</style><main class="view" id="feuille-de-match" style="--acc:#12938a"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1 id="fmTitle">Ma feuille de match</h1><p class="lead">Notez vos points coup par coup, à 10 m, 25 m ou 50 m, au stand ou après le match : totaux, moyennes, statistiques par coup ou par cible et suivi de vos matchs, directement dans le navigateur.</p></div>
+</style><main class="view" id="feuille-de-match" style="--acc:#12938a"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1 id="fmTitle">Ma feuille de match</h1><p class="lead">Notez vos points coup par coup, à 10 m, 25 m ou 50 m, au stand ou après le match : totaux, moyennes, statistiques par coup ou par cible et suivi de vos matchs, directement dans le navigateur. Une page PDF se crée en un clic, pour la partager ou l’imprimer.</p></div>
 <section class="first" id="feuille">
 <div id="fm">
 
@@ -271,6 +271,8 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
         <button id="saveM" class="primary">Enregistrer ce match</button>
         <button id="newM">Nouveau match</button>
         <button id="shareM">Partager</button>
+        <button id="pdfM">PDF</button>
+        <button id="printM">Imprimer</button>
       </div>
     </div>
     <div class="msg" id="msg" aria-live="polite"></div>
@@ -750,6 +752,78 @@ $('#shareM').addEventListener('click',async()=>{
   $('#sharePanel').hidden=false;$('#sharePanel').scrollIntoView({behavior:'smooth',block:'nearest'});
 });
 $('#shareClose').addEventListener('click',()=>{$('#sharePanel').hidden=true});
+/* ---------- PDF : partager ou imprimer ---------- */
+let jspdfP=null;
+function loadJsPDF(){if(window.jspdf)return Promise.resolve();if(jspdfP)return jspdfP;
+  jspdfP=new Promise((ok,ko)=>{const s=document.createElement('script');s.src='js/jspdf.umd.min.js';s.onload=()=>ok();s.onerror=()=>{jspdfP=null;ko(new Error('jsPDF'))};document.head.appendChild(s)});return jspdfP}
+function imgData(src){return new Promise(ok=>{const im=new Image();im.onload=()=>{try{const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext('2d').drawImage(im,0,0);ok({d:c.toDataURL('image/png'),w:im.naturalWidth,h:im.naturalHeight})}catch(e){ok(null)}};im.onerror=()=>ok(null);im.src=src})}
+const pdfTxt=s=>String(s??'').replace(/[’‘]/g,"'").replace(/[“”«»]/g,'"').replace(/[–—]/g,'-').replace(/…/g,'...').replace(/ | /g,' ');
+async function buildPDF(){
+  await loadJsPDF();const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});
+  const D=d(),S=stats(M),per=D.shots,W=210,mL=14,mR=14,cw=W-mL-mR;let y=16;
+  const logo=await imgData('img/logo.png');
+  if(logo){const h=14,w=h*logo.w/logo.h;doc.addImage(logo.d,'PNG',W-mR-w,10,w,h)}
+  doc.setFont('helvetica','bold');doc.setFontSize(20);doc.setTextColor(27,36,48);doc.text('Ma feuille de match',mL,y+4);
+  doc.setFontSize(11);doc.setTextColor(229,71,61);doc.text(pdfTxt(`${D.code} · ${D.label}`),mL,y+11);
+  y+=20;doc.setFont('helvetica','normal');doc.setTextColor(60,70,85);doc.setFontSize(10);
+  const meta=[['Match ou séance',M.name||'-'],['Catégorie',CATN[M.cat||'S1']],['Date',M.date?new Date(M.date).toLocaleDateString('fr-FR'):'-'],['Format',`${N()} coups · ${D.n} séries de ${per}`]];
+  const colW=cw/4;meta.forEach((m,i)=>{doc.setFontSize(8);doc.setTextColor(110,120,135);doc.text(pdfTxt(m[0].toUpperCase()),mL+i*colW,y);doc.setFontSize(10.5);doc.setTextColor(27,36,48);doc.text(doc.splitTextToSize(pdfTxt(m[1]),colW-3).slice(0,2),mL+i*colW,y+5)});
+  y+=15;doc.setFontSize(9);doc.setTextColor(110,120,135);doc.text('Tireur :',mL,y);doc.text('Club :',mL+cw/2,y);doc.setDrawColor(190,198,210);doc.line(mL+14,y+0.6,mL+cw/2-6,y+0.6);doc.line(mL+cw/2+11,y+0.6,mL+cw,y+0.6);
+  y+=8;
+  // tableau des séries
+  const labW=D.ph?24:14,totW=20,cellW=(cw-labW-totW)/per,rh=9;
+  doc.setFillColor(27,36,48);doc.rect(mL,y,cw,7,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(9);
+  doc.text('Série',mL+2,y+4.8);for(let k=0;k<per;k++)doc.text(D.kind==='hit'?`C${k+1}`:String(k+1),mL+labW+k*cellW+cellW/2,y+4.8,{align:'center'});doc.text('Total',mL+cw-totW/2,y+4.8,{align:'center'});
+  y+=7;
+  S.ser.forEach((s,i)=>{
+    if(y>270){doc.addPage();y=16}
+    if(i%2)doc.setFillColor(242,244,247),doc.rect(mL,y,cw,rh,'F');
+    doc.setDrawColor(211,217,225);doc.line(mL,y+rh,mL+cw,y+rh);
+    doc.setTextColor(27,36,48);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text(`S${i+1}`,mL+2,y+5.2);
+    if(D.ph){doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(110,120,135);doc.text(pdfTxt(D.ph[i]),mL+10,y+5.2)}
+    doc.setFont('helvetica','normal');doc.setFontSize(10);
+    for(let k=0;k<per;k++){const sh=s.shots[k];if(!sh)continue;const txt=D.kind==='hit'?(sh.v?'T':'-'):(sh.x?'10*':fmt(sh.v,D.dec));
+      const good=D.kind==='hit'?sh.v>=1:sh.v>=(D.dec?10:10);doc.setTextColor(good?20:27,good?120:36,good?110:48);doc.text(txt,mL+labW+k*cellW+cellW/2,y+5.8,{align:'center'})}
+    doc.setTextColor(27,36,48);doc.setFont('helvetica','bold');doc.text(s.shots.length?fmt(s.tot,D.dec):'',mL+cw-totW/2,y+5.8,{align:'center'});
+    y+=rh});
+  doc.setFillColor(229,71,61);doc.rect(mL,y,cw,9,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(11);
+  doc.text('TOTAL',mL+2,y+6);doc.text(pdfTxt(`${fmt(S.tot,D.dec)} / ${fmt(D.max*N(),D.dec)}${S.complete?'':`  (${S.n} coups sur ${N()})`}`),mL+cw-2,y+6,{align:'right'});
+  y+=15;
+  // statistiques
+  const st=[];if(S.avg!==null&&D.kind!=='hit')st.push(['Moyenne par coup',S.avg.toFixed(2).replace('.',',')]);
+  if(D.mouche)st.push(['Mouches',String(S.mo)]);
+  if(S.best)st.push(['Meilleure série',`S${S.best.i+1} · ${fmt(S.best.tot,D.dec)}`]);
+  if(S.worst)st.push(['Moins bonne série',`S${S.worst.i+1} · ${fmt(S.worst.tot,D.dec)}`]);
+  if(st.length){const w=cw/st.length;st.forEach((x,i)=>{doc.setDrawColor(211,217,225);doc.roundedRect(mL+i*w+1,y,w-2,16,2,2,'S');doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(27,36,48);doc.text(pdfTxt(x[1]),mL+i*w+w/2,y+7.5,{align:'center'});doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(110,120,135);doc.text(pdfTxt(x[0]),mL+i*w+w/2,y+12.5,{align:'center'})});y+=22}
+  if(M.shots.length&&D.kind!=='hit'){const rs=rankStats();doc.setFontSize(9);doc.setTextColor(60,70,85);doc.setFont('helvetica','bold');doc.text('Moyenne par rang de coup',mL,y);doc.setFont('helvetica','normal');
+    const line=rs.map((r,k)=>`${k+1}) ${r.avg===null?'-':r.avg.toFixed(2).replace('.',',')}`).join('   ');doc.text(doc.splitTextToSize(pdfTxt(line),cw),mL,y+5);y+=14}
+  // signatures
+  if(y<250){y=Math.max(y,236);doc.setDrawColor(150,160,175);doc.setFontSize(8);doc.setTextColor(110,120,135);
+    ['Signature du tireur','Signature de l\'arbitre ou de l\'entraîneur'].forEach((l,i)=>{const x=mL+i*(cw/2);doc.text(pdfTxt(l),x,y);doc.roundedRect(x,y+2,cw/2-6,20,2,2,'S')})}
+  doc.setFontSize(8);doc.setTextColor(140,150,165);doc.text(pdfTxt(`MonTirSportif · pistol.montirsportif.com/feuille-de-match.html · ${new Date().toLocaleDateString('fr-FR')}`),W/2,290,{align:'center'});
+  const fname=`feuille-de-match-${(M.date||today())}-${D.code}`.replace(/[^\w\-]+/g,'-')+'.pdf';
+  return{doc,fname};
+}
+$('#pdfM').addEventListener('click',async()=>{
+  if(!M.shots.length){flash('Saisissez au moins un coup avant de créer le PDF.');return}
+  let r;try{flash('Création du PDF…');r=await buildPDF()}catch(e){flash('Le PDF n’a pas pu être créé (réessayez dans un instant).');return}
+  const blob=r.doc.output('blob');const file=new File([blob],r.fname,{type:'application/pdf'});
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:M.name||'Ma feuille de match'});flash('PDF partagé.');return}}catch(e){if(e&&e.name==='AbortError'){flash('');return}}
+  r.doc.save(r.fname);flash('PDF téléchargé.');
+});
+$('#printM').addEventListener('click',async()=>{
+  if(!M.shots.length){flash('Saisissez au moins un coup avant d’imprimer.');return}
+  const mobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const w=mobile?window.open('','_blank'):null;
+  let r;try{r=await buildPDF()}catch(e){if(w)w.close();flash('Le PDF n’a pas pu être créé (réessayez dans un instant).');return}
+  r.doc.autoPrint();const url=r.doc.output('bloburl');
+  if(mobile){if(w)w.location.href=url;else r.doc.save(r.fname);return}
+  let f=document.getElementById('fmPrintFrame');if(f)f.remove();
+  f=document.createElement('iframe');f.id='fmPrintFrame';f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0';f.src=url;
+  f.onload=()=>{try{f.contentWindow.focus();f.contentWindow.print()}catch(e){window.open(url,'_blank')}};
+  document.body.appendChild(f);
+});
+
 $('#shareCopy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('#shareTxt').value);flash('Résumé copié.')}catch(e){$('#shareTxt').select();flash('Copie refusée : le texte est sélectionné, copiez-le à la main.')}});
 /* Loupe */
 let loupeSer=null;
