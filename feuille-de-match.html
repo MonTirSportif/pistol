@@ -160,6 +160,14 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .tg em{font-style:normal;font-size:.72rem;font-weight:600}
 #fm .tg.weak em{color:var(--accent)}
 #fm .tg.top em{color:var(--good)}
+#fm .sertab td,#fm .sertab th{padding:5px 6px;font-size:.92rem}
+#fm .sertab td.b{font-family:var(--display);font-weight:700;font-size:1.1rem}
+#fm .sertab td.pos{color:var(--good);font-weight:600}
+#fm .sertab td.neg{color:var(--accent);font-weight:600}
+#fm .sertab .bar{display:block;height:6px;border-radius:3px;background:var(--line);min-width:50px;position:relative;overflow:hidden}
+#fm .sertab .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
+#fm .sertab tr.bestr td:first-child{color:var(--good);font-weight:600}
+#fm .sertab tr.worstr td:first-child{color:var(--accent);font-weight:600}
 #fm small.ph{display:block;font-size:.68rem;color:var(--muted);font-weight:400;line-height:1}
 #fm .msg{font-size:.9rem;color:var(--good);min-height:1.2em}
 #fm .note{font-size:.85rem;color:var(--warn);margin:0}
@@ -221,6 +229,11 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
         <h2 id="tgtTitle">Impacts par cible</h2>
         <p class="muted" style="margin:4px 0 8px" id="tgtHelp">Cibles numérotées de gauche à droite, dans l'ordre de tir.</p>
         <div class="tgts" id="tgts"></div>
+      </div>
+      <div id="serBox" hidden>
+        <h2>Détail par série</h2>
+        <p class="muted" style="margin:4px 0 8px">Écart : différence avec la moyenne de vos séries complètes. Dispersion : écart entre le meilleur et le plus faible coup de la série.</p>
+        <div class="scroll"><table class="sertab"><thead id="sdHead"></thead><tbody id="sdBody"></tbody></table></div>
       </div>
       <h2 id="distTitle">Répartition des coups</h2>
       <svg id="dist" class="chart" viewBox="0 0 420 150" role="img" aria-label="Nombre de coups par valeur"></svg>
@@ -416,13 +429,13 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v)
 const DISC={
   std10:{label:'Pistolet Standard 10 m',n:8,shots:5,max:10,dec:false,mouche:true,kind:'int'},
   vit10:{label:'Pistolet Vitesse 10 m',n:8,shots:5,max:1,dec:false,mouche:false,kind:'hit'},
-  p10:{label:'Pistolet 10 m',n:6,shots:10,max:10,dec:false,mouche:true,kind:'int'},
-  c10:{label:'Carabine 10 m',n:6,shots:10,max:10.9,dec:true,mouche:false,kind:'dec'},
+  p10:{label:'Pistolet 10 m',prec:true,n:6,shots:10,max:10,dec:false,mouche:true,kind:'int'},
+  c10:{label:'Carabine 10 m',prec:true,n:6,shots:10,max:10.9,dec:true,mouche:false,kind:'dec'},
   p25:{label:'Pistolet 25 m',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Préc.','Préc.','Préc.','Préc.','Vit.','Vit.','Vit.','Vit.','Vit.','Vit.']},
   pc25:{label:'Pistolet 25 m percussion centrale',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Préc.','Préc.','Préc.','Préc.','Vit.','Vit.','Vit.','Vit.','Vit.','Vit.']},
   vo25:{label:'Pistolet vitesse olympique 25 m',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',targets:true,ph:['8 s','8 s','6 s','6 s','4 s','4 s','8 s','8 s','6 s','6 s','4 s','4 s']},
   std25:{label:'Pistolet standard 25 m',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['150 s','150 s','150 s','150 s','20 s','20 s','20 s','20 s','10 s','10 s','10 s','10 s']},
-  p50:{label:'Pistolet 50 m',n:6,shots:10,max:10,dec:false,mouche:true,kind:'int'}
+  p50:{label:'Pistolet 50 m',prec:true,n:6,shots:10,max:10,dec:false,mouche:true,kind:'int'}
 };
 const today=()=>new Date().toISOString().slice(0,10);
 const SAMPLE=[10,9,9,8,10, 9,{v:10,x:1},8,9,9, 10,9,8,9,7, 9,9,10,8,9, {v:10,x:1},9,9,10,8, 8,9,9,9,10, 9,8,10,9,9, 9,10,9,8].map(s=>typeof s==='number'?{v:s,x:0}:s);
@@ -536,12 +549,12 @@ function render(){
   $('#fBody').innerHTML=fb;
   $('#fTot').textContent=`${fmt(S.tot,D.dec)} / ${fmt(D.max*N(),D.dec)}`;
 
-  drawSeries(S);drawDist();drawTargets();renderHist();$('#sampleNote').hidden=!M.sample;
+  drawSeries(S);drawDist();drawTargets();drawSerStats(S);renderHist();$('#sampleNote').hidden=!M.sample;
 }
 function label(s){const D=d();if(D.kind==='hit')return s.v?'●':'○';if(s.x)return '10<sup>X</sup>';return fmt(s.v,D.dec)}
 
 /* ---------- Graphiques ---------- */
-const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const css=n=>getComputedStyle(FM).getPropertyValue(n).trim();
 function drawSeries(S){
   const D=d(),W=420,Hh=180,L=36,R=12,T=14,B=26,max=D.max*D.shots;
   const vals=S.ser.map(s=>s.full?s.tot:null);
@@ -562,6 +575,21 @@ function drawSeries(S){
   vals.forEach((v,i)=>{if(v===null)return;const best=S.best&&S.best.i===i,worst=S.worst&&S.worst.i===i&&!best;
     g+=`<circle cx="${x(i)}" cy="${y(v)}" r="${best||worst?5:3.5}" fill="${best?css('--good'):worst?css('--accent'):css('--ink')}"/><text x="${x(i)}" y="${y(v)-9}" text-anchor="middle" font-size="11" font-weight="600" fill="${css('--ink')}">${fmt(v,D.dec)}</text>`});
   svg.innerHTML=g;
+}
+function drawSerStats(S){
+  const D=d(),box=$('#serBox');box.hidden=!D.prec;if(!D.prec)return;
+  const full=S.ser.filter(s=>s.full),avgSer=full.length?full.reduce((a,s)=>a+s.tot,0)/full.length:null;
+  const ten=D.dec?10:10;
+  $('#sdHead').innerHTML=`<tr><th style="text-align:left">Série</th><th>Total</th><th>Moy./coup</th><th>10${D.mouche?' (X)':''}</th><th>Plus faible</th><th>Dispersion</th><th>Écart</th><th></th></tr>`;
+  const lo=D.max*D.shots*0.8,hi=D.max*D.shots;
+  $('#sdBody').innerHTML=S.ser.map((s,i)=>{
+    if(!s.shots.length)return `<tr><td style="text-align:left">S${i+1}</td><td colspan="7" class="muted">–</td></tr>`;
+    const v=s.shots.map(x=>x.v),mn=Math.min(...v),mx=Math.max(...v),n10=v.filter(x=>x>=ten).length,nx=s.shots.filter(x=>x.x).length;
+    const diff=s.full&&avgSer!==null?s.tot-avgSer:null;
+    const w=Math.max(0,Math.min(1,(s.tot/s.shots.length*D.shots-lo)/(hi-lo)));
+    const cls=s.full&&S.best&&S.best.i===i?'bestr':s.full&&S.worst&&S.worst.i===i&&S.best.i!==i?'worstr':'';
+    return `<tr class="${cls}"><td style="text-align:left">S${i+1}${s.full?'':' <span class="muted">('+s.shots.length+')</span>'}</td><td class="b">${fmt(s.tot,D.dec)}</td><td>${(s.tot/s.shots.length).toFixed(2).replace('.',',')}</td><td>${n10}${D.mouche?` (${nx})`:''}</td><td>${fmt(mn,D.dec)}</td><td>${fmt(mx-mn,D.dec)}</td><td class="${diff===null?'':diff>=0.05?'pos':diff<=-0.05?'neg':''}">${diff===null?'–':(diff>=0?'+':'−')+Math.abs(diff).toFixed(1).replace('.',',')}</td><td><span class="bar"><i style="width:${(w*100).toFixed(0)}%"></i></span></td></tr>`;
+  }).join('');
 }
 function rankStats(){
   const D=d(),per=D.shots,res=[];
@@ -653,7 +681,7 @@ $('#newM').addEventListener('click',()=>{
 function summary(){
   const D=d(),S=stats(M);
   const lines=[`${M.name||'Match'} · ${D.label}${M.date?' · '+new Date(M.date).toLocaleDateString('fr-FR'):''}`];
-  S.ser.forEach((s,i)=>{if(s.shots.length)lines.push(`S${i+1} : ${fmt(s.tot,D.dec)}  (${s.shots.map(x=>D.kind==='hit'?(x.v?'T':'M'):x.x?'X':fmt(x.v,D.dec)).join(' ')})`)});
+  S.ser.forEach((s,i)=>{if(s.shots.length)lines.push(`S${i+1} : ${fmt(s.tot,D.dec)}${D.prec?` · moy. ${(s.tot/s.shots.length).toFixed(2).replace('.',',')} · 10 : ${s.shots.filter(x=>x.v>=10).length}`:''}  (${s.shots.map(x=>D.kind==='hit'?(x.v?'T':'M'):x.x?'X':fmt(x.v,D.dec)).join(' ')})`)});
   lines.push(`Total : ${fmt(S.tot,D.dec)} / ${fmt(D.max*N(),D.dec)}${S.complete?'':` (${S.n} coups sur ${N()})`}`);
   if(S.avg!==null&&D.kind!=='hit')lines.push(`Moyenne par coup : ${S.avg.toFixed(2).replace('.',',')}`);
   if(D.mouche)lines.push(`Mouches : ${S.mo}`);
