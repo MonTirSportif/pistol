@@ -198,6 +198,21 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
           <option value="std25">Pistolet standard 25 m</option>
           <option value="pc25">Pistolet percussion centrale 25 m</option>
           <option value="p50">Pistolet 50 m</option>
+          <optgroup label="TAR · Tir aux Armes Réglementaires">
+          <option value="t830">830 · Pistolet / revolver armes récentes</option>
+          <option value="t831">831 · Vitesse réglementaire</option>
+          <option value="t832">832 · Pistolet / revolver authentiques</option>
+          <option value="t810">810 · Fusil à répétition manuelle</option>
+          <option value="t811">811 · Fusil modifié gros calibre</option>
+          <option value="t812">812 · Fusil modifié petit calibre</option>
+          <option value="t813">813 · Fusil tout type assis</option>
+          <option value="t815">815 · Fusil semi-automatique gros calibre</option>
+          <option value="t816">816 · Fusil semi-automatique petit calibre</option>
+          <option value="t820">820 · Carabine militaire d’initiation</option>
+          <option value="t821">821 · Carabine semi-automatique .22 LR</option>
+          <option value="t822">822 · Carabine d’initiation assis</option>
+          <option value="t823">823 · Carabine militaire de match</option>
+          </optgroup>
         </select>
       </label>
       <label for="cat">Catégorie du tireur
@@ -465,6 +480,19 @@ const DISC={
   pc25:{label:'Pistolet 25 m percussion centrale',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Préc.','Préc.','Préc.','Préc.','Vit.','Vit.','Vit.','Vit.','Vit.','Vit.']},
   vo25:{label:'Pistolet vitesse olympique 25 m',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',targets:true,ph:['8 s','8 s','6 s','6 s','4 s','4 s','8 s','8 s','6 s','6 s','4 s','4 s']},
   std25:{label:'Pistolet standard 25 m',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['150 s','150 s','150 s','150 s','20 s','20 s','20 s','20 s','10 s','10 s','10 s','10 s']},
+  t830:{label:'TAR Pistolet / revolver armes récentes',n:6,shots:5,max:10,dec:false,mouche:true,kind:'int',ser:['int','int','gong','gong','gong','gong'],gong:5,ph:['Préc.','Préc.','20 s','20 s','10 s','10 s']},
+  t831:{label:'TAR Vitesse réglementaire',n:4,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['20 s','20 s','10 s','10 s']},
+  t832:{label:'TAR Pistolet / revolver authentiques',n:6,shots:5,max:10,dec:false,mouche:true,kind:'int',ser:['int','int','gong','gong','gong','gong'],gong:5,ph:['Préc.','Préc.','20 s','20 s','10 s','10 s']},
+  t810:{label:'TAR Fusil à répétition manuelle',n:4,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Vit.','Vit.']},
+  t811:{label:'TAR Fusil modifié gros calibre',n:4,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Vit.','Vit.']},
+  t812:{label:'TAR Fusil modifié petit calibre',n:4,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Vit.','Vit.']},
+  t813:{label:'TAR Fusil tout type assis',n:4,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Vit.','Vit.']},
+  t815:{label:'TAR Fusil semi-automatique gros calibre',n:4,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Vit.','Vit.']},
+  t816:{label:'TAR Fusil semi-automatique petit calibre',n:4,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Vit.','Vit.']},
+  t820:{label:'TAR Carabine militaire d’initiation',n:4,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Vit.','Vit.']},
+  t821:{label:'TAR Carabine semi-automatique .22 LR',n:4,shots:10,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Vit.','Vit.']},
+  t822:{label:'TAR Carabine d’initiation assis',n:4,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Vit.','Vit.']},
+  t823:{label:'TAR Carabine militaire de match',n:4,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Vit.','Vit.']},
   p50:{label:'Pistolet 50 m',prec:true,n:6,shots:10,max:10,dec:false,mouche:true,kind:'int'}
 };
 const today=()=>new Date().toISOString().slice(0,10);
@@ -473,7 +501,7 @@ let M=store.get('mts-solo-cur',null);
 if(!M)M={cat:'S1',disc:'std10',date:today(),name:'Entraînement (exemple)',place:'',shots:SAMPLE,sample:true};
 let H=store.get('mts-solo-hist',[]);
 let sel=null,pendingInt=null,wantDisc=null;
-const DCODE={c3x20:'3x20',cm10:'CM',v37:'3/7',p10:'100',c10:'104',vit10:'102',std10:'103',p25:'252',pc25:'251',vo25:'253',std25:'250',p50:'500'};
+const DCODE={t830:'830',t831:'831',t832:'832',t810:'810',t811:'811',t812:'812',t813:'813',t815:'815',t816:'816',t820:'820',t821:'821',t822:'822',t823:'823',c3x20:'3x20',cm10:'CM',v37:'3/7',p10:'100',c10:'104',vit10:'102',std10:'103',p25:'252',pc25:'251',vo25:'253',std25:'250',p50:'500'};
 const EDT=['PO','BE','MI'];
 const CATN={PO:'Poussin',BE:'Benjamin',MI:'Minime',CA:'Cadet',JU:'Junior',S1:'Senior 1',S2:'Senior 2',S3:'Senior 3',D1:'Dame 1',D2:'Dame 2',D3:'Dame 3'};
 /* Nombre de coups selon l'épreuve et la catégorie (tableau FFTir 2018 et réforme des écoles de tir 2025-2026) */
@@ -490,6 +518,12 @@ function spec(disc,cat){
 }
 const d=()=>spec(M.disc,M.cat||'S1');
 const N=()=>d().n*d().shots;
+const kindAt=(D,i)=>D.ser?D.ser[i]||'int':D.kind;
+const totMax=D=>{let t=0;for(let i=0;i<D.n;i++)t+=(kindAt(D,i)==='gong'?D.gong:D.max)*D.shots;return t};
+const serMaxOf=(D,i)=>(kindAt(D,i)==='gong'?D.gong:D.max)*D.shots;
+function curIdx(){return sel!==null?sel:Math.min(M.shots.length,N()-1)}
+let padKind=null;
+function ensurePad(){const D=d(),k=kindAt(D,Math.floor(curIdx()/D.shots));if(k!==padKind){padKind=k;buildPad(k)}}
 const save=()=>store.set('mts-solo-cur',M);
 const fmt=(v,dec)=>v==null||isNaN(v)?'–':(dec?v.toFixed(1):String(Math.round(v))).replace('.',',');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -512,9 +546,10 @@ $('#disc').addEventListener('change',e=>{
 });
 
 /* ---------- Pavé ---------- */
-function buildPad(){
-  const k=d().kind;let h='';
-  if(k==='hit'){h='<div class="big"><button data-v="1" class="k10">Touché</button><button data-v="0" class="k0">Manqué</button></div>'}
+function buildPad(k){
+  if(!k){const D=d();k=kindAt(D,Math.floor(curIdx()/D.shots))}padKind=k;let h='';
+  if(k==='gong'){const g=d().gong;h=`<div class="big"><button data-v="${g}" data-g="1" class="k10">Gong touché (${g})</button><button data-v="0" data-g="1" class="k0">Manqué</button></div>`}
+  else if(k==='hit'){h='<div class="big"><button data-v="1" class="k10">Touché</button><button data-v="0" class="k0">Manqué</button></div>'}
   else if(k==='int'){
     h='<div class="pad">';
     [10,9,8,7,6,5,4,3,2,1,0].forEach(v=>{h+=`<button data-v="${v}" class="${v===10?'k10':v===0?'k0':''}">${v}</button>`});
@@ -529,7 +564,7 @@ function buildPad(){
 }
 $('#pad').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
-  if(b.dataset.v!==undefined){put({v:+b.dataset.v,x:b.dataset.x?1:0});return}
+  if(b.dataset.v!==undefined){const o={v:+b.dataset.v,x:b.dataset.x?1:0};if(b.dataset.g)o.g=1;put(o);return}
   if(b.dataset.i!==undefined){const i=+b.dataset.i;if(i===0){pendingInt=null;put({v:0,x:0});return}pendingInt=i;renderPending();return}
   if(b.dataset.t!==undefined){if(pendingInt===null){$('#pending').textContent='Touchez d’abord le point entier (ex. 10), puis le dixième.';return}
     put({v:Math.round((pendingInt+(+b.dataset.t)/10)*10)/10,x:0});pendingInt=null}
@@ -547,7 +582,7 @@ function select(i){if(i>M.shots.length)return;sel=(i===M.shots.length||sel===i)?
 $('#fBody').addEventListener('click',e=>{const c=e.target.closest('[data-idx]');if(c)select(+c.dataset.idx)});
 document.addEventListener('keydown',e=>{
   if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.target.isContentEditable||!FM.contains(document.activeElement)&&document.activeElement!==document.body)return;
-  const k=d().kind;
+  const D0=d(),k=kindAt(D0,Math.floor(curIdx()/D0.shots));
   if(k==='int'&&/^[0-9]$/.test(e.key)){put({v:e.key==='0'&&e.shiftKey?10:+e.key,x:0})}
   else if(k==='int'&&(e.key==='x'||e.key==='X')&&d().mouche)put({v:10,x:1});
   else if(e.key==='Backspace'){e.preventDefault();$('#undo').click()}
@@ -566,6 +601,7 @@ function stats(m){
 
 /* ---------- Rendu ---------- */
 function render(){
+  ensurePad();
   const D=d(),S=stats(M),per=D.shots,n=M.shots.length;
   // série en cours
   const curSer=sel!==null?Math.floor(sel/per):Math.min(D.n-1,Math.floor(n/per));
@@ -578,7 +614,7 @@ function render(){
 
   // tuiles
   $('#tTot').textContent=fmt(S.tot,D.dec);
-  $('#tTotSub').textContent=`points sur ${n} coup${n>1?'s':''} / ${N()} · maximum ${fmt(D.max*N(),D.dec)}`;
+  $('#tTotSub').textContent=`points sur ${n} coup${n>1?'s':''} / ${N()} · maximum ${fmt(totMax(D),D.dec)}`;
   $('#tAvg').textContent=S.avg!==null?(D.kind==='hit'?Math.round(S.avg*100)+' %':S.avg.toFixed(2).replace('.',',')):'–';
   $('#tProj').textContent=S.complete?fmt(S.tot,D.dec):S.proj!==null?(D.dec?S.proj.toFixed(1):Math.round(S.proj)).toString().replace('.',','):'–';
   $('#tProjSub').textContent=S.complete?'Total final':'Total projeté à ce rythme';
@@ -600,16 +636,16 @@ function render(){
   $('#lpTitle').textContent=`Série ${viewSer+1} sur ${D.n} · ${fmt(S.ser[viewSer].tot,D.dec)} pts`;
   $('#lpPrev').disabled=viewSer<=0;$('#lpNext').disabled=viewSer>=D.n-1||viewSer>=Math.floor(n/per);
   $('#fBody').innerHTML=fb;
-  $('#fTot').textContent=`${fmt(S.tot,D.dec)} / ${fmt(D.max*N(),D.dec)}`;
+  $('#fTot').textContent=`${fmt(S.tot,D.dec)} / ${fmt(totMax(D),D.dec)}`;
 
   drawSeries(S);drawDist();drawTargets();drawSerStats(S);renderHist();$('#sampleNote').hidden=!M.sample;
 }
-function label(s){const D=d();if(D.kind==='hit')return s.v?'●':'○';if(s.x)return '10<sup>X</sup>';return fmt(s.v,D.dec)}
+function label(s){const D=d();if(s.g)return s.v?'●':'○';if(D.kind==='hit')return s.v?'●':'○';if(s.x)return '10<sup>X</sup>';return fmt(s.v,D.dec)}
 
 /* ---------- Graphiques ---------- */
 const css=n=>getComputedStyle(FM).getPropertyValue(n).trim();
 function drawSeries(S){
-  const D=d(),W=420,Hh=180,L=36,R=12,T=14,B=26,max=D.max*D.shots;
+  const D=d(),W=420,Hh=180,L=36,R=12,T=14,B=26;let max=D.max*D.shots;if(D.ser){max=0;for(let i=0;i<D.n;i++)max=Math.max(max,serMaxOf(D,i))}
   const vals=S.ser.map(s=>s.full?s.tot:null);
   const known=vals.filter(v=>v!==null);
   const svg=$('#chart');
@@ -645,16 +681,17 @@ function drawSerStats(S){
   }).join('');
 }
 function rankStats(){
+  const D0=d();if(D0.ser){const per=D0.shots,res=[];for(let k=0;k<per;k++){let sum=0,tot=0;for(let i=0;i<D0.n;i++){if(kindAt(D0,i)!=='gong')continue;const sh=M.shots[i*per+k];if(sh){tot++;sum+=sh.v?1:0}}res.push({sum,tot,p:tot?sum/tot:null,avg:tot?sum/tot:null})}return res}
   const D=d(),per=D.shots,res=[];
   for(let k=0;k<per;k++){let sum=0,tot=0;for(let i=k;i<M.shots.length;i+=per){tot++;sum+=M.shots[i].v}res.push({sum,tot,p:tot?sum/tot/D.max:null,avg:tot?sum/tot:null})}
   return res;
 }
 function drawTargets(){
-  const D=d(),hit=D.kind==='hit';
+  const D=d(),hit=D.kind==='hit'||!!D.ser;
   $('#tgtBox').hidden=false;
   const byT=hit||D.targets;
-  $('#tgtTitle').textContent=hit?'Impacts par cible':D.targets?'Moyenne par cible':'Moyenne par rang de coup';
-  $('#tgtHelp').textContent=byT?"Cibles numérotées de gauche à droite, dans l'ordre de tir.":`Moyenne du 1er au ${D.shots}e coup de chaque série : repérez le coup où vous perdez des points.`;
+  $('#tgtTitle').textContent=D.ser?'Impacts par gong':hit?'Impacts par cible':D.targets?'Moyenne par cible':'Moyenne par rang de coup';
+  $('#tgtHelp').textContent=D.ser?"Séries de vitesse sur gongs : taux de touchés de chaque gong, de gauche à droite.":byT?"Cibles numérotées de gauche à droite, dans l'ordre de tir.":`Moyenne du 1er au ${D.shots}e coup de chaque série : repérez le coup où vous perdez des points.`;
   const res=rankStats();
   const ps=res.filter(r=>r.p!==null).map(r=>r.p);
   const mx=ps.length?Math.max(...ps):null,mn=ps.length?Math.min(...ps):null;
@@ -669,7 +706,7 @@ function drawTargets(){
     const val=r.p===null?'–':hit?Math.round(r.p*100)+' %':r.avg.toFixed(D.dec?2:2).replace('.',',');
     const sub=hit?`${r.sum} / ${r.tot} touchée${r.sum>1?'s':''}`:`${r.tot} coup${r.tot>1?'s':''}`;
     const tag=weak?(hit?'la plus manquée':'le plus faible'):top?(hit?'la plus touchée':'le meilleur'):'';
-    return `<div class="tg${weak?' weak':''}${top?' top':''}"><span>${byT?'Cible':'Coup'} ${k+1}</span>
+    return `<div class="tg${weak?' weak':''}${top?' top':''}"><span>${D.ser?'Gong':byT?'Cible':'Coup'} ${k+1}</span>
       <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${rad}" fill="none" stroke="${line}" stroke-width="7"/>${arc}<circle cx="32" cy="32" r="12" fill="#121212"/><circle cx="32" cy="32" r="4" fill="none" stroke="#f6f5f0" stroke-width="1"/></svg>
       <b>${val}</b><span>${sub}</span>${tag?`<em>${tag}</em>`:''}</div>`}).join('');
 }
@@ -679,7 +716,7 @@ function drawDist(){
   if(D.kind==='hit')bins=[{l:'Touché',f:s=>s.v===1},{l:'Manqué',f:s=>s.v===0}];
   else if(D.kind==='dec')bins=[{l:'10,x',f:s=>s.v>=10},{l:'9,x',f:s=>s.v>=9&&s.v<10},{l:'8,x',f:s=>s.v>=8&&s.v<9},{l:'7,x',f:s=>s.v>=7&&s.v<8},{l:'< 7',f:s=>s.v<7}];
   else{bins=[];if(D.mouche)bins.push({l:'X',f:s=>s.x});bins.push({l:'10',f:s=>s.v===10&&!s.x});[9,8,7,6].forEach(v=>bins.push({l:String(v),f:s=>s.v===v}));bins.push({l:'< 6',f:s=>s.v<6})}
-  const counts=bins.map(b=>M.shots.filter(b.f).length),mx=Math.max(1,...counts),n=M.shots.length;
+  const pool=M.shots.filter(s=>!s.g);const counts=bins.map(b=>pool.filter(b.f).length),mx=Math.max(1,...counts),n=pool.length;
   const L=8,R=8,T=18,B=24,bw=(W-L-R)/bins.length;
   $('#distTitle').textContent=D.kind==='hit'?'Touchés et manqués':'Répartition des coups';
   let g=`<line x1="${L}" x2="${W-R}" y1="${Hh-B}" y2="${Hh-B}" stroke="${css('--line')}"/>`;
@@ -736,11 +773,12 @@ function summary(){
   const D=d(),S=stats(M);
   const lines=[`${M.name||'Match'} · ${D.code} ${D.label} · ${CATN[M.cat||'S1']}${M.date?' · '+new Date(M.date).toLocaleDateString('fr-FR'):''}`];
   S.ser.forEach((s,i)=>{if(s.shots.length)lines.push(`S${i+1} : ${fmt(s.tot,D.dec)}${D.prec?` · moy. ${(s.tot/s.shots.length).toFixed(2).replace('.',',')} · 10 : ${s.shots.filter(x=>x.v>=10).length}`:''}  (${s.shots.map(x=>D.kind==='hit'?(x.v?'T':'M'):x.x?'X':fmt(x.v,D.dec)).join(' ')})`)});
-  lines.push(`Total : ${fmt(S.tot,D.dec)} / ${fmt(D.max*N(),D.dec)}${S.complete?'':` (${S.n} coups sur ${N()})`}`);
+  lines.push(`Total : ${fmt(S.tot,D.dec)} / ${fmt(totMax(D),D.dec)}${S.complete?'':` (${S.n} coups sur ${N()})`}`);
   if(S.avg!==null&&D.kind!=='hit')lines.push(`Moyenne par coup : ${S.avg.toFixed(2).replace('.',',')}`);
   if(D.mouche)lines.push(`Mouches : ${S.mo}`);
   if(M.shots.length){const rs=rankStats();
-    if(D.kind==='hit')lines.push('Par cible : '+rs.map((r,k)=>`C${k+1} ${r.sum}/${r.tot}`).join(' · '));
+    if(D.ser)lines.push('Par gong : '+rs.map((r,k)=>`G${k+1} ${r.sum}/${r.tot}`).join(' · '));
+    else if(D.kind==='hit')lines.push('Par cible : '+rs.map((r,k)=>`C${k+1} ${r.sum}/${r.tot}`).join(' · '));
     else lines.push('Moyenne par rang de coup : '+rs.map((r,k)=>`${k+1}) ${r.avg===null?'–':r.avg.toFixed(2).replace('.',',')}`).join(' · '))}
   return lines.join('\n');
 }
@@ -788,7 +826,7 @@ async function buildPDF(){
     doc.setTextColor(27,36,48);doc.setFont('helvetica','bold');doc.text(s.shots.length?fmt(s.tot,D.dec):'',mL+cw-totW/2,y+5.8,{align:'center'});
     y+=rh});
   doc.setFillColor(229,71,61);doc.rect(mL,y,cw,9,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(11);
-  doc.text('TOTAL',mL+2,y+6);doc.text(pdfTxt(`${fmt(S.tot,D.dec)} / ${fmt(D.max*N(),D.dec)}${S.complete?'':`  (${S.n} coups sur ${N()})`}`),mL+cw-2,y+6,{align:'right'});
+  doc.text('TOTAL',mL+2,y+6);doc.text(pdfTxt(`${fmt(S.tot,D.dec)} / ${fmt(totMax(D),D.dec)}${S.complete?'':`  (${S.n} coups sur ${N()})`}`),mL+cw-2,y+6,{align:'right'});
   y+=15;
   // statistiques
   const ensure=h=>{if(y+h>282){doc.addPage();y=16}};
