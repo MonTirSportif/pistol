@@ -191,6 +191,8 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
           <option value="v37">Pistolet vitesse 3/7 (école de tir)</option>
           <option value="std10">Pistolet standard 10 m</option>
           <option value="c10">Carabine 10 m</option>
+          <option value="c3x20">Carabine 3x20 (école de tir)</option>
+          <option value="cm10">Cible mobile 10 m (école de tir)</option>
           <option value="p25">Pistolet 25 m</option>
           <option value="vo25">Pistolet vitesse olympique 25 m</option>
           <option value="std25">Pistolet standard 25 m</option>
@@ -452,6 +454,8 @@ const DISC={
   std10:{label:'Pistolet Standard 10 m',n:8,shots:5,max:10,dec:false,mouche:true,kind:'int'},
   vit10:{label:'Pistolet Vitesse 10 m',n:8,shots:5,max:1,dec:false,mouche:false,kind:'hit'},
   v37:{label:'Pistolet vitesse 3/7 10 m',n:6,shots:5,max:10,dec:false,mouche:false,kind:'int'},
+  c3x20:{label:'Carabine 3 positions 10 m (3x20)',n:6,shots:10,max:10,dec:false,mouche:false,kind:'int',ph:['Genou','Genou','Couché','Couché','Debout','Debout']},
+  cm10:{label:'Cible mobile 10 m',n:4,shots:10,max:10,dec:false,mouche:false,kind:'int',ph:['Lent','Lent','Rapide','Rapide']},
   p10:{label:'Pistolet 10 m',prec:true,n:6,shots:10,max:10,dec:false,mouche:true,kind:'int'},
   c10:{label:'Carabine 10 m',prec:true,n:6,shots:10,max:10.9,dec:true,mouche:false,kind:'dec'},
   p25:{label:'Pistolet 25 m',n:12,shots:5,max:10,dec:false,mouche:true,kind:'int',ph:['Préc.','Préc.','Préc.','Préc.','Préc.','Préc.','Vit.','Vit.','Vit.','Vit.','Vit.','Vit.']},
@@ -466,7 +470,7 @@ let M=store.get('mts-solo-cur',null);
 if(!M)M={cat:'S1',disc:'std10',date:today(),name:'Entraînement (exemple)',place:'',shots:SAMPLE,sample:true};
 let H=store.get('mts-solo-hist',[]);
 let sel=null,pendingInt=null,wantDisc=null;
-const DCODE={v37:'3/7',p10:'100',c10:'104',vit10:'102',std10:'103',p25:'252',pc25:'251',vo25:'253',std25:'250',p50:'500'};
+const DCODE={c3x20:'3x20',cm10:'CM',v37:'3/7',p10:'100',c10:'104',vit10:'102',std10:'103',p25:'252',pc25:'251',vo25:'253',std25:'250',p50:'500'};
 const EDT=['PO','BE','MI'];
 const CATN={PO:'Poussin',BE:'Benjamin',MI:'Minime',CA:'Cadet',JU:'Junior',S1:'Senior 1',S2:'Senior 2',S3:'Senior 3',D1:'Dame 1',D2:'Dame 2',D3:'Dame 3'};
 /* Nombre de coups selon l'épreuve et la catégorie (tableau FFTir 2018 et réforme des écoles de tir 2025-2026) */
@@ -475,6 +479,8 @@ function spec(disc,cat){
   if(disc==='p10'){if(edt){code='150';label='Pistolet 10 m école de tir';shots=40}else if(cat==='D3')shots=40}
   else if(disc==='c10'){if(edt){code='154';label='Carabine 10 m école de tir';shots=40}else if(cat==='D3')shots=40}
   else if(disc==='vit10'){if(edt){code='152';label='Pistolet vitesse 5 cibles 10 m école de tir';shots=30}}
+  else if(disc==='c3x20'){label='Carabine 3x20 école de tir';if(cat!=='MI')warn='Épreuve réservée aux minimes de l’école de tir.'}
+  else if(disc==='cm10'){label='Cible mobile 10 m école de tir';if(cat!=='BE'&&cat!=='MI')warn='Épreuve école de tir pour benjamins et minimes : 20 coups lents puis 20 rapides.'}
   else if(disc==='v37'){label='Pistolet vitesse 3/7 école de tir';shots=30;if(cat!=='MI')warn='Épreuve réservée aux minimes de l’école de tir.'}
   else if(edt){warn='Épreuve non prévue pour cette catégorie : format adulte affiché.'}
   return{...B,code,label,n:Math.round(shots/B.shots),warn};
