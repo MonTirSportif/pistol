@@ -90,30 +90,30 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #an .seq{margin:0;padding-left:1.3rem}
 #an .seq li{margin:.3rem 0}
 /* Grand affichage (malvoyants) */
-#annonce-app.big{font-size:1.3rem;line-height:1.55}
-#annonce-app.big .lead{font-size:1.3rem}
-#annonce-app.big h1{font-size:2.4rem}
-#annonce-app.big #an h2{font-size:1.7rem}
-#annonce-app.big #an .meta{grid-template-columns:minmax(0,1fr)}
-#annonce-app.big #an label{font-size:1.15rem;color:var(--txt);font-weight:600}
-#annonce-app.big #an input,#annonce-app.big #an select{font-size:1.25rem;min-height:60px;border-width:2px}
-#annonce-app.big #an button{font-size:1.2rem;min-height:60px;padding:10px 20px;border-width:2px;font-weight:600}
-#annonce-app.big #an .tags button{min-height:54px;font-size:1.15rem;padding:8px 16px}
-#annonce-app.big #an .two{grid-template-columns:minmax(0,1fr)}
-#annonce-app.big #an .tgt{max-width:min(100%,820px)}
-#annonce-app.big #an .step{font-size:1.45rem;padding:14px 16px;border-left-width:8px}
-#annonce-app.big #an .verdict{font-size:1.3rem;padding:14px 16px}
-#annonce-app.big #an .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-#annonce-app.big #an .kpi b{font-size:2.4rem}
-#annonce-app.big #an .kpi span{font-size:1.05rem;color:var(--txt)}
-#annonce-app.big #an .muted,#annonce-app.big #an .tags .muted{color:var(--txt);font-size:1.15rem}
-#annonce-app.big #an #anRule{font-size:1.2rem;font-weight:600}
-#annonce-app.big #an .seq li{margin:.6rem 0}
-#annonce-app.big #an table{font-size:1.2rem}
-#annonce-app.big #an th,#annonce-app.big #an td{padding:12px 10px}
-#annonce-app.big #an .arr{width:1.5em;height:1.5em;vertical-align:-.35em}
-#annonce-app.big #an .hist div{font-size:1.15rem}
-#annonce-app.big #an .chart text{font-size:12px}
+html.mts-big #annonce-app{font-size:1.04rem;line-height:1.55}
+html.mts-big #annonce-app .lead{font-size:1.04rem}
+html.mts-big #annonce-app h1{font-size:1.92rem}
+html.mts-big #annonce-app #an h2{font-size:1.36rem}
+html.mts-big #annonce-app #an .meta{grid-template-columns:minmax(0,1fr)}
+html.mts-big #annonce-app #an label{font-size:0.92rem;color:var(--txt);font-weight:600}
+html.mts-big #annonce-app #an input,html.mts-big #annonce-app #an select{font-size:1rem;min-height:60px;border-width:2px}
+html.mts-big #annonce-app #an button{font-size:0.96rem;min-height:60px;padding:10px 20px;border-width:2px;font-weight:600}
+html.mts-big #annonce-app #an .tags button{min-height:54px;font-size:0.92rem;padding:8px 16px}
+html.mts-big #annonce-app #an .two{grid-template-columns:minmax(0,1fr)}
+html.mts-big #annonce-app #an .tgt{max-width:min(100%,820px)}
+html.mts-big #annonce-app #an .step{font-size:1.16rem;padding:14px 16px;border-left-width:8px}
+html.mts-big #annonce-app #an .verdict{font-size:1.04rem;padding:14px 16px}
+html.mts-big #annonce-app #an .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+html.mts-big #annonce-app #an .kpi b{font-size:1.92rem}
+html.mts-big #annonce-app #an .kpi span{font-size:0.84rem;color:var(--txt)}
+html.mts-big #annonce-app #an .muted,html.mts-big #annonce-app #an .tags .muted{color:var(--txt);font-size:0.92rem}
+html.mts-big #annonce-app #an #anRule{font-size:0.96rem;font-weight:600}
+html.mts-big #annonce-app #an .seq li{margin:0.48rem 0}
+html.mts-big #annonce-app #an table{font-size:0.96rem}
+html.mts-big #annonce-app #an th,html.mts-big #annonce-app #an td{padding:12px 10px}
+html.mts-big #annonce-app #an .arr{width:1.5em;height:1.5em;vertical-align:-.35em}
+html.mts-big #annonce-app #an .hist div{font-size:0.92rem}
+html.mts-big #annonce-app #an .chart text{font-size:12px}
 @media print{#an button,#an .tags,#an select,#an input,#an .step{display:none!important}#an .card{break-inside:avoid;border:1px solid #999}#an .two{grid-template-columns:1fr 1fr}}
 </style><main class="view" id="annonce-app" style="--acc:#e0601f"><div class="theme-head"><a class="back" href="preparation-technique.html#annonce">← Retour</a><div class="kicker">Préparation technique › L'annonce</div><h1>Mon annonce</h1><p class="lead">Avant de regarder la cible, touchez l'endroit où vous pensez que le coup est parti, puis l'impact réel. L'application compare, coup après coup : annonces justes, écart moyen, tendance, valeur annoncée et valeur réelle, et suit vos progrès d'une séance à l'autre. Tout reste dans votre navigateur.</p></div>
 <section class="first" id="an-seance">
@@ -421,7 +421,7 @@ if(cur.pd==null)cur.pd=1;if(cur.pv==null)cur.pv=1;
 var hist=get('mts-annonce-hist',[]);
 var pend=null; // annonce en attente {x,y} ou {none:true}
 var zoom=false;
-var big=!!get('mts-annonce-big',false);
+var big=false;
 function save(){set('mts-annonce-cur',cur)}
 
 /* ---------- géométrie ---------- */
@@ -487,8 +487,11 @@ sv.addEventListener('click',function(e){var p=sv.createSVGPoint();p.x=e.clientX;
   var a=pend.none?null:pend;var s={a:a,i:pt,tags:[]};s.ok=judge(a,pt,cur.l);cur.shots.push(s);pend=null;save();render();});
 $('anNoA').addEventListener('click',function(){pend={none:true};draw();});
 $('anUndo').addEventListener('click',function(){if(pend){pend=null}else{cur.shots.pop();save()}render();});
-function applyBig(){var m=$('annonce-app');m.classList.toggle('big',big);$('anBig').setAttribute('aria-pressed',big);$('anBig').textContent=big?'🔍 Affichage normal':'🔍 Grand affichage';draw()}
-$('anBig').addEventListener('click',function(){big=!big;set('mts-annonce-big',big);applyBig()});
+/* grand affichage : réglage commun à tous les sites (js/nav.js) */
+function applyBig(){big=document.documentElement.classList.contains('mts-big');$('anBig').setAttribute('aria-pressed',big);$('anBig').textContent=big?'🔍 Affichage normal':'🔍 Grand affichage';draw()}
+$('anBig').addEventListener('click',function(){if(window.mtsBig)window.mtsBig.set(!big);else{document.documentElement.classList.toggle('mts-big');applyBig()}});
+document.addEventListener('mts-big',applyBig);
+document.addEventListener('DOMContentLoaded',function(){try{if(localStorage.getItem('mts-annonce-big')==='true'&&localStorage.getItem('mts-big')===null&&window.mtsBig)window.mtsBig.set(true);localStorage.removeItem('mts-annonce-big')}catch(e){}});
 $('anZoom').addEventListener('click',function(){zoom=!zoom;this.setAttribute('aria-pressed',zoom);draw();});
 document.querySelectorAll('#anTags button').forEach(function(b){b.addEventListener('click',function(){var s=cur.shots[cur.shots.length-1];if(!s)return;
   var t=b.dataset.tag,i=s.tags.indexOf(t);if(i<0)s.tags.push(t);else s.tags.splice(i,1);save();render();});});
@@ -580,7 +583,7 @@ render();applyBig();
 })();
 </script>
 <script src="js/share.js"></script>
-<script src="js/nav.js?v=20261125i"></script>
+<script src="js/nav.js?v=20261125big"></script>
 <script src="js/search.js" data-base=""></script>
 </body>
 </html>
