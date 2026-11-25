@@ -42,6 +42,7 @@
     'imprimer-ses-cibles.html': ['Imprimer ses cibles', 'preparation-materielle.html'],
     'ma-cible-electronique.html': ['Ma cible électronique SQ Air', 'preparation-materielle.html'],
     'dopage.html': ['Le dopage', 'preparation-physique.html'],
+    'tir-et-sante.html': ['Tir et santé', 'preparation-physique.html'],
     'disciplines.html': ['Disciplines', 'index.html'],
     'epreuves/pistolet-10m.html': ['Pistolet 10 m', 'disciplines.html'],
     'epreuves/pistolet-vitesse-10m.html': ['Pistolet vitesse 10 m', 'disciplines.html'],
