@@ -59,6 +59,7 @@
     'outils.html': ['Mes outils', 'index.html'],
     'feuille-de-match.html': ['Ma feuille de match', 'outils.html'],
     'reglage-clics.html': ['Mes clics de réglage', 'outils.html'],
+    'annonce.html': ['Mon annonce', 'outils.html'],
     'ma-progression.html': ['Ma progression', 'outils.html'],
     'mon-plan-de-saison.html': ['Mon plan de saison', 'outils.html'],
     'infos-pratiques.html': ['Sécurité', 'index.html'],
