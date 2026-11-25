@@ -28,6 +28,7 @@
     'preparation-materielle.html': ['Préparation matérielle', PREP],
     'preparation-physique.html': ['Préparation physique', PREP],
     'preparation-tactique.html': ['Préparation tactique', PREP],
+    'planification-saison.html': ['Planifier sa saison', 'preparation-tactique.html'],
     'preparation-technique-approfondir.html': ['Approfondir', 'preparation-technique.html'],
     'scatt.html': ['SCATT', 'preparation-technique.html'],
     'le-lacher.html': ['Le lâcher', 'preparation-technique.html'],
