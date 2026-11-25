@@ -107,6 +107,20 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
           <option value="4">4 · L'heure (« à 9 h »)</option>
           <option value="5">5 · L'heure et la valeur (« un 9 à 9 h »)</option>
         </select></label>
+      <label for="anPD">Précision de la direction
+        <select id="anPD">
+          <option value="3">1 · À 3 heures près</option>
+          <option value="2">2 · À 2 heures près</option>
+          <option value="1">3 · À 1 heure près</option>
+          <option value="0">4 · À l'heure exacte</option>
+        </select></label>
+      <label for="anPV">Précision de la valeur
+        <select id="anPV">
+          <option value="3">1 · À 3 points près</option>
+          <option value="2">2 · À 2 points près</option>
+          <option value="1">3 · À 1 point près</option>
+          <option value="0">4 · Valeur exacte</option>
+        </select></label>
       <label for="anN">Séance
         <input id="anN" type="text" placeholder="Ex. : entraînement du mardi" autocomplete="off"></label>
     </div>
@@ -130,6 +144,11 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
         <button type="button" data-tag="poignet">Poignet</button>
         <button type="button" data-tag="regard">Regard parti</button>
         <button type="button" data-tag="tenue">Pas de tenue</button>
+        <button type="button" data-tag="serrage">Serrage de crosse</button>
+        <button type="button" data-tag="bois">Doigt de bois</button>
+        <button type="button" data-tag="bras">Instabilité du bras</button>
+        <button type="button" data-tag="corps">Instabilité du corps</button>
+        <button type="button" data-tag="nsp">Ne sais pas</button>
       </div>
     </div>
 
@@ -165,6 +184,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
     <h2>Comment s'en servir</h2>
     <ol class="seq">
       <li><b>Choisissez l'étape</b> où vous en êtes : on commence par « haut ou bas » et on passe à la suivante quand 8 annonces sur 10 sont justes.</li>
+      <li><b>Réglez la précision</b> aux étapes 4 et 5 : la direction (à 3 heures près, à 2 heures, à 1 heure, à l'heure exacte) et la valeur du point (à 3 points près, à 2 points, à 1 point, valeur exacte). On resserre d'un cran quand 8 annonces sur 10 sont justes.</li>
       <li><b>Juste après le départ du coup</b>, sans regarder la cible, touchez l'endroit annoncé à partir de l'image de visée au départ.</li>
       <li><b>Regardez l'impact</b> (longue-vue ou cible électronique) et touchez-le sur la cible.</li>
       <li>Notez si besoin ce que vous avez senti : coup de doigt, poignet, regard parti… L'application montre ensuite si l'annonce tient mieux quand le lâcher est bon.</li>
@@ -344,7 +364,20 @@ var RULE={1:"Juste si l'impact est du même côté (haut ou bas) que l'annonce."
  3:"Juste si l'impact est dans le même quart de cible (haut-gauche, haut-droite…).",
  4:"Juste si l'impact est à moins d'une heure de l'annonce (annonce « 9 h » : de 8 h à 10 h).",
  5:"Juste si l'impact est à moins d'une heure de l'annonce et à un point près."};
-var TAGS={bon:'Bon lâcher',doigt:'Coup de doigt',poignet:'Poignet',regard:'Regard parti',tenue:'Pas de tenue'};
+var TAGS={bon:'Bon lâcher',doigt:'Coup de doigt',poignet:'Poignet',regard:'Regard parti',tenue:'Pas de tenue',serrage:'Serrage de crosse',bois:'Doigt de bois',bras:'Instabilité du bras',corps:'Instabilité du corps',nsp:'Ne sais pas'};
+/* précision : tolérance en heures (direction) et en points (valeur) */
+var PD={3:'à 3 heures près',2:'à 2 heures près',1:'à 1 heure près',0:"à l'heure exacte"};
+var PV={3:'à 3 points près',2:'à 2 points près',1:'à 1 point près',0:'valeur exacte'};
+function pdv(x,d){return x==null?d:x}
+function plural(n,u){return n+' '+u+(n>1?'s':'')}
+function rule(l,pd,pv){
+  if(l<4) return RULE[l];
+  var a=9,lo=(a-pd+11)%12+1,hi=(a+pd-1)%12+1;
+  var dir=pd===0?"dans la même heure que l'annonce (annonce « 9 h » : 9 h)":"à "+plural(pd,'heure')+" au plus de l'annonce (annonce « 9 h » : de "+lo+" h à "+hi+" h)";
+  if(l===4) return 'Juste si l’impact est '+dir+'.';
+  return 'Juste si l’impact est '+dir+', et '+(pv===0?'de la même valeur que celle annoncée':'à '+plural(pv,'point')+' au plus de la valeur annoncée')+'.';
+}
+function precTxt(o){return o.l>=4?' · direction '+PD[pdv(o.pd,1)]+(o.l===5?', valeur '+PV[pdv(o.pv,1)]:''):''}
 var $=function(i){return document.getElementById(i)};
 function get(k,d){try{var x=localStorage.getItem(k);return x===null?d:JSON.parse(x)}catch(e){return d}}
 function set(k,x){try{localStorage.setItem(k,JSON.stringify(x))}catch(e){}}
@@ -352,7 +385,8 @@ function fr(n,d){return (d==null?n.toFixed(1):n.toFixed(d)).replace('.',',')}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
 var cur=get('mts-annonce-cur',null);
-if(!cur||!cur.shots) cur={t:'p10',l:1,name:'',start:Date.now(),shots:[]};
+if(!cur||!cur.shots) cur={t:'p10',l:1,pd:1,pv:1,name:'',start:Date.now(),shots:[]};
+if(cur.pd==null)cur.pd=1;if(cur.pv==null)cur.pv=1;
 var hist=get('mts-annonce-hist',[]);
 var pend=null; // annonce en attente {x,y} ou {none:true}
 var zoom=false;
@@ -371,14 +405,14 @@ function quad(p){return (p.y>=0?'haut':'bas')+'-'+(p.x>=0?'droite':'gauche')}
 function desc(p,l){if(!p)return '—';var v=val(p);if(v===10)return '10 (centre)';
   if(l<=1)return (p.y>=0?'haut':'bas')+' · '+v;if(l===2)return dir4(p)+' · '+v;if(l===3)return quad(p)+' · '+v;return v+' à '+hour(p)+' h'}
 function judge(a,i,l){ // true / false / null (pas d'annonce)
-  if(!a) return null;var va=val(a),vi=val(i),c=C();
+  if(!a) return null;var va=val(a),vi=val(i),c=C(),pd=cur.pd,pv=cur.pv,vok=Math.abs(va-vi)<=pv;
   if(va===10||vi===10){ if(va===10&&vi===10) return true;
-     var dx=a.x-i.x,dy=a.y-i.y; if(Math.sqrt(dx*dx+dy*dy)<=c.step/2 && (l<5||Math.abs(va-vi)<=1)) return true; return false; }
+     var dx=a.x-i.x,dy=a.y-i.y; if(Math.sqrt(dx*dx+dy*dy)<=c.step/2 && (l<5||vok)) return true; return false; }
   if(l===1) return (a.y>=0)===(i.y>=0);
   if(l===2) return dir4(a)===dir4(i);
   if(l===3) return quad(a)===quad(i);
-  var hok=hdiff(hour(a),hour(i))<=1; if(l===4) return hok;
-  return hok&&Math.abs(va-vi)<=1;
+  var hok=hdiff(hour(a),hour(i))<=pd; if(l===4) return hok;
+  return hok&&vok;
 }
 
 /* ---------- dessin ---------- */
@@ -428,7 +462,9 @@ function stats(sh,l){var r={n:sh.length,ann:0,ok:0,dist:0,bx:0,by:0,va:0,vi:0,ve
   if(r.ann){r.pct=Math.round(100*r.ok/r.ann);r.dist/=r.ann;r.bx/=r.ann;r.by/=r.ann}
   return r;}
 function render(){
-  $('anT').value=cur.t;$('anL').value=cur.l;$('anN').value=cur.name||'';$('anRule').textContent='Étape '+cur.l+' : '+RULE[cur.l];
+  $('anT').value=cur.t;$('anL').value=cur.l;$('anPD').value=cur.pd;$('anPV').value=cur.pv;$('anN').value=cur.name||'';
+  $('anPD').disabled=cur.l<4;$('anPV').disabled=cur.l<5;
+  $('anRule').textContent='Étape '+cur.l+' : '+rule(cur.l,cur.pd,cur.pv)+(cur.l<4?' (La précision de la direction compte à partir de l’étape 4, celle de la valeur à l’étape 5.)':(cur.l===4?' (La précision de la valeur compte à l’étape 5.)':''));
   draw();var c=C(),st=stats(cur.shots,cur.l),last=cur.shots[cur.shots.length-1];
   // dernier coup
   var L=$('anLast');
@@ -458,7 +494,9 @@ function render(){
   $('anBars').innerHTML=g;
   // conseil d'étape
   var ad='';
-  if(st.ann>=20&&st.pct>=80) ad=cur.l<5?'<div class="tip"><b>Bravo : '+st.pct+' % d’annonces justes sur '+st.ann+' coups.</b> Vous pouvez passer à l’étape '+(cur.l+1)+' : « '+LV[cur.l+1]+' ».</div>':'<div class="tip"><b>'+st.pct+' % à l’étape la plus fine :</b> votre annonce est un vrai outil d’analyse. Gardez-la à chaque coup, en match aussi.</div>';
+  var finer=cur.l===5&&(cur.pd>0||cur.pv>0);
+  if(st.ann>=20&&st.pct>=80&&finer) ad='<div class="tip"><b>Bravo : '+st.pct+' % d’annonces justes sur '+st.ann+' coups.</b> Resserrez la précision : '+(cur.pd>0?'direction « '+PD[cur.pd-1]+' »':'valeur « '+PV[cur.pv-1]+' »')+'.</div>';
+  else if(st.ann>=20&&st.pct>=80) ad=cur.l<5?'<div class="tip"><b>Bravo : '+st.pct+' % d’annonces justes sur '+st.ann+' coups.</b> Vous pouvez passer à l’étape '+(cur.l+1)+' : « '+LV[cur.l+1]+' ».</div>':'<div class="tip"><b>'+st.pct+' % à l’étape la plus fine :</b> votre annonce est un vrai outil d’analyse. Gardez-la à chaque coup, en match aussi.</div>';
   else if(st.ann>=10&&st.pct<50) ad='<div class="tip"><b>Moins d’une annonce sur deux est juste.</b> Revenez à une étape plus simple, et concentrez-vous sur l’image du guidon au départ du coup plutôt que sur le score.</div>';
   $('anAdvice').innerHTML=ad;
   // tableau
@@ -468,7 +506,7 @@ function render(){
 }
 function renderHist(){
   var H=$('anHist'),h='';hist.slice().reverse().forEach(function(s,n){var idx=hist.length-1-n;
-    h+='<div><span><b>'+new Date(s.date).toLocaleDateString('fr-FR')+'</b> · '+esc(s.name||T[s.t].n)+' · étape '+s.l+'</span><span>'+s.n+' coups · <b>'+(s.pct==null?'—':s.pct+' %')+'</b> justes · écart '+(s.dist==null?'—':fr(s.dist)+' mm')+' <button type="button" data-del="'+idx+'" title="Supprimer cette séance" style="min-height:28px;padding:2px 8px">✕</button></span></div>'});
+    h+='<div><span><b>'+new Date(s.date).toLocaleDateString('fr-FR')+'</b> · '+esc(s.name||T[s.t].n)+' · étape '+s.l+precTxt(s)+'</span><span>'+s.n+' coups · <b>'+(s.pct==null?'—':s.pct+' %')+'</b> justes · écart '+(s.dist==null?'—':fr(s.dist)+' mm')+' <button type="button" data-del="'+idx+'" title="Supprimer cette séance" style="min-height:28px;padding:2px 8px">✕</button></span></div>'});
   H.innerHTML=h||'<p class="muted">Aucune séance enregistrée pour l’instant.</p>';
   H.querySelectorAll('[data-del]').forEach(function(b){b.addEventListener('click',function(){if(confirm('Supprimer cette séance ?')){hist.splice(+b.dataset.del,1);set('mts-annonce-hist',hist);renderHist()}})});
   var P=$('anProg'),pts=hist.filter(function(s){return s.pct!=null}),g='<line x1="34" y1="12" x2="410" y2="12" stroke="var(--line)" stroke-dasharray="3 3"/><text x="2" y="16" font-size="9" fill="var(--mut)">100 %</text><line x1="34" y1="31.6" x2="410" y2="31.6" stroke="#2e7d32" stroke-dasharray="2 3"/><text x="2" y="35" font-size="9" fill="#2e7d32">80 %</text><line x1="34" y1="110" x2="410" y2="110" stroke="var(--line)"/><text x="2" y="113" font-size="9" fill="var(--mut)">0 %</text>';
@@ -477,23 +515,26 @@ function renderHist(){
   P.innerHTML=g;
 }
 function summary(){var st=stats(cur.shots,cur.l),c=C();
-  var t='Mon annonce – '+(cur.name||c.n)+' – '+new Date(cur.start).toLocaleDateString('fr-FR')+'\nCible : '+c.n+' · étape '+cur.l+' (« '+LV[cur.l]+' »)\n'+st.n+' coups, '+st.ann+' annoncés';
+  var t='Mon annonce – '+(cur.name||c.n)+' – '+new Date(cur.start).toLocaleDateString('fr-FR')+'\nCible : '+c.n+' · étape '+cur.l+' (« '+LV[cur.l]+' »)'+precTxt(cur)+'\n'+st.n+' coups, '+st.ann+' annoncés';
   if(st.ann)t+='\nAnnonces justes : '+st.pct+' %\nÉcart moyen annonce / impact : '+fr(st.dist)+' mm\nValeur exacte : '+Math.round(100*st.veq/st.ann)+' %\nTendance : impacts '+fr(Math.abs(st.by))+' mm '+(st.by>=0?'plus haut':'plus bas')+', '+fr(Math.abs(st.bx))+' mm '+(st.bx>=0?'à droite':'à gauche')+' des annonces';
   return t+'\nhttps://pistol.montirsportif.com/annonce.html';}
 
 /* ---------- réglages et actions ---------- */
 $('anT').addEventListener('change',function(){if(cur.shots.length&&!confirm('Changer de cible efface les coups de la séance en cours. Continuer ?')){this.value=cur.t;return}cur.t=this.value;cur.shots=[];pend=null;save();render()});
 $('anL').addEventListener('change',function(){cur.l=+this.value;cur.shots.forEach(function(s){s.ok=judge(s.a,s.i,cur.l)});save();render()});
+function rejudge(){cur.shots.forEach(function(s){s.ok=judge(s.a,s.i,cur.l)});save();render()}
+$('anPD').addEventListener('change',function(){cur.pd=+this.value;rejudge()});
+$('anPV').addEventListener('change',function(){cur.pv=+this.value;rejudge()});
 $('anN').addEventListener('input',function(){cur.name=this.value;save()});
 $('anEnd').addEventListener('click',function(){if(!cur.shots.length){alert('Aucun coup dans la séance.');return}
-  var st=stats(cur.shots,cur.l);hist.push({date:cur.start,name:cur.name,t:cur.t,l:cur.l,n:st.n,pct:st.ann?st.pct:null,dist:st.ann?+st.dist.toFixed(1):null,shots:cur.shots});
-  set('mts-annonce-hist',hist);cur={t:cur.t,l:cur.l,name:'',start:Date.now(),shots:[]};pend=null;save();render();
+  var st=stats(cur.shots,cur.l);hist.push({date:cur.start,name:cur.name,t:cur.t,l:cur.l,pd:cur.pd,pv:cur.pv,n:st.n,pct:st.ann?st.pct:null,dist:st.ann?+st.dist.toFixed(1):null,shots:cur.shots});
+  set('mts-annonce-hist',hist);cur={t:cur.t,l:cur.l,pd:cur.pd,pv:cur.pv,name:'',start:Date.now(),shots:[]};pend=null;save();render();
   $('an-hist').scrollIntoView({behavior:'smooth',block:'start'});});
 $('anClear').addEventListener('click',function(){if(cur.shots.length&&!confirm('Effacer tous les coups de la séance en cours ?'))return;cur.shots=[];cur.start=Date.now();pend=null;save();render()});
 $('anCopy').addEventListener('click',function(){var t=summary(),b=this;function ok(){b.textContent='Copié ✓';setTimeout(function(){b.textContent='Copier le résumé'},1500)}
   if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok,function(){prompt('Copiez le résumé :',t)});else prompt('Copiez le résumé :',t)});
-$('anCsv').addEventListener('click',function(){var rows=[['seance','date','cible','etape','coup','annonce_x_mm','annonce_y_mm','annonce_valeur','annonce_heure','impact_x_mm','impact_y_mm','impact_valeur','impact_heure','ecart_mm','verdict','notes']];
-  function add(s,name,date,t,l){var keep=cur.t;cur.t=t;s.shots.forEach(function(x,n){rows.push([name,new Date(date).toISOString().slice(0,10),T[t].n,l,n+1,x.a?x.a.x:'',x.a?x.a.y:'',x.a?val(x.a):'',x.a?hour(x.a):'',x.i.x,x.i.y,val(x.i),hour(x.i),x.a?Math.hypot(x.i.x-x.a.x,x.i.y-x.a.y).toFixed(1):'',x.ok===null?'sans annonce':(x.ok?'juste':'fausse'),x.tags.map(function(k){return TAGS[k]}).join(' / ')])});cur.t=keep}
+$('anCsv').addEventListener('click',function(){var rows=[['seance','date','cible','etape','precision_direction','precision_valeur','coup','annonce_x_mm','annonce_y_mm','annonce_valeur','annonce_heure','impact_x_mm','impact_y_mm','impact_valeur','impact_heure','ecart_mm','verdict','notes']];
+  function add(s,name,date,t,l){var pd=s.l>=4?PD[pdv(s.pd,1)]:'',pv=s.l===5?PV[pdv(s.pv,1)]:'';var keep=cur.t;cur.t=t;s.shots.forEach(function(x,n){rows.push([name,new Date(date).toISOString().slice(0,10),T[t].n,l,pd,pv,n+1,x.a?x.a.x:'',x.a?x.a.y:'',x.a?val(x.a):'',x.a?hour(x.a):'',x.i.x,x.i.y,val(x.i),hour(x.i),x.a?Math.hypot(x.i.x-x.a.x,x.i.y-x.a.y).toFixed(1):'',x.ok===null?'sans annonce':(x.ok?'juste':'fausse'),x.tags.map(function(k){return TAGS[k]}).join(' / ')])});cur.t=keep}
   hist.forEach(function(h){add(h,h.name||'',h.date,h.t,h.l)});if(cur.shots.length)add(cur,(cur.name||'')+' (en cours)',cur.start,cur.t,cur.l);
   var csv='﻿'+rows.map(function(r){return r.map(function(v){v=String(v).replace('.',',');return /[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(';')}).join('\n');
   var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='mon-annonce.csv';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);});
