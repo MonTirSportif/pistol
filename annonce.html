@@ -136,7 +136,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       <div class="step" id="anStep" aria-live="polite"></div>
       <svg id="anSvg" class="tgt" viewBox="-110 -110 220 220" role="img" aria-label="Cible : touchez pour placer l'annonce puis l'impact"></svg>
       <div class="row">
-        <button type="button" id="anNoA" title="Je n'ai pas d'image du départ du coup">Pas d'image</button>
+        <button type="button" id="anNoA" title="Je ne sais pas où le coup est parti : pas d'annonce pour ce coup">Je ne sais pas</button>
         <button type="button" id="anZoom" aria-pressed="false">Loupe</button>
         <button type="button" id="anUndo">Annuler le dernier</button>
       </div>
@@ -486,7 +486,7 @@ function render(){
   if(st.ann>=3){var bl=Math.hypot(st.bx,st.by);
     b='<p><b>Tendance :</b> vos impacts tombent en moyenne <b>'+fr(Math.abs(st.by))+' mm '+(st.by>=0?'plus haut':'plus bas')+'</b> et <b>'+fr(Math.abs(st.bx))+' mm '+(st.bx>=0?'plus à droite':'plus à gauche')+'</b> que vos annonces.</p>';
     if(st.ann>=5&&bl>=c.step/2&&bl>=0.6*st.dist) b+='<div class="tip"><b>Un écart toujours dans le même sens</b> (plus d’une demi-zone) : votre annonce est sans doute bonne, c’est le réglage qu’il faut revoir. <a href="reglage-clics.html">Mes clics de réglage →</a></div>';}
-  if(st.none) b+='<p class="muted">'+st.none+' coup'+(st.none>1?'s':'')+' sans annonce (pas d’image).</p>';
+  if(st.none) b+='<p class="muted">'+st.none+' coup'+(st.none>1?'s':'')+' sans annonce (« Je ne sais pas »).</p>';
   var tg='';Object.keys(TAGS).forEach(function(t){var s=cur.shots.filter(function(x){return x.a&&x.tags.indexOf(t)>=0});if(s.length)tg+='<li>'+TAGS[t]+' : '+Math.round(100*s.filter(function(x){return x.ok}).length/s.length)+' % justes ('+s.length+' coup'+(s.length>1?'s':'')+')</li>'});
   if(tg) b+='<p><b>Selon vos notes :</b></p><ul style="margin:0;padding-left:1.2rem">'+tg+'</ul>';
   $('anBias').innerHTML=b;
