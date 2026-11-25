@@ -1,4 +1,4 @@
-/* Fiche d'observation pistolet – contenu des deux fiches (10 m précision, 25 m vitesse).
+/* Fiche d'observation pistolet – contenu des trois fiches (10 m précision, 10 m fiche rapide, 25 m vitesse).
    type : "choix" (cases à cocher), "texte" (réponse libre), "temps" (durées en secondes) */
 window.FO_FICHES = {
   "10m": {
@@ -55,6 +55,40 @@ window.FO_FICHES = {
         { l: "Prise de l'ADV (aire de visée)", t: "texte" },
         { l: "Perception de la marge de blanc", t: "texte" },
         { l: "Autres", t: "texte" }
+      ]}
+    ]
+  },
+  "10m-rapide": {
+    titre: "Pistolet 10 m · fiche rapide",
+    sousTitre: "Pistolet précision debout · l’essentiel en 18 critères",
+    categories: [
+      { nom: "Position", items: [
+        { l: "Écartement des pieds", o: ["Moyen", "Grand", "Serré"] },
+        { l: "Équilibration du bassin", o: ["Rétroversé", "Équilibré", "Antéversé"] },
+        { l: "Axes pieds, bassin, épaules", o: ["Empilés", "1 vrille", "2 vrilles"] },
+        { l: "Position épaule arrière", o: ["Basse", "Haute"] },
+        { l: "Position épaule avant", o: ["Basse", "Haute"] },
+        { l: "Position de la tête", o: ["Droite", "Penchée", "Arrière"] },
+        { l: "Allure générale de position", o: ["Droite", "Cambrée", "Arrière"] },
+        { l: "Style de position", o: ["Profil", "7/8", "3/4"] },
+        { l: "Verrouillage du poignet", o: ["Axe en bas", "Axe en haut", "Aucun"] }
+      ]},
+      { nom: "Visée", items: [
+        { l: "Prise de ligne de mire", o: ["Rien ne bouge", "Mouvement de tête", "Contraction du poignet"] },
+        { l: "Tassement (temps d'arrêt bras haut)", o: ["Pas vraiment", "Moyen", "Long"] },
+        { l: "Entrée en cible", o: ["Directe (attaque)", "Par le haut", "Régularité du geste"] }
+      ]},
+      { nom: "Lâcher et coordination", items: [
+        { l: "Travail de l'index", o: ["Doux", "Franc", "Action-réaction"] },
+        { l: "Coordination lâcher-visée", o: ["De 0 à 6 secondes", "De 7 à 9 secondes", "10 secondes et plus"] },
+        { l: "Tenue au et après le départ", o: ["Oui", "À moitié", "Non"] }
+      ]},
+      { nom: "Poste de tir et matériel", items: [
+        { l: "Aménagement du poste de tir (boîte de plombs, tournevis, bouteille d'eau…)", o: ["Bon", "Un peu", "Aucun"] },
+        { l: "Adaptation du pistolet", o: ["Oui", "À moitié", "Non"] }
+      ]},
+      { nom: "Score", items: [
+        { l: "Score réalisé au cours de l'évaluation", t: "texte" }
       ]}
     ]
   },
