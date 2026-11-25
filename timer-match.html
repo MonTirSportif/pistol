@@ -35,7 +35,7 @@
 </head>
 <body>
 <header><div class="bar"><a class="logo" href="index.html" aria-label="MonTirSportif — accueil"><img src="img/logo.png" alt="MonTirSportif"></a>
-<nav id="nav"><a data-v="accueil" href="index.html" data-c="#e5473d">Accueil</a><a data-v="epreuves" href="disciplines.html" data-c="#2c6fb7">Disciplines</a><button type="button" id="prep-btn" aria-haspopup="true" aria-expanded="false" aria-controls="prep-menu">Préparation du tireur ▾</button><a data-v="infos" href="infos-pratiques.html" data-c="#5a6676">Sécurité</a><a data-v="faq" href="questions-frequentes.html" data-c="#44546a">Questions fréquentes</a><a data-v="a-propos" href="a-propos.html" data-c="#44546a">À propos</a></nav><button type="button" class="srch-btn" id="srch-btn" aria-label="Rechercher dans le site" title="Rechercher (touche /)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span>Rechercher</span></button><div class="prep-menu" id="prep-menu" role="menu"><a role="menuitem" href="preparation-technique.html"><span style="background:#e0601f">1</span>Préparation technique</a><a role="menuitem" href="preparation-mentale.html"><span style="background:#7656d6">2</span>Préparation mentale</a><a role="menuitem" href="preparation-materielle.html"><span style="background:#12938a">3</span>Préparation matérielle</a><a role="menuitem" href="preparation-physique.html"><span style="background:#3d8f2a">4</span>Préparation physique</a><a role="menuitem" href="preparation-tactique.html"><span style="background:#8a5f00">5</span>Préparation tactique</a><a role="menuitem" class="sub" href="faire-le-point.html">Faire le point sur ma pratique</a></div><script>(function(){var b=document.getElementById("prep-btn"),m=document.getElementById("prep-menu");if(!b||!m)return;
+<nav id="nav"><a data-v="accueil" href="index.html" data-c="#e5473d">Accueil</a><a data-v="epreuves" href="disciplines.html" data-c="#2c6fb7">Disciplines</a><button type="button" id="prep-btn" aria-haspopup="true" aria-expanded="false" aria-controls="prep-menu">Préparation du tireur ▾</button><a data-v="infos" href="infos-pratiques.html" data-c="#5a6676">Sécurité</a><a data-v="faq" href="questions-frequentes.html" data-c="#44546a">Questions fréquentes</a><a data-v="a-propos" href="a-propos.html" data-c="#44546a">À propos</a></nav><button type="button" class="srch-btn" id="srch-btn" aria-label="Rechercher dans le site" title="Rechercher (touche /)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span>Rechercher</span></button><div class="prep-menu" id="prep-menu" role="menu"><a role="menuitem" href="preparation-technique.html"><span style="background:#e0601f">1</span>Préparation technique</a><a role="menuitem" href="preparation-mentale.html"><span style="background:#7656d6">2</span>Préparation mentale</a><a role="menuitem" href="preparation-materielle.html"><span style="background:#12938a">3</span>Préparation matérielle</a><a role="menuitem" href="preparation-physique.html"><span style="background:#3d8f2a">4</span>Préparation physique</a><a role="menuitem" href="preparation-tactique.html"><span style="background:#8a5f00">5</span>Préparation tactique</a><a role="menuitem" class="sub" href="faire-le-point.html">Faire le point sur ma pratique</a><a role="menuitem" class="sub" href="outils.html">Mes outils : minuteries, carnet…</a><a role="menuitem" class="sub" href="annonce.html">Mon annonce</a><a role="menuitem" class="sub" href="timer-match.html">Timer match</a></div><script>(function(){var b=document.getElementById("prep-btn"),m=document.getElementById("prep-menu");if(!b||!m)return;
 function close(){m.classList.remove("open");b.setAttribute("aria-expanded","false");}
 function place(){var bar=m.parentNode.getBoundingClientRect(),r=b.getBoundingClientRect(),w=m.offsetWidth||260;var x=r.left-bar.left+r.width/2;x=Math.max(w/2+8,Math.min(bar.width-w/2-8,x));m.style.left=x+"px";}
 b.addEventListener("click",function(e){e.stopPropagation();var o=m.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");if(o)place();});
@@ -136,6 +136,8 @@ html.mts-big #tm .next{font-size:1.1rem}
       <div style="display:flex;flex-direction:column;justify-content:flex-end;gap:6px">
         <label class="chk"><input type="checkbox" id="tmV" checked> Commandements à voix haute</label>
         <label class="chk"><input type="checkbox" id="tmBip" checked> Bip au début et à la fin du tir</label>
+        <label for="tmVol">Volume sonore <b id="tmVolV">100 %</b>
+          <input type="range" id="tmVol" min="0" max="100" step="5" value="100" style="width:100%;accent-color:var(--acc)"></label>
       </div>
     </div>
     <p class="muted" id="tmSum"></p>
@@ -154,6 +156,7 @@ html.mts-big #tm .next{font-size:1.1rem}
 
   <div class="row">
     <button type="button" class="primary" id="tmGo">▶ Démarrer</button>
+    <button type="button" id="tmPrev">⏮ Étape précédente</button>
     <button type="button" id="tmSkip">Étape suivante ⏭</button>
     <button type="button" id="tmReset">↺ Recommencer</button>
     <button type="button" id="tmFull">⛶ Plein écran</button>
@@ -362,20 +365,24 @@ function set(k,x){try{localStorage.setItem(k,JSON.stringify(x))}catch(e){}}
 /* ---------- Disciplines (règles ISSF 2026, commandements en français) ---------- */
 var D={
   p10:{n:'Pistolet 10 m · 60 coups',kind:'prec',e:75,p:90},
-  p10j:{n:'Pistolet 10 m · 40 coups',kind:'prec',e:50,p:60},
+  p10j:{n:'Pistolet 10 m · 40 coups',kind:'prec',e:50,p:60,shots:40},
   p50:{n:'Pistolet 50 m · 60 coups',kind:'prec',e:90,p:105},
   p25:{n:'Pistolet 25 m',kind:'p25',parts:[['all','Match complet (précision puis vitesse)'],['prec','Passe précision (30 coups)'],['rap','Passe vitesse 3/7 (30 coups)']]},
   pc:{n:'Pistolet percussion centrale 25 m',kind:'p25',parts:[['all','Match complet (précision puis vitesse)'],['prec','Passe précision (30 coups)'],['rap','Passe vitesse 3/7 (30 coups)']]},
   vo:{n:'Pistolet vitesse olympique 25 m',kind:'vo',parts:[['all','Match complet (2 passes de 30 coups)'],['one','Une passe (30 coups)']]},
-  std:{n:'Pistolet standard 25 m',kind:'std',parts:[['all','Match complet (60 coups)']]}
+  std:{n:'Pistolet standard 25 m',kind:'std',parts:[['all','Match complet (60 coups)']]},
+  c10:{n:'Carabine 10 m · 60 coups',kind:'prec',e:75,p:90},
+  c10j:{n:'Carabine 10 m · 40 coups',kind:'prec',e:50,p:60,shots:40},
+  c3p:{n:'Carabine 50 m 3 positions · 3 × 20 coups',kind:'prec',e:90,p:120,sub:'Genou, puis couché, puis debout'},
+  c50:{n:'Carabine 50 m couché · 60 coups',kind:'prec',e:50,p:60}
 };
 var ORD=['PREMIÈRE','DEUXIÈME','TROISIÈME','QUATRIÈME','CINQUIÈME','SIXIÈME'];
 
 /* Une étape : {ph:phase, c:commandement écrit, v:texte dit, d:durée en s (null = attendre), lamp, beep, at:[[t,écrit,dit]], s:sous-titre} */
-function precSteps(M){var L=[],m=M*60;
+function precSteps(M,d){var L=[],m=M*60;
   L.push({ph:'Préparation et essais',c:'QUINZE MINUTES DE PRÉPARATION ET ESSAIS… COMMENCEZ',v:'Quinze minutes de préparation et essais. Commencez.',d:900,at:[[870,'30 SECONDES','30 secondes']],s:'Essais illimités'});
   L.push({ph:'Fin des essais',c:'STOP',v:'Stop.',d:30,s:'Les cibles passent en mode match'});
-  L.push({ph:'Tirs de match',c:'TIRS DE MATCH… TIREZ',v:'Tirs de match. Tirez.',d:m,at:[[m-600,'10 MINUTES','10 minutes'],[m-300,'5 MINUTES','5 minutes']],s:M===50?'40 coups':'60 coups'});
+  L.push({ph:'Tirs de match',c:'TIRS DE MATCH… TIREZ',v:'Tirs de match. Tirez.',d:m,at:[[m-600,'10 MINUTES','10 minutes'],[m-300,'5 MINUTES','5 minutes']],s:(d.sub?d.sub+' · ':'')+(d.shots||60)+' coups'});
   L.push({ph:'Fin du match',c:'STOP… DÉCHARGEZ',v:'Stop. Déchargez.',d:20});
   L.push({ph:'Fin du match',c:'VÉRIFIEZ ET RANGEZ VOS ARMES',v:'Vérifiez et rangez vos armes.',d:0,end:1});
   return L;}
@@ -413,7 +420,7 @@ function stdSteps(br){var L=[],ph='Standard';
     serie(L,ph+' · '+s+' s · série '+(i+1)+'/4','SÉRIE EN '+s+' SECONDES… CHARGEZ','Série en '+s+' secondes. Chargez.',[tir(s,'5 coups en '+s+' secondes')],br,k===12);}});
   return L;}
 function build(){var d=D[cfg.d],br=+cfg.b||0,L=[];
-  if(d.kind==='prec'){L=precSteps(cfg.c==='p'?d.p:d.e);}
+  if(d.kind==='prec'){L=precSteps(cfg.c==='p'?d.p:d.e,d);}
   else if(d.kind==='p25'){if(cfg.p==='all'){p25Pass(L,'prec',br,false);p25Pass(L,'rap',br,true)}else p25Pass(L,cfg.p==='prec'?'prec':'rap',br,true)}
   else if(d.kind==='vo'){if(cfg.p==='all'){voPass(L,1,br,false);voPass(L,2,br,true)}else voPass(L,'',br,true)}
   else L=stdSteps(br);
@@ -423,13 +430,13 @@ function build(){var d=D[cfg.d],br=+cfg.b||0,L=[];
   return L;}
 
 /* ---------- Réglages ---------- */
-var cfg=get('mts-timer-match',{d:'p10',p:'all',c:'e',b:'60',s:'1',voice:true,bip:true});
+var cfg=get('mts-timer-match',{d:'p10',p:'all',c:'e',b:'60',s:'1',voice:true,bip:true});if(cfg.vol==null)cfg.vol=100;if(!D[cfg.d]||!$('tmD').querySelector('option[value="'+cfg.d+'"]'))cfg.d=$('tmD').options[0].value;
 function fillParts(){var d=D[cfg.d],sel=$('tmP');sel.innerHTML='';
   (d.parts||[['all','Match complet']]).forEach(function(o){var e=document.createElement('option');e.value=o[0];e.textContent=o[1];sel.appendChild(e)});
   if(!(d.parts||[['all']]).some(function(o){return o[0]===cfg.p}))cfg.p='all';sel.value=cfg.p;sel.disabled=!d.parts||d.parts.length<2;
   $('tmC').disabled=d.kind!=='prec';$('tmB').disabled=d.kind==='prec';
   $('tmC').parentNode.style.opacity=d.kind==='prec'?1:.5;$('tmB').parentNode.style.opacity=d.kind==='prec'?.5:1;}
-function syncForm(){$('tmD').value=cfg.d;fillParts();$('tmC').value=cfg.c;$('tmB').value=cfg.b;$('tmS').value=cfg.s;$('tmV').checked=cfg.voice;$('tmBip').checked=cfg.bip}
+function syncForm(){$('tmD').value=cfg.d;fillParts();$('tmC').value=cfg.c;$('tmB').value=cfg.b;$('tmS').value=cfg.s;$('tmV').checked=cfg.voice;$('tmBip').checked=cfg.bip;$('tmVol').value=cfg.vol;$('tmVolV').textContent=cfg.vol+' %'}
 
 /* ---------- Voix et bips ---------- */
 var voice=null;
@@ -438,10 +445,10 @@ function pickVoice(){if(!('speechSynthesis' in window))return;var v=speechSynthe
 if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
 var lastSaid='';
 function say(t){if(!t)return;lastSaid=t;if(!cfg.voice||!('speechSynthesis' in window))return;
-  try{var u=new SpeechSynthesisUtterance(t);u.lang='fr-FR';if(voice)u.voice=voice;u.rate=0.95;speechSynthesis.speak(u)}catch(e){}}
+  try{var u=new SpeechSynthesisUtterance(t);u.lang='fr-FR';if(voice)u.voice=voice;u.rate=0.95;u.volume=Math.max(0,Math.min(1,cfg.vol/100));speechSynthesis.speak(u)}catch(e){}}
 var ac=null;
 function beep(f,dur){if(!cfg.bip)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
-  o.frequency.value=f;o.type='square';g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.25,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur+.02)}catch(e){}}
+  o.frequency.value=f;o.type='square';g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,.35*cfg.vol/100),t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur+.02)}catch(e){}}
 
 /* ---------- Moteur ---------- */
 var steps=[],cur=-1,run=false,t0=0,acc=0,fired={},tick=null,wake=null;
@@ -505,6 +512,9 @@ function reset(){run=false;clearInterval(tick);tick=null;releaseWake();if('speec
   list();}
 $('tmGo').addEventListener('click',function(){run?pauseIt():start()});
 $('tmSkip').addEventListener('click',function(){if(cur<0){start();return}if(cur<steps.length-1){if('speechSynthesis' in window)speechSynthesis.cancel();enter(cur+1);if(!run){acc=0}}});
+$('tmPrev').addEventListener('click',function(){if(cur<=0)return;if('speechSynthesis' in window)speechSynthesis.cancel();enter(cur-1,false);if(!run)acc=0});
+$('tmVol').addEventListener('input',function(){cfg.vol=+this.value;$('tmVolV').textContent=cfg.vol+' %';set('mts-timer-match',cfg)});
+$('tmVol').addEventListener('change',function(){beep(660,.15);var v=cfg.voice;cfg.voice=true;say('Volume '+cfg.vol+' pour cent');cfg.voice=v});
 $('tmReset').addEventListener('click',function(){if(run&&!confirm('Arrêter le match et revenir au début ?'))return;reset()});
 $('tmSay').addEventListener('click',function(){var t=lastSaid;if(cur>=0&&steps[cur]&&steps[cur].v)t=steps[cur].v;var v=cfg.voice;cfg.voice=true;say(t);cfg.voice=v});
 $('tmList').addEventListener('click',function(e){var li=e.target.closest('li');if(!li)return;var i=+li.dataset.i;if('speechSynthesis' in window)speechSynthesis.cancel();
@@ -519,7 +529,7 @@ syncForm();reset();
 })();
 </script>
 <script src="js/share.js"></script>
-<script src="js/nav.js?v=20261125tm"></script>
+<script src="js/nav.js?v=20261125menu"></script>
 <script src="js/search.js" data-base=""></script>
 </body>
 </html>
