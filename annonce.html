@@ -427,7 +427,7 @@ function save(){set('mts-annonce-cur',cur)}
 /* ---------- géométrie ---------- */
 function C(){return T[cur.t]}
 function Rmax(){var c=C();return c.ten/2+(10-c.last)*c.step/2}
-function Rview(){var c=C();return zoom?(c.ten/2+4*c.step/2):c.card/2}
+function Rview(){var c=C();return zoom?(c.ten/2+4*c.step/2):Math.min(c.card/2,Rmax()*1.2)} /* petit carton (carabine) : on cadre sur les zones */
 function val(p){var c=C(),d=Math.sqrt(p.x*p.x+p.y*p.y)-c.cal/2;
   for(var n=10;n>=c.last;n--){if(d<=(c.ten+(10-n)*c.step)/2) return n}return 0}
 function hour(p){var a=Math.atan2(p.x,p.y)*180/Math.PI;if(a<0)a+=360;var h=Math.round(a/30)%12;return h===0?12:h}
