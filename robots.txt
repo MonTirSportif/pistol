@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://pistol.montirsportif.com/sitemap.xml
+Sitemap: https://pistol.montirsportif.com/sitemap-index.xml
