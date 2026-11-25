@@ -32,6 +32,7 @@
     'preparation-technique-approfondir.html': ['Approfondir', 'preparation-technique.html'],
     'scatt.html': ['SCATT', 'preparation-technique.html'],
     'le-lacher.html': ['Le lâcher', 'preparation-technique.html'],
+    'progression-pedagogique.html': ['La progression pédagogique', 'preparation-technique.html'],
     'scatt-presentation.html': ['SCATT : présentation', 'scatt.html'],
     's-entrainer.html': ["S'entraîner", 'preparation-technique.html'],
     'journal-main-gauche.html': ['Changer de main', 'preparation-technique.html'],
