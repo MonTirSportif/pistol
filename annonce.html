@@ -63,6 +63,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #an button[aria-pressed="true"],#an .tags button.on{background:var(--acc);border-color:var(--acc);color:#fff}
 #an label.off{opacity:.45}
 #an label.off select{background:var(--bg2);cursor:not-allowed}
+#an .arr{width:1.15em;height:1.15em;vertical-align:-.22em;margin-right:6px}
 #an .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 #an .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
 @media (max-width:860px){#an .two{grid-template-columns:minmax(0,1fr)}}
@@ -152,7 +153,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
         <button type="button" data-tag="bois">Doigt de bois</button>
         <button type="button" data-tag="bras">Instabilité du bras</button>
         <button type="button" data-tag="corps">Instabilité du corps</button>
-        <button type="button" data-tag="nsp">Ne sais pas</button>
+        <button type="button" data-tag="nsp">Ressenti flou</button>
       </div>
     </div>
 
@@ -368,7 +369,7 @@ var RULE={1:"Juste si l'impact est du même côté (haut ou bas) que l'annonce."
  3:"Juste si l'impact est dans le même quart de cible (haut-gauche, haut-droite…).",
  4:"Juste si l'impact est à moins d'une heure de l'annonce (annonce « 9 h » : de 8 h à 10 h).",
  5:"Juste si l'impact est à moins d'une heure de l'annonce et à un point près."};
-var TAGS={bon:'Bon lâcher',doigt:'Coup de doigt',poignet:'Poignet',regard:'Regard parti',tenue:'Pas de tenue',serrage:'Serrage de crosse',bois:'Doigt de bois',bras:'Instabilité du bras',corps:'Instabilité du corps',nsp:'Ne sais pas'};
+var TAGS={bon:'Bon lâcher',doigt:'Coup de doigt',poignet:'Poignet',regard:'Regard parti',tenue:'Pas de tenue',serrage:'Serrage de crosse',bois:'Doigt de bois',bras:'Instabilité du bras',corps:'Instabilité du corps',nsp:'Ressenti flou'};
 /* précision : tolérance en heures (direction) et en points (valeur) */
 var PD={3:'à 3 heures près',2:'à 2 heures près',1:'à 1 heure près',0:"à l'heure exacte"};
 var PV={3:'à 3 points près',2:'à 2 points près',1:'à 1 point près',0:'valeur exacte'};
@@ -408,6 +409,10 @@ function dir4(p){return Math.abs(p.x)>Math.abs(p.y)?(p.x>0?'droite':'gauche'):(p
 function quad(p){return (p.y>=0?'haut':'bas')+'-'+(p.x>=0?'droite':'gauche')}
 function desc(p,l){if(!p)return '—';var v=val(p);if(v===10)return '10 (centre)';
   if(l<=1)return (p.y>=0?'haut':'bas')+' · '+v;if(l===2)return dir4(p)+' · '+v;if(l===3)return quad(p)+' · '+v;return v+' à '+hour(p)+' h'}
+/* flèche de direction (depuis le centre) pour le tableau */
+function arrow(p,col){if(!p)return '';var a=Math.atan2(p.x,p.y)*180/Math.PI;
+  if(val(p)===10)return '<svg class="arr" viewBox="-6 -6 12 12" aria-hidden="true"><circle r="3.2" fill="'+col+'"/></svg>';
+  return '<svg class="arr" viewBox="-6 -6 12 12" aria-hidden="true"><g transform="rotate('+a.toFixed(0)+')"><line x1="0" y1="4.5" x2="0" y2="-3" stroke="'+col+'" stroke-width="1.6" stroke-linecap="round"/><path d="M-3.2 -1.2 L0 -5 L3.2 -1.2 Z" fill="'+col+'"/></g></svg>'}
 function judge(a,i,l){ // true / false / null (pas d'annonce)
   if(!a) return null;var va=val(a),vi=val(i),c=C(),pd=cur.pd,pv=cur.pv,vok=Math.abs(va-vi)<=pv;
   if(va===10||vi===10){ if(va===10&&vi===10) return true;
@@ -504,7 +509,7 @@ function render(){
   else if(st.ann>=10&&st.pct<50) ad='<div class="tip"><b>Moins d’une annonce sur deux est juste.</b> Revenez à une étape plus simple, et concentrez-vous sur l’image du guidon au départ du coup plutôt que sur le score.</div>';
   $('anAdvice').innerHTML=ad;
   // tableau
-  var tb='';cur.shots.forEach(function(s,n){tb='<tr><td>'+(n+1)+'</td><td>'+desc(s.a,cur.l)+'</td><td>'+desc(s.i,cur.l)+'</td><td>'+(s.a?fr(Math.hypot(s.i.x-s.a.x,s.i.y-s.a.y))+' mm':'—')+'</td><td>'+(s.ok===null?'<span class="na">—</span>':(s.ok?'<span class="ok">juste</span>':'<span class="ko">fausse</span>'))+'</td><td>'+s.tags.map(function(t){return TAGS[t]}).join(', ')+'</td></tr>'+tb});
+  var tb='';cur.shots.forEach(function(s,n){tb='<tr><td>'+(n+1)+'</td><td>'+arrow(s.a,'#e0601f')+desc(s.a,cur.l)+'</td><td>'+arrow(s.i,'currentColor')+desc(s.i,cur.l)+'</td><td>'+(s.a?fr(Math.hypot(s.i.x-s.a.x,s.i.y-s.a.y))+' mm':'—')+'</td><td>'+(s.ok===null?'<span class="na">—</span>':(s.ok?'<span class="ok">juste</span>':'<span class="ko">fausse</span>'))+'</td><td>'+s.tags.map(function(t){return TAGS[t]}).join(', ')+'</td></tr>'+tb});
   document.querySelector('#anTbl tbody').innerHTML=tb||'<tr><td colspan="6" class="muted">Aucun coup pour l’instant.</td></tr>';
   renderHist();
 }
