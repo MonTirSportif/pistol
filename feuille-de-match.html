@@ -175,6 +175,9 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .sertab td.pos{color:var(--good);font-weight:600}
 #fm .sertab td.neg{color:var(--accent);font-weight:600}
 #fm .sertab .bar{display:block;height:6px;border-radius:3px;background:var(--line);min-width:50px;position:relative;overflow:hidden}
+#fm .sertab{display:table}
+#fm .sertab td:first-child,#fm .sertab th:first-child{width:1%;min-width:0;white-space:nowrap;padding-right:10px}
+#fm .sertab td:last-child,#fm .sertab th:last-child{width:100%;min-width:60px}
 #fm .sertab .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
 #fm .sertab tr.bestr td:first-child{color:var(--good);font-weight:600}
 #fm .sertab tr.worstr td:first-child{color:var(--accent);font-weight:600}
