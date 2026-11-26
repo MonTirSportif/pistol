@@ -116,6 +116,10 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm td.sh:hover{background:var(--soft)}
 #fm td.sh.sel{outline:2px solid var(--warn)}
 #fm td.tot{font-family:var(--display);font-weight:700;font-size:1.15rem}
+#fm tr.ess td{background:color-mix(in srgb,var(--line) 35%,transparent);color:var(--muted)}
+#fm tr.ess td.sh .ev{display:flex;align-items:center;justify-content:center;min-height:42px;font-family:var(--display);font-weight:600;font-size:1.15rem;font-style:italic}
+#fm tr.ess td.sh .ev sup{font-size:.55em}
+#fm tr.ess td.tot{color:var(--muted)}
 #fm tr.cur td:first-child{color:var(--accent);font-weight:600}
 #fm tfoot td{font-family:var(--display);font-weight:700;font-size:1.3rem;border-bottom:0}
 #fm svg text{font-family:var(--body)}
@@ -750,6 +754,11 @@ function render(){
   let fh='<tr><th style="text-align:left">Série</th>';for(let k=1;k<=per;k++)fh+=`<th>${k}</th>`;fh+='<th>Total</th></tr>';
   $('#fHead').innerHTML=fh;
   let fb='';
+  const ess=sqEssais();
+  if(ess.length){for(let r=0;r<ess.length;r+=per){const part=ess.slice(r,r+per),t=part.reduce((a,p)=>a+(D.dec?p.sd:Math.floor(p.sd+1e-9)),0);
+    fb+=`<tr class="ess"><td style="text-align:left">${r?'':'Essais'}<small class="ph">non comptés</small></td>`;
+    for(let k=0;k<per;k++){const p=part[k];fb+=`<td class="sh"><span class="ev">${p?(D.dec?fmt(Math.round(p.sd*10)/10,true):Math.floor(p.sd+1e-9))+(p.x10&&!D.dec?'<sup>X</sup>':''):''}</span></td>`}
+    fb+=`<td class="tot">${fmt(Math.round(t*10)/10,D.dec)}</td></tr>`}}
   const viewSer=loupeSer!==null?loupeSer:curSer;
   S.ser.forEach((s,i)=>{
     fb+=`<tr class="${i===curSer&&!S.complete?'cur':''}${i===viewSer?' show':''}"><td style="text-align:left">S${i+1}${D.ph?`<small class="ph">${D.ph[i]}</small>`:''}</td>`;
@@ -1014,10 +1023,12 @@ $('#sqLink').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault
 
 $('#sqImp').addEventListener('click',()=>$('#sqFile').click());
 $('#sqFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{sqImport(String(rd.result))}catch(err){flash('Import impossible : fichier SQ illisible.')}e.target.value=''};rd.readAsText(f,'utf-8')});
+function sqEssais(){const v=M.sqv;if(!v||!v.shots)return[];return v.shots.filter(p=>p.e).slice().sort((a,b)=>(a.t||0)-(b.t||0)||a.o-b.o)}
 function summary(){
   const D=d(),S=stats(M);
   const lines=[`${M.name||'Match'} · ${D.code} ${D.label} · ${CATN[M.cat||'S1']}${M.date?' · '+new Date(M.date).toLocaleDateString('fr-FR'):''}`];
   S.ser.forEach((s,i)=>{if(s.shots.length)lines.push(`S${i+1} : ${fmt(s.tot,D.dec)}${D.prec?` · moy. ${(s.tot/s.shots.length).toFixed(2).replace('.',',')}${s.shots.length>1?` · σ ${f2(sdev(s.shots.map(x=>x.v)))}`:''} · 10 : ${s.shots.filter(x=>x.v>=10).length}`:''}  (${s.shots.map(x=>D.kind==='hit'?(x.v?'T':'M'):x.x?'X':fmt(x.v,D.dec)).join(' ')})`)});
+  {const es=sqEssais();if(es.length)lines.push(`Essais (non comptés) : ${es.map(p=>D.dec?fmt(Math.round(p.sd*10)/10,true):Math.floor(p.sd+1e-9)).join(' ')}`)}
   lines.push(`Total : ${fmt(S.tot,D.dec)} / ${fmt(totMax(D),D.dec)}${S.complete?'':` (${S.n} coups sur ${N()})`}`);
   if(S.avg!==null&&D.kind!=='hit')lines.push(`Moyenne par coup : ${S.avg.toFixed(2).replace('.',',')}${S.sdShot!=null?` · écart type ${f2(S.sdShot)}`:''}`);
   if(S.sdSer!=null)lines.push(`Écart type des séries : ${f2(S.sdSer)}`);
