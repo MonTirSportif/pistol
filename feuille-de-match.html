@@ -182,6 +182,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 <section class="first" id="feuille">
 <div id="fm">
   <div class="card" style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;padding:.8rem 1rem">
+    <a id="sqView" href="sq-visu.html" target="sqvisu" class="btnlink" style="text-decoration:none" hidden>🎯 Voir mes impacts SQ</a>
     <button id="sqImp" class="primary" title="Importer l’export CSV de la cible électronique SQ (Sport Quantum)">📥 Importer un fichier SQ</button><input type="file" id="sqFile" accept=".csv,text/csv" hidden>
     <span class="muted" style="font-size:.9rem">Vous tirez sur une cible SQ ? Importez son export CSV, ou collez le lien de partage de la SQ (sqm.app) : la feuille se remplit toute seule.</span>
     <div style="display:flex;gap:.5rem;flex:1 1 100%;flex-wrap:wrap"><input id="sqLink" type="url" inputmode="url" placeholder="Collez ici le lien SQ (https://sqm.app/s?s=…)" aria-label="Lien de partage de la cible SQ" style="flex:1;min-width:220px;font:inherit;padding:.55rem .8rem;border:1px solid var(--line,#d5dbe3);border-radius:10px"><button id="sqLinkBtn" type="button">Importer le lien</button></div>
@@ -783,7 +784,8 @@ function sqDisc(card){const c=(card||'').toLowerCase();
   if(/vitesse/.test(c)&&/10/.test(c))return'vit10';
   if(/pistolet/.test(c)&&/10/.test(c))return'p10';
   return null}
-function sqApply(shots,card,src){
+let sqWin=null;
+function sqApply(shots,card,src,all,start){
   if(!shots.length){flash('Aucun coup de match trouvé (seulement des coups d’essai ?).');return}
   let disc=sqDisc(card);
   if(!disc){const cnt=shots.length,cur=DISC[M.disc];disc=(cur&&cur.n*cur.shots===cnt&&!M.sample)?M.disc:(cnt===60?(M.disc==='c10'?'c10':'p10'):M.disc)}
@@ -796,6 +798,12 @@ function sqApply(shots,card,src){
     return{v:Math.min(isNaN(r.si)?0:r.si,D.max),x:mx}});
   M={cat:M.cat||'S1',disc:disc,date:iso,name:'Import SQ'+(card?' · '+card:''),place:'',shots:list,sample:false};
   wantDisc=null;sel=null;pendingInt=null;buildPad();save();syncMeta();render();
+  if(all&&all.length){const xr=disc==='p10'?4.75:-1;
+    const view={disc:disc,card:card||D.label,start:start||(isNaN(shots[0].ts)?Date.now():shots[0].ts),
+      shots:all.map(p=>({e:!!p.e,s:p.e?0:p.s,o:p.o,sd:p.sd,x:p.x,y:p.y,x10:Math.floor(p.sd+1e-9)===10&&Math.hypot(p.x,p.y)<=xr}))};
+    try{localStorage.setItem('mts-sq-view',JSON.stringify(view))}catch(e){}
+    $('#sqView').hidden=false;
+    if(!sqWin||sqWin.closed){try{sqWin=window.open('sq-visu.html','sqvisu')}catch(e){}}}
   const extra=shots.length>N?` (${shots.length-N} coup(s) en trop ignoré(s))`:'';
   flash(`${list.length} coups importés depuis ${src}${extra}. Vérifiez l’épreuve et les coups, puis touchez « Enregistrer ce match ».`);
 }
@@ -811,7 +819,9 @@ function sqImport(text){
   const shots=imp.filter(r=>!/sight/i.test(r['serie type']||'')&&!/essai/i.test(r['serie']||''))
     .sort((a,b)=>num(a['impact order'])-num(b['impact order']))
     .map(r=>({si:num(r['score (integer)']),sd:num(r['score (decimal)']),x:num(r['position x']),y:num(r['position y']),ts:num(r['timestamp'])}));
-  sqApply(shots,card,'le fichier SQ');
+  const all=imp.map(r=>({e:/sight/i.test(r['serie type']||'')||/essai/i.test(r['serie']||''),s:num(r['serie']),o:num(r['impact order']),sd:num(r['score (decimal)']),x:num(r['position x']),y:num(r['position y']),ts:num(r['timestamp'])}));
+  const t0=Math.min(...all.map(p=>p.ts).filter(v=>!isNaN(v)));
+  sqApply(shots,card,'le fichier SQ',all,isFinite(t0)?t0:undefined);
 }
 /* Lien de partage SQ (sqm.app) : données compressées (brotli) dans le paramètre s */
 let brP=null;function loadBrotli(){if(window.BrotliDecode)return Promise.resolve();if(brP)return brP;brP=new Promise((ok,ko)=>{const sc=document.createElement('script');sc.src='js/brotli-decode.min.js';sc.onload=()=>ok();sc.onerror=()=>{brP=null;ko(new Error('brotli'))};document.head.appendChild(sc)});return brP}
@@ -824,18 +834,20 @@ async function sqLinkImport(link){
   const dv=new DataView(b.buffer,b.byteOffset,b.byteLength);
   if(b.length<22+16||(b.length-22)%16){flash('Lien SQ illisible ou incomplet : vérifiez que tout le lien a été copié.');return}
   const start=dv.getUint32(6,true)*1000;let t=start;const s24=o=>{let v=b[o]|(b[o+1]<<8)|(b[o+2]<<16);if(v&0x800000)v-=0x1000000;return v};
-  const shots=[];
+  const shots=[],all=[];
   for(let o=22;o+16<=b.length;o+=16){
     t+=b[o+1]|(b[o+2]<<8)|(b[o+3]<<16);
     const sight=(b[o]&0x10)!==0,sd=b[o+6]/10;
+    all.push({e:sight,s:b[o+5],o:b[o+4],sd:sd,x:s24(o+7)/1000,y:s24(o+10)/1000});
     if(sight)continue;
     shots.push({si:Math.floor(sd+1e-9),sd:sd,x:s24(o+7)/1000,y:s24(o+10)/1000,ts:t,ord:b[o+4]});
   }
   shots.sort((a,c)=>a.ord-c.ord);
-  sqApply(shots,'','le lien SQ');
+  sqApply(shots,'','le lien SQ',all,start);
 }
-$('#sqLinkBtn').addEventListener('click',()=>{const v=$('#sqLink').value;if(!v.trim()){flash('Collez d’abord le lien SQ dans le champ.');return}sqLinkImport(v).then(()=>{$('#sqLink').value=''}).catch(()=>flash('Import impossible : lien SQ illisible.'))});
+$('#sqLinkBtn').addEventListener('click',()=>{const v=$('#sqLink').value;if(!v.trim()){flash('Collez d’abord le lien SQ dans le champ.');return}try{if(!sqWin||sqWin.closed)sqWin=window.open('sq-visu.html','sqvisu')}catch(e){}sqLinkImport(v).then(()=>{$('#sqLink').value=''}).catch(()=>flash('Import impossible : lien SQ illisible.'))});
 $('#sqLink').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#sqLinkBtn').click()}});
+try{if(localStorage.getItem('mts-sq-view'))$('#sqView').hidden=false}catch(e){}
 $('#sqImp').addEventListener('click',()=>$('#sqFile').click());
 $('#sqFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{sqImport(String(rd.result))}catch(err){flash('Import impossible : fichier SQ illisible.')}e.target.value=''};rd.readAsText(f,'utf-8')});
 function summary(){

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mes impacts SQ – Ma feuille de match – MonTirSportif</title>
+<link rel="icon" href="img/coeur.png">
+<style>
+:root{--acc:#119a8a;--imp:#2fd3b8;--txt:#1b2430;--mut:#6b7684;--line:#dfe4ea;--bg:#eef1f4}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+header{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;padding:.7rem 1rem;background:#fff;border-bottom:1px solid var(--line)}
+header img{height:34px}
+header h1{font-size:1.05rem;margin:0;font-weight:700}
+.bar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-left:auto}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button,.btn{font:inherit;font-size:.85rem;border:0;background:#fff;padding:.45rem .8rem;cursor:pointer;color:var(--txt)}
+.seg button[aria-pressed="true"]{background:var(--acc);color:#fff}
+.btn{border:1px solid var(--line);border-radius:10px}
+main{max-width:1500px;margin:0 auto;padding:.8rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:.8rem;overflow:hidden}
+.top{display:grid;grid-template-columns:minmax(260px,1fr) 1fr;gap:1rem;align-items:center;border:2px solid var(--imp)}
+.top svg{width:100%;max-height:340px}
+.top .info{padding:1rem}
+.info .card-n{color:var(--mut);font-size:.95rem}
+.big{font-size:3rem;font-weight:800;line-height:1.1;margin:.3rem 0}
+.big .x{font-size:2rem}
+.sers{display:flex;flex-wrap:wrap;gap:0;color:var(--mut);font-size:1.15rem}
+.sers span{padding:0 .5rem;border-left:1px solid var(--line)}.sers span:first-child{border-left:0;padding-left:0}
+.avg{color:var(--mut)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:.8rem}
+.ser{display:grid;grid-template-columns:44% 1fr auto;align-items:center;margin:0}
+.ser svg{width:100%;display:block}
+.lst{list-style:none;margin:0;padding:.3rem .2rem;font-variant-numeric:tabular-nums}
+.lst li{display:grid;grid-template-columns:2.3rem 2.8rem 1.1rem 1rem;align-items:center;gap:.15rem;font-size:.95rem;line-height:1.35}
+.lst .n{color:var(--mut);font-size:.75rem}
+.lst svg{width:14px;height:14px}
+.lst .st{font-weight:800}
+.sum{padding:.6rem 1rem .6rem .4rem;text-align:left;min-width:5.5rem}
+.sum .t{font-size:.95rem}
+.sum .v{font-size:2.4rem;font-weight:500;line-height:1.1}
+.sum .m{color:var(--mut)}
+.empty{padding:2rem;text-align:center;color:var(--mut)}
+.note{color:var(--mut);font-size:.8rem;padding:.2rem .4rem 1rem}
+@media(max-width:700px){.top{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.big{font-size:2.4rem}}
+@media print{header .bar{display:none}body{background:#fff}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header><a href="feuille-de-match.html"><img src="img/logo.png" alt="MonTirSportif"></a><h1>Mes impacts SQ</h1>
+<div class="bar"><div class="seg" role="group" aria-label="Affichage des points"><button type="button" id="mDec">Décimal</button><button type="button" id="mInt">Point entier</button></div><button class="btn" type="button" onclick="window.print()">Imprimer</button><a class="btn" href="feuille-de-match.html" style="text-decoration:none">Ma feuille de match</a></div></header>
+<main id="app"><div class="empty">Aucune donnée SQ : importez d’abord un fichier ou un lien SQ dans « Ma feuille de match ».</div></main>
+<script>
+(function(){
+'use strict';
+let data=null;try{data=JSON.parse(localStorage.getItem('mts-sq-view')||'null')}catch(e){}
+let dec=false;try{dec=localStorage.getItem('mts-sq-mode')==='dec'}catch(e){}
+const T={ // cibles ISSF (mm) : r10 = rayon du 10, pas = largeur d'une zone, noir = zones noires, x = rayon du 10 intérieur
+  p10:{r10:5.75,pas:8,noirMin:7,x:2.5,lab:'Pistolet 10 m'},
+  c10:{r10:0.25,pas:2.5,noirMin:4,x:0,lab:'Carabine 10 m'}
+};
+const fmt=(v,d)=>d?v.toFixed(1):String(Math.floor(v+1e-9));
+function rad(t,k){return t.r10+(10-k)*t.pas}
+function target(t,shots,view,cls){
+  const R=view, s=[];
+  s.push(`<svg viewBox="${-R} ${-R} ${2*R} ${2*R}" role="img" aria-label="Cible et impacts" class="${cls||''}">`);
+  s.push(`<rect x="${-R}" y="${-R}" width="${2*R}" height="${2*R}" fill="#fff"/>`);
+  for(let k=1;k<=10;k++){const r=rad(t,k);const black=k>=t.noirMin;
+    s.push(`<circle r="${r}" fill="${black?'#000':'#fff'}" stroke="${black?'#fff':'#000'}" stroke-width="${t.pas*0.025}"/>`)}
+  if(t.x)s.push(`<circle r="${t.x}" fill="none" stroke="#fff" stroke-width="${t.pas*0.025}"/>`);
+  const fs=t.pas*0.42;
+  for(let k=1;k<=8;k++){const r1=rad(t,k),r2=rad(t,k+1),m=(r1+r2)/2;if(r1>R*1.05)continue;const col=k>=t.noirMin?'#fff':'#000';
+    [[m,0],[-m,0],[0,m],[0,-m]].forEach(([x,y],i)=>{if((i<2&&Math.abs(x)<R)||(i>=2&&Math.abs(y)<R))s.push(`<text x="${x}" y="${y}" font-size="${fs}" fill="${col}" text-anchor="middle" dominant-baseline="central" font-family="Arial">${k}</text>`)})}
+  const pr=2.25;
+  shots.forEach(p=>{s.push(`<g><circle cx="${p.x}" cy="${p.y}" r="${pr}" fill="#2fd3b8" stroke="#fff" stroke-width="0.35"/><text x="${p.x}" y="${p.y}" font-size="${pr*0.95}" fill="#fff" font-weight="700" text-anchor="middle" dominant-baseline="central" font-family="Arial">${p.o}</text></g>`)});
+  s.push('</svg>');return s.join('');
+}
+function arrow(x,y){const a=Math.atan2(y,x)*180/Math.PI;return `<svg viewBox="-8 -8 16 16" aria-hidden="true"><g transform="rotate(${a})"><line x1="-5" y1="0" x2="5" y2="0" stroke="#6b7684" stroke-width="1.6"/><path d="M5 0 L1 -3 L1 3 Z" fill="#6b7684"/></g></svg>`}
+function render(){
+  document.getElementById('mDec').setAttribute('aria-pressed',dec);document.getElementById('mInt').setAttribute('aria-pressed',!dec);
+  if(!data||!data.shots||!data.shots.length)return;
+  const t=T[data.disc]||T.p10;
+  const val=p=>dec?p.sd:Math.floor(p.sd+1e-9);
+  const match=data.shots.filter(p=>!p.e), sight=data.shots.filter(p=>p.e);
+  const groups=[];if(sight.length)groups.push({name:'Essais',e:true,shots:sight});
+  const bySer={};match.forEach(p=>{(bySer[p.s]=bySer[p.s]||[]).push(p)});
+  Object.keys(bySer).sort((a,b)=>a-b).forEach(k=>groups.push({name:'Série '+k,shots:bySer[k]}));
+  const tot=match.reduce((a,p)=>a+val(p),0), nx=match.filter(p=>p.x10).length;
+  const avgAll=match.reduce((a,p)=>a+p.sd,0)/match.length;
+  const sers=groups.filter(g=>!g.e).map(g=>g.shots.reduce((a,p)=>a+val(p),0));
+  const d=new Date(data.start||Date.now());
+  const ds=d.toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'})+', '+d.toLocaleTimeString('fr-FR');
+  const maxR=Math.max(...match.map(p=>Math.hypot(p.x,p.y)),rad(t,7))+t.pas*0.6;
+  let h=`<section class="card top"><div>${target(t,match,Math.min(rad(t,1)+1,Math.max(maxR,rad(t,6))))}</div><div class="info"><div class="card-n">${esc(data.card||t.lab)}<br>${ds}</div><div class="big">${dec?tot.toFixed(1):tot} – ${nx}<span class="x">✱</span></div><div class="sers">${sers.map(v=>`<span>${dec?v.toFixed(1):v}</span>`).join('')}</div><div class="avg">≈ ${avgAll.toFixed(2).replace('.',',')}</div></div></section><div class="grid">`;
+  groups.forEach(g=>{
+    const st=g.shots.reduce((a,p)=>a+val(p),0), sx=g.shots.filter(p=>p.x10).length, av=g.shots.reduce((a,p)=>a+p.sd,0)/g.shots.length;
+    const vr=Math.max(rad(t,6)+t.pas*0.3,Math.max(...g.shots.map(p=>Math.hypot(p.x,p.y)))+3);
+    h+=`<section class="card ser"><div>${target(t,g.shots,Math.min(vr,rad(t,1)+1))}</div><ul class="lst">${g.shots.map(p=>`<li><span class="n">#${p.o}</span><span>${p.sd.toFixed(1)}</span>${arrow(p.x,p.y)}<span class="st">${p.x10?'✱':''}</span></li>`).join('')}</ul><div class="sum"><div class="t">${g.name}</div><div class="v">${dec?st.toFixed(1):st}</div><div class="m">${sx?sx+' ✱':''}</div><div class="m">≈ ${av.toFixed(2).replace(/0$/,'').replace('.',',')}</div></div></section>`;
+  });
+  h+='</div><p class="note">Données importées depuis la cible SQ (Sport Quantum) dans « Ma feuille de match ». ✱ : 10 intérieur (mouche). Les flèches indiquent la direction de chaque impact par rapport au centre. Tout reste dans votre navigateur.</p>';
+  document.getElementById('app').innerHTML=h;
+  document.title=`${data.card||t.lab} · ${dec?tot.toFixed(1):tot} – Mes impacts SQ`;
+}
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+document.getElementById('mDec').addEventListener('click',()=>{dec=true;try{localStorage.setItem('mts-sq-mode','dec')}catch(e){}render()});
+document.getElementById('mInt').addEventListener('click',()=>{dec=false;try{localStorage.setItem('mts-sq-mode','int')}catch(e){}render()});
+window.addEventListener('storage',e=>{if(e.key==='mts-sq-view'){try{data=JSON.parse(e.newValue||'null')}catch(_){}render()}});
+render();
+})();
+</script>
+</body>
+</html>
