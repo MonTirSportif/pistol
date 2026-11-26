@@ -285,6 +285,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       <div class="row">
         <button id="saveM" class="primary">Enregistrer ce match</button>
         <button id="newM">Nouveau match</button>
+        <button id="sqImp" title="Importer l’export CSV de la cible électronique SQ (Sport Quantum)">Importer un fichier SQ</button><input type="file" id="sqFile" accept=".csv,text/csv" hidden>
         <button id="shareM">Partager</button>
         <button id="pdfM">PDF</button>
         <button id="printM">Imprimer</button>
@@ -769,6 +770,42 @@ $('#newM').addEventListener('click',()=>{
   newArmed=false;$('#newM').textContent='Nouveau match';
   M={cat:M.cat||'S1',disc:wantDisc||M.disc,date:today(),name:'',shots:[],sample:false};wantDisc=null;sel=null;buildPad();pendingInt=null;save();syncMeta();render();flash('Nouveau match prêt.');
 });
+
+/* ---------- Import d'un export SQ (Sport Quantum, CSV) ---------- */
+function sqParseLine(l){const out=[];let cur='',q=false;for(let i=0;i<l.length;i++){const c=l[i];if(q){if(c==='"'){if(l[i+1]==='"'){cur+='"';i++}else q=false}else cur+=c}else if(c==='"')q=true;else if(c===','||c===';'){out.push(cur.trim());cur=''}else cur+=c}out.push(cur.trim());return out}
+function sqDisc(card){const c=(card||'').toLowerCase();
+  if(/carabine/.test(c)&&/10/.test(c))return'c10';
+  if(/standard/.test(c)&&/10/.test(c))return'std10';
+  if(/vitesse/.test(c)&&/10/.test(c))return'vit10';
+  if(/pistolet/.test(c)&&/10/.test(c))return'p10';
+  return null}
+function sqImport(text){
+  const lines=text.replace(/^﻿/,'').split(/\r?\n/).filter(l=>l.trim());
+  let card='',hdr=null;const imp=[];
+  lines.forEach(l=>{const f=sqParseLine(l);const t=(f[0]||'').toLowerCase();
+    if(t==='info card')card=f.slice(1).filter(Boolean).pop()||'';
+    else if(t==='header')hdr=f.slice(1).map(h=>h.toLowerCase());
+    else if(t==='impact'&&hdr){const r={};hdr.forEach((h,i)=>r[h]=f[i+1]);imp.push(r)}});
+  if(!imp.length){flash('Fichier non reconnu : ce n’est pas un export SQ (aucun impact trouvé).');return}
+  const num=v=>parseFloat(String(v??'').replace(',','.'));
+  const shots=imp.filter(r=>!/sight/i.test(r['serie type']||'')&&!/essai/i.test(r['serie']||''))
+    .sort((a,b)=>num(a['impact order'])-num(b['impact order']));
+  if(!shots.length){flash('Le fichier ne contient que des coups d’essai.');return}
+  const disc=sqDisc(card)||M.disc;const D=DISC[disc]||DISC[M.disc];
+  const N=D.n*D.shots;
+  const ts=num(shots[0]['timestamp']);const dt=isNaN(ts)?new Date():new Date(ts);
+  const iso=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+  const list=shots.slice(0,N).map(r=>{const si=num(r['score (integer)']),sd=num(r['score (decimal)']),x=num(r['position x']),y=num(r['position y']);
+    if(D.kind==='dec')return{v:isNaN(sd)?si:Math.round(sd*10)/10,x:0};
+    let mx=0;if(disc==='p10'&&si===10&&!isNaN(x)&&!isNaN(y)&&Math.hypot(x,y)<=4.75)mx=1;
+    return{v:Math.min(isNaN(si)?0:si,D.max),x:mx}});
+  M={cat:M.cat||'S1',disc:disc,date:iso,name:'Import SQ'+(card?' · '+card:''),place:'',shots:list,sample:false};
+  wantDisc=null;sel=null;pendingInt=null;buildPad();save();syncMeta();render();
+  const extra=shots.length>N?` (${shots.length-N} coup(s) en trop ignoré(s))`:'';
+  flash(`${list.length} coups importés depuis la cible SQ${extra}. Vérifiez puis touchez « Enregistrer ce match ».`);
+}
+$('#sqImp').addEventListener('click',()=>$('#sqFile').click());
+$('#sqFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{sqImport(String(rd.result))}catch(err){flash('Import impossible : fichier SQ illisible.')}e.target.value=''};rd.readAsText(f,'utf-8')});
 function summary(){
   const D=d(),S=stats(M);
   const lines=[`${M.name||'Match'} · ${D.code} ${D.label} · ${CATN[M.cat||'S1']}${M.date?' · '+new Date(M.date).toLocaleDateString('fr-FR'):''}`];
