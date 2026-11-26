@@ -91,14 +91,20 @@ function series(data,dec){
   return card(`Évolution des scores de série${sdTxt(tots).replace(' · ',' · écart type ').replace('σ ','')}`,lineChart([{v:tots,c:'#2fd3b8'}],sk,tmin,tmax,Math.max(1,Math.round((tmax-tmin)/6)),{vgrid:true,h:220}))
     +card('Score de chaque coup, série par série',leg+'<div class="sqa-leg">'+sk.map(k=>`<span>S${k}${sdTxt(bySer[k].map(p=>dec?p.sd:iv(p))).replace(' · ',' : ')}</span>`).join('')+'</div>'+lineChart(sk.map((k,i)=>({v:bySer[k].map(p=>p.sd),c:COL[i%COL.length],dots:false,w:2})),Array.from({length:maxLen},(_,i)=>i+1),lo,11,1,{vgrid:true}));
 }
-function position(data){
+function position(data,dec,opt){
   if(!ok(data))return '';
-  const m=data.shots.filter(p=>!p.e),t=T[data.disc]||T.p10;
+  opt=opt||{};const m=data.shots.filter(p=>!p.e),t=T[data.disc]||T.p10;
+  const zoom=opt.zoom||'cible',showI=opt.impacts!==false&&zoom!=='cible'||opt.impacts===true;
+  const grpR=Math.max(...m.map(p=>Math.hypot(p.x,p.y)))+t.pas*0.6;
+  const R=zoom==='groupe'?Math.max(grpR,t.r10+t.pas*0.5):zoom==='noir'?rad(t,t.noirMin)+t.pas*0.4:rad(t,1)+1;
   const L=m.filter(p=>p.x<0).length/m.length,U=m.filter(p=>p.y<0).length/m.length,pc=v=>Math.round(v*100)+' %';
   let heat='';m.forEach(p=>{heat+=`<circle cx="${p.x}" cy="${p.y}" r="${t.pas*0.9}" fill="url(#sqa-hg)"/>`});
-  let tg=target(t,[],rad(t,1)+1);tg=tg.replace('</svg>',`<defs><radialGradient id="sqa-hg"><stop offset="0" stop-color="#ff3b1f" stop-opacity=".55"/><stop offset=".45" stop-color="#ffd21f" stop-opacity=".35"/><stop offset="1" stop-color="#2ecc40" stop-opacity="0"/></radialGradient></defs>${heat}</svg>`);
+  const defs=`<defs><radialGradient id="sqa-hg"><stop offset="0" stop-color="#ff3b1f" stop-opacity=".55"/><stop offset=".45" stop-color="#ffd21f" stop-opacity=".35"/><stop offset="1" stop-color="#2ecc40" stop-opacity="0"/></radialGradient></defs>`;
+  let tg=target(t,showI?m:[],R);const cut=tg.indexOf('<g><circle cx');const at=cut>=0?cut:tg.lastIndexOf('</svg>');tg=tg.slice(0,at)+defs+heat+tg.slice(at);
+  const zb=(z,l)=>`<button type="button" data-zoom="${z}" aria-pressed="${zoom===z}">${l}</button>`;
+  const ctl=`<div class="sqa-zoom" role="group" aria-label="Zoom sur la cible">${zb('cible','Cible entière')}${zb('noir','Zone noire')}${zb('groupe','Groupement')}</div><label class="sqa-chk"><input type="checkbox" data-impacts ${showI?'checked':''}> Afficher les impacts</label>`;
   const bar=(a,b,va)=>`<div class="sqa-prow"><span>${a}</span><span>${b}</span></div><div class="sqa-pbar"><b style="width:${va*100}%"></b><span style="width:${(1-va)*100}%"></span></div><div class="sqa-prow"><span>${pc(va)}</span><span>${pc(1-va)}</span></div>`;
-  return `<div class="sqa-pos">${card('Position des impacts',`<p class="sqa-pt">Latéral</p>${bar('Gauche','Droite',L)}<p class="sqa-pt">Hauteur</p>${bar('Haut','Bas',U)}<p class="sqa-note">Groupement moyen : ${virg((m.reduce((a,p)=>a+p.x,0)/m.length).toFixed(1))} mm horizontalement, ${virg((-m.reduce((a,p)=>a+p.y,0)/m.length).toFixed(1))} mm verticalement (positif : vers la droite / vers le haut). Écart type : ${virg(sdev(m.map(p=>p.x)).toFixed(1))} mm horizontalement, ${virg(sdev(m.map(p=>p.y)).toFixed(1))} mm verticalement.</p>`)}${card('',tg)}</div>`;
+  return `<div class="sqa-pos">${card('Position des impacts',`<p class="sqa-pt">Latéral</p>${bar('Gauche','Droite',L)}<p class="sqa-pt">Hauteur</p>${bar('Haut','Bas',U)}<p class="sqa-note">Groupement moyen : ${virg((m.reduce((a,p)=>a+p.x,0)/m.length).toFixed(1))} mm horizontalement, ${virg((-m.reduce((a,p)=>a+p.y,0)/m.length).toFixed(1))} mm verticalement (positif : vers la droite / vers le haut). Écart type : ${virg(sdev(m.map(p=>p.x)).toFixed(1))} mm horizontalement, ${virg(sdev(m.map(p=>p.y)).toFixed(1))} mm verticalement.</p>`)}${card('Zoom',ctl+tg)}</div>`;
 }
 function timings(data){
   if(!ok(data))return '';

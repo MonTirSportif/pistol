@@ -239,6 +239,10 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .sqa-leg{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;font-size:.8rem;color:var(--muted)}
 #fm .sqa-leg i{display:inline-block;width:22px;height:8px;border-radius:2px;margin-right:.3rem;vertical-align:middle}
 #fm .sqa-pos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:.8rem;align-items:start}
+#fm .sqa-zoom{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:.2rem 0 .4rem}
+#fm .sqa-zoom button{min-height:38px;padding:6px 12px;font-size:.88rem;border-radius:999px}
+#fm .sqa-zoom button[aria-pressed="true"]{background:#12938a;border-color:#12938a;color:#fff}
+#fm .sqa-chk{flex-direction:row;align-items:center;justify-content:center;gap:6px;font-size:.88rem;margin:0 0 .4rem}#fm .sqa-chk input{width:auto;min-height:0}
 #fm .sqa-pt{text-align:center;font-weight:600;margin:.8rem 0 .2rem}
 #fm .sqa-pbar{height:12px;border-radius:99px;background:var(--line);display:flex;overflow:hidden;margin:.3rem 0}
 #fm .sqa-pbar b{background:#2fd3b8}#fm .sqa-pbar span{background:#6b7684}
@@ -1030,7 +1034,7 @@ $('#shareM').addEventListener('click',async()=>{
 });
 $('#shareClose').addEventListener('click',()=>{$('#sharePanel').hidden=true});
 /* ---------- Statistiques : Résumé + analyse SQ ---------- */
-let stTab='resume',sqaDec=store.get('mts-sq-dec',null),stInit=false;
+let stTab='resume',sqaDec=store.get('mts-sq-dec',null),stInit=false,sqaZoom='cible',sqaImp=null;
 if(!M.sqv&&/^Import SQ/.test(M.name||'')){try{const v=JSON.parse(localStorage.getItem('mts-sq-view')||'null');if(v&&v.disc===M.disc)M.sqv=v}catch(e){}}
 function sqaRender(){
   const v=M.sqv,has=!!(window.SQA&&v&&SQA.ok(v));
@@ -1042,10 +1046,12 @@ function sqaRender(){
   $('#stResume').hidden=stTab!=='resume';$('#stSq').hidden=stTab==='resume';
   $('#sqaHint').hidden=has;$('#sqaMode').hidden=!has||stTab==='resume'||stTab==='position'||stTab==='timings';
   document.querySelectorAll('#sqaMode [data-dec]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.dec==='1')===!!sqaDec)));
-  if(has&&stTab!=='resume')$('#stSq').innerHTML=SQA[stTab](v,!!sqaDec);
+  if(has&&stTab!=='resume')$('#stSq').innerHTML=SQA[stTab](v,!!sqaDec,{zoom:sqaZoom,impacts:sqaImp});
   $('#stScoresSq').hidden=!has||stTab!=='resume';if(has&&stTab==='resume')$('#stScoresSq').innerHTML=SQA.evolution(v);
 }
 document.querySelector('#fm .sqa-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;stTab=b.dataset.st;sqaRender()});
+$('#stSq').addEventListener('click',e=>{const b=e.target.closest('[data-zoom]');if(!b)return;sqaZoom=b.dataset.zoom;sqaImp=null;sqaRender()});
+$('#stSq').addEventListener('change',e=>{if(e.target.matches('[data-impacts]')){sqaImp=e.target.checked;sqaRender()}});
 $('#sqaMode').addEventListener('click',e=>{const b=e.target.closest('[data-dec]');if(!b)return;sqaDec=b.dataset.dec==='1';store.set('mts-sq-dec',sqaDec);sqaRender()});
 /* ---------- QR code du lien ---------- */
 let qrP=null;
