@@ -43,6 +43,16 @@ main{max-width:1500px;margin:0 auto;padding:.8rem}
 .sum .m{color:var(--mut)}
 .empty{padding:2rem;text-align:center;color:var(--mut)}
 .note{color:var(--mut);font-size:.8rem;padding:.2rem .4rem 1rem}
+.tabs{display:flex;gap:.2rem;border-bottom:1px solid var(--line);margin:0 0 .8rem;flex-wrap:wrap}
+.tabs button{font:inherit;font-size:.92rem;border:0;background:none;padding:.6rem .9rem;cursor:pointer;color:var(--mut);border-bottom:3px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--txt);border-bottom-color:var(--acc);font-weight:600}
+.chart{padding:.6rem .8rem}.chart h2{font-size:.9rem;text-align:center;margin:.2rem 0 .4rem;color:var(--mut);font-weight:600}
+.chart svg{width:100%;height:auto;display:block}
+.leg{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;font-size:.8rem;color:var(--mut)}.leg i{display:inline-block;width:22px;height:8px;border-radius:2px;margin-right:.3rem;vertical-align:middle}
+.pos{display:grid;grid-template-columns:minmax(240px,320px) minmax(260px,420px);gap:.8rem}
+.pbar{height:12px;border-radius:99px;background:#eef1f4;display:flex;overflow:hidden;margin:.3rem 0}
+.pbar b{background:var(--imp)}.pbar span{background:#6b7684}
+.prow{display:flex;justify-content:space-between;font-size:.85rem;color:var(--mut)}
 @media(max-width:700px){.top{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.big{font-size:2.4rem}}
 @media print{header .bar{display:none}body{background:#fff}.card{break-inside:avoid}}
 </style>
@@ -50,7 +60,7 @@ main{max-width:1500px;margin:0 auto;padding:.8rem}
 <body>
 <header><a href="feuille-de-match.html"><img src="img/logo.png" alt="MonTirSportif"></a><h1>Mes impacts SQ</h1>
 <div class="bar"><div class="seg" role="group" aria-label="Affichage des points"><button type="button" id="mDec">Décimal</button><button type="button" id="mInt">Point entier</button></div><button class="btn" type="button" onclick="window.print()">Imprimer</button><a class="btn" href="feuille-de-match.html" style="text-decoration:none">Ma feuille de match</a></div></header>
-<main id="app"><div class="empty">Aucune donnée SQ : importez d’abord un fichier ou un lien SQ dans « Ma feuille de match ».</div></main>
+<main><div class="tabs" role="tablist"><button type="button" role="tab" id="tbC" aria-selected="true">Cibles</button><button type="button" role="tab" id="tbS" aria-selected="false">Statistiques</button></div><div id="app"><div class="empty">Aucune donnée SQ : importez d’abord un fichier ou un lien SQ dans « Ma feuille de match ».</div></div><div id="stats" hidden></div></main>
 <script>
 (function(){
 'use strict';
@@ -102,11 +112,68 @@ function render(){
   document.getElementById('app').innerHTML=h;
   document.title=`${data.card||t.lab} · ${dec?tot.toFixed(1):tot} – Mes impacts SQ`;
 }
+
+/* ---------- Statistiques ---------- */
+const COL=['#e8577a','#3b8fd9','#f2b440','#b9c0c8','#33b8a8','#8fa3c8','#9b6ad6','#e0803a','#5bbf5b','#d65b9b','#4cc3d9','#a0a0a0'];
+const BAND=['rgba(232,87,122,.10)','rgba(91,191,91,.10)','rgba(90,110,230,.12)','rgba(76,195,217,.10)','rgba(214,91,155,.10)','rgba(242,220,64,.13)','rgba(155,106,214,.10)','rgba(224,128,58,.10)'];
+function axes(W,H,P,ymin,ymax,ystep,xl){let g='';for(let v=ymin;v<=ymax+1e-9;v+=ystep){const y=P.t+(H-P.t-P.b)*(1-(v-ymin)/(ymax-ymin));g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y}" y2="${y}" stroke="#e6e9ed"/><text x="${P.l-6}" y="${y}" font-size="10" text-anchor="end" dominant-baseline="central" fill="#6b7684">${(Math.round(v*10)/10).toString().replace('.',',')}</text>`}return g}
+function lineChart(series,labels,ymin,ymax,ystep,opt){opt=opt||{};const W=1000,H=opt.h||260,P={l:40,r:10,t:10,b:26};const n=labels.length;const X=i=>P.l+(W-P.l-P.r)*(n<2?0.5:i/(n-1));const Y=v=>P.t+(H-P.t-P.b)*(1-(v-ymin)/(ymax-ymin));
+  let g=`<svg viewBox="0 0 ${W} ${H}" role="img">`+axes(W,H,P,ymin,ymax,ystep);
+  labels.forEach((l,i)=>{if(n<=70||i%2===0)g+=`<text x="${X(i)}" y="${H-8}" font-size="10" text-anchor="middle" fill="#6b7684">${l}</text>`;if(opt.vgrid)g+=`<line x1="${X(i)}" x2="${X(i)}" y1="${P.t}" y2="${H-P.b}" stroke="#eef0f3"/>`});
+  series.forEach((sr,k)=>{const pts=sr.v.map((v,i)=>v==null?null:[X(i),Y(v)]).filter(Boolean);g+=`<polyline fill="none" stroke="${sr.c||COL[k%COL.length]}" stroke-width="${sr.w||2.4}" points="${pts.map(p=>p.join(',')).join(' ')}"/>`;if(sr.dots!==false)pts.forEach(p=>g+=`<circle cx="${p[0]}" cy="${p[1]}" r="2.6" fill="#555"/>`)});
+  return g+'</svg>'}
+function stats(){
+  const el=document.getElementById('stats');if(!data||!data.shots||!data.shots.length){el.innerHTML='<div class="empty">Aucune donnée SQ.</div>';return}
+  const all=data.shots,m=all.filter(p=>!p.e),sg=all.filter(p=>p.e);
+  const iv=p=>Math.floor(p.sd+1e-9);
+  // 1. répartition
+  const cnt={};m.forEach(p=>cnt[iv(p)]=(cnt[iv(p)]||0)+1);const ks=Object.keys(cnt).map(Number).sort((a,b)=>a-b);const mx=Math.max(...Object.values(cnt));
+  const W=1000,H=240,P={l:40,r:10,t:10,b:26};const top=Math.ceil(mx/5)*5||5;const bw=(W-P.l-P.r)/ks.length;
+  const bc=['#f8c9d4','#fde2c4','#fde8c8','#cdeeee','#cfe5fb'],bs=['#e8577a','#f2a65a','#f2b440','#33b8a8','#3b8fd9'];
+  let hist=`<svg viewBox="0 0 ${W} ${H}" role="img">`+axes(W,H,P,0,top,5);
+  ks.forEach((k,i)=>{const h=(H-P.t-P.b)*cnt[k]/top,x=P.l+i*bw+bw*0.15,y=H-P.b-h;const ci=Math.max(0,Math.min(4,k-6));hist+=`<rect x="${x}" y="${y}" width="${bw*0.7}" height="${h}" fill="${bc[ci]}" stroke="${bs[ci]}"/><text x="${x+bw*0.35}" y="${H-8}" font-size="11" text-anchor="middle" fill="#6b7684">${k}</text><text x="${x+bw*0.35}" y="${y-5}" font-size="11" text-anchor="middle" fill="#1b2430">${cnt[k]}</text>`});
+  hist+='</svg>';
+  const seq=sg.concat(m);const lo=Math.max(0,Math.floor(Math.min(...seq.map(p=>p.sd))-1));
+  const evo=lineChart([{v:seq.map(p=>p.sd),c:'#2fd3b8'}],seq.map(p=>p.o),lo,11,1,{vgrid:true});
+  // 2. séries
+  const bySer={};m.forEach(p=>{(bySer[p.s]=bySer[p.s]||[]).push(p)});const sk=Object.keys(bySer).sort((a,b)=>a-b);
+  const tots=sk.map(k=>bySer[k].reduce((a,p)=>a+(dec?p.sd:iv(p)),0));const tmin=Math.floor(Math.min(...tots))-1,tmax=Math.ceil(Math.max(...tots))+1;
+  const serEvo=lineChart([{v:tots,c:'#2fd3b8'}],sk,tmin,tmax,Math.max(1,Math.round((tmax-tmin)/6)),{vgrid:true,h:220});
+  const maxLen=Math.max(...sk.map(k=>bySer[k].length));
+  const over=lineChart(sk.map((k,i)=>({v:bySer[k].map(p=>p.sd),c:COL[i%COL.length],dots:false,w:2})),Array.from({length:maxLen},(_,i)=>i+1),lo,11,1,{vgrid:true});
+  const leg='<div class="leg">'+sk.map((k,i)=>`<span><i style="background:${COL[i%COL.length]}"></i>Série ${k}</span>`).join('')+'</div>';
+  // 3. position
+  const L=m.filter(p=>p.x<0).length/m.length,U=m.filter(p=>p.y<0).length/m.length;const pc=v=>Math.round(v*100)+' %';
+  const t=T[data.disc]||T.p10;let heat='';m.forEach(p=>{heat+=`<circle cx="${p.x}" cy="${p.y}" r="${t.pas*0.9}" fill="url(#hg)"/>`});
+  const R=rad(t,1)+1;let tg=target(t,[],R);tg=tg.replace('</svg>',`<defs><radialGradient id="hg"><stop offset="0" stop-color="#ff3b1f" stop-opacity=".55"/><stop offset=".45" stop-color="#ffd21f" stop-opacity=".35"/><stop offset="1" stop-color="#2ecc40" stop-opacity="0"/></radialGradient></defs>${heat}</svg>`);
+  const pos=`<div class="pos"><div class="card chart"><h2>Position des impacts</h2><p style="text-align:center;font-weight:600;margin:.6rem 0 .2rem">Latéral</p><div class="prow"><span>Gauche</span><span>Droite</span></div><div class="pbar"><b style="width:${L*100}%"></b><span style="width:${(1-L)*100}%"></span></div><div class="prow"><span>${pc(L)}</span><span>${pc(1-L)}</span></div><p style="text-align:center;font-weight:600;margin:1rem 0 .2rem">Hauteur</p><div class="prow"><span>Haut</span><span>Bas</span></div><div class="pbar"><b style="width:${U*100}%"></b><span style="width:${(1-U)*100}%"></span></div><div class="prow"><span>${pc(U)}</span><span>${pc(1-U)}</span></div><p class="note" style="padding:.8rem 0 0">Groupement moyen : ${(m.reduce((a,p)=>a+p.x,0)/m.length).toFixed(1).replace('.',',')} mm horizontalement, ${(-m.reduce((a,p)=>a+p.y,0)/m.length).toFixed(1).replace('.',',')} mm verticalement (positif : vers la droite / vers le haut).</p></div><div class="card chart">${tg}</div></div>`;
+  // 4. timings
+  let tim='';const withT=all.filter(p=>p.t);
+  if(withT.length>1){const t0=Math.min(...withT.map(p=>p.t)),tm=(Math.max(...withT.map(p=>p.t))-t0)/60000;const Wt=1000,Ht=260,Pt={l:40,r:10,t:10,b:30};const xmax=Math.ceil(tm/10)*10||10;
+    const X=v=>Pt.l+(Wt-Pt.l-Pt.r)*v/xmax,Y=v=>Pt.t+(Ht-Pt.t-Pt.b)*(1-(v-lo)/(11-lo));
+    let g=`<svg viewBox="0 0 ${Wt} ${Ht}" role="img">`;
+    const groups=[sg].concat(sk.map(k=>bySer[k])).filter(a=>a.length);
+    groups.forEach((gp,i)=>{const a=(Math.min(...gp.map(p=>p.t))-t0)/60000,b=(Math.max(...gp.map(p=>p.t))-t0)/60000;g+=`<rect x="${X(a)}" y="${Pt.t}" width="${Math.max(2,X(b)-X(a))}" height="${Ht-Pt.t-Pt.b}" fill="${BAND[i%BAND.length]}"/>`});
+    g+=axes(Wt,Ht,Pt,lo,11,1);for(let v=0;v<=xmax;v+=10)g+=`<text x="${X(v)}" y="${Ht-12}" font-size="10" text-anchor="middle" fill="#6b7684">${v}</text>`;
+    g+=`<text x="${Wt/2}" y="${Ht-1}" font-size="10" text-anchor="middle" fill="#6b7684">Temps (minutes)</text>`;
+    const avg=m.reduce((a,p)=>a+p.sd,0)/m.length;g+=`<line x1="${Pt.l}" x2="${Wt-Pt.r}" y1="${Y(avg)}" y2="${Y(avg)}" stroke="#555" stroke-width="1"/>`;
+    const sq=withT.slice().sort((a,b)=>a.t-b.t);g+=`<polyline fill="none" stroke="#e8577a" stroke-width="1.8" points="${sq.map(p=>X((p.t-t0)/60000)+','+Y(p.sd)).join(' ')}"/>`;
+    sq.forEach(p=>g+=`<circle cx="${X((p.t-t0)/60000)}" cy="${Y(p.sd)}" r="2" fill="#e8577a"/>`);
+    tim=`<div class="card chart"><h2>Score de chaque coup dans le temps</h2>${g}</svg><div class="leg"><span><i style="background:${BAND[0]}"></i>Essais</span>${sk.map((k,i)=>`<span><i style="background:${BAND[(i+1)%BAND.length]}"></i>Série ${k}</span>`).join('')}<span><i style="background:#555;height:2px"></i>Moyenne du match</span></div><p class="note" style="text-align:center">Durée totale : ${Math.round(tm)} min · temps moyen entre deux coups de match : ${Math.round(((Math.max(...m.map(p=>p.t))-Math.min(...m.map(p=>p.t)))/1000)/Math.max(1,m.length-1))} s</p></div>`}
+  el.innerHTML=`<h2 style="font-size:1rem;margin:.2rem 0 .6rem">Scores</h2><div class="card chart"><h2>Répartition des scores</h2>${hist}</div><div class="card chart"><h2>Évolution du score de chaque coup</h2>${evo}</div>
+<h2 style="font-size:1rem;margin:1rem 0 .6rem">Séries</h2><div class="card chart"><h2>Évolution des scores de série</h2>${serEvo}</div><div class="card chart"><h2>Score de chaque coup, série par série</h2>${leg}${over}</div>
+<h2 style="font-size:1rem;margin:1rem 0 .6rem">Position des impacts</h2>${pos}
+${tim?'<h2 style="font-size:1rem;margin:1rem 0 .6rem">Timings</h2>'+tim:''}`;
+}
+function showTab(st){document.getElementById('tbC').setAttribute('aria-selected',!st);document.getElementById('tbS').setAttribute('aria-selected',st);document.getElementById('app').hidden=st;document.getElementById('stats').hidden=!st;if(st)stats();try{history.replaceState(null,'',st?'#stats':location.pathname)}catch(e){}}
+document.getElementById('tbC').addEventListener('click',()=>showTab(false));
+document.getElementById('tbS').addEventListener('click',()=>showTab(true));
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-document.getElementById('mDec').addEventListener('click',()=>{dec=true;try{localStorage.setItem('mts-sq-mode','dec')}catch(e){}render()});
-document.getElementById('mInt').addEventListener('click',()=>{dec=false;try{localStorage.setItem('mts-sq-mode','int')}catch(e){}render()});
-window.addEventListener('storage',e=>{if(e.key==='mts-sq-view'){try{data=JSON.parse(e.newValue||'null')}catch(_){}render()}});
+document.getElementById('mDec').addEventListener('click',()=>{dec=true;try{localStorage.setItem('mts-sq-mode','dec')}catch(e){}render();if(!document.getElementById('stats').hidden)stats()});
+document.getElementById('mInt').addEventListener('click',()=>{dec=false;try{localStorage.setItem('mts-sq-mode','int')}catch(e){}render();if(!document.getElementById('stats').hidden)stats()});
+window.addEventListener('storage',e=>{if(e.key==='mts-sq-view'){try{data=JSON.parse(e.newValue||'null')}catch(_){}render();if(!document.getElementById('stats').hidden)stats()}});
 render();
+if(location.hash==='#stats')showTab(true);
 })();
 </script>
 </body>
