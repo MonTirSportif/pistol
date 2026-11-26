@@ -205,6 +205,43 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .msg{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:50;max-width:min(560px,92vw);background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 16px;box-shadow:0 6px 20px rgba(0,0,0,.25);min-height:0}
 #fm .msg:empty{display:none}
 #fm .sqv{align-self:flex-start}
+#fm .sqa-pane{display:flex;flex-direction:column;gap:12px;min-width:0}#fm .sqa-pane[hidden]{display:none}
+#fm .sqa-tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:thin}
+#fm .sqa-tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;color:var(--muted);padding:8px 12px;white-space:nowrap;min-height:44px}
+#fm .sqa-tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:#12938a;font-weight:600}
+#fm .sqa-tabs button[hidden]{display:none}
+#fm .sqa-seg{display:inline-flex;align-self:flex-start;border:1px solid var(--line);border-radius:10px;overflow:hidden}#fm .sqa-seg[hidden]{display:none}
+#fm .sqa-seg button{border:0;border-radius:0;min-height:36px;padding:6px 12px;font-size:.88rem}
+#fm .sqa-seg button[aria-pressed="true"]{background:#12938a;color:#fff}
+#fm .sqa-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;min-width:0}
+#fm .sqa-top{display:grid;grid-template-columns:minmax(220px,1fr) 1fr;gap:1rem;align-items:center;border:2px solid #2fd3b8}
+#fm .sqa-top svg{width:100%;max-height:340px;display:block}
+#fm .sqa-info{padding:1rem}#fm .sqa-cn{color:var(--muted);font-size:.95rem}
+#fm .sqa-big{font-family:var(--display);font-size:3rem;font-weight:700;line-height:1.1;margin:.3rem 0}#fm .sqa-x{font-size:.65em}
+#fm .sqa-sers{display:flex;flex-wrap:wrap;color:var(--muted);font-size:1.1rem;font-variant-numeric:tabular-nums}
+#fm .sqa-sers span{padding:0 .5rem;border-left:1px solid var(--line)}#fm .sqa-sers span:first-child{border-left:0;padding-left:0}
+#fm .sqa-avg{color:var(--muted)}
+#fm .sqa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:.8rem}
+#fm .sqa-ser{display:grid;grid-template-columns:44% 1fr auto;align-items:center}
+#fm .sqa-ser svg{width:100%;display:block}
+#fm .sqa-lst{list-style:none;margin:0;padding:.3rem .2rem;font-variant-numeric:tabular-nums}
+#fm .sqa-lst li{display:grid;grid-template-columns:2.3rem 2.8rem 1.1rem 1rem;align-items:center;gap:.15rem;font-size:.95rem;line-height:1.35}
+#fm .sqa-lst .n{color:var(--muted);font-size:.75rem}#fm .sqa-lst svg{width:14px;height:14px}#fm .sqa-lst .st{font-weight:800}
+#fm .sqa-sum{padding:.6rem .8rem .6rem .3rem;min-width:5rem}#fm .sqa-sum .t{font-size:.9rem}
+#fm .sqa-sum .v{font-family:var(--display);font-size:2.3rem;font-weight:700;line-height:1.1}#fm .sqa-sum .m{color:var(--muted);font-size:.9rem}
+#fm .sqa-chart{padding:.6rem .8rem}#fm .sqa-chart h3{font-size:.95rem;text-align:center;margin:.2rem 0 .4rem;color:var(--muted);font-weight:600}
+#fm .sqa-chart svg{width:100%;height:auto;display:block}
+#fm .sqa-leg{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;font-size:.8rem;color:var(--muted)}
+#fm .sqa-leg i{display:inline-block;width:22px;height:8px;border-radius:2px;margin-right:.3rem;vertical-align:middle}
+#fm .sqa-pos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:.8rem;align-items:start}
+#fm .sqa-pt{text-align:center;font-weight:600;margin:.8rem 0 .2rem}
+#fm .sqa-pbar{height:12px;border-radius:99px;background:var(--line);display:flex;overflow:hidden;margin:.3rem 0}
+#fm .sqa-pbar b{background:#2fd3b8}#fm .sqa-pbar span{background:#6b7684}
+#fm .sqa-prow{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+#fm .sqa-note{color:var(--muted);font-size:.8rem;margin:.4rem 0 0}
+#fm .sqa-empty{padding:2rem;text-align:center;color:var(--muted)}
+@media(max-width:700px){#fm .sqa-top{grid-template-columns:1fr}#fm .sqa-big{font-size:2.4rem}#fm .sqa-ser{grid-template-columns:40% 1fr auto}}
+@media print{#fm .sqa-tabs,#fm .sqa-seg{display:none}}
 #fmTitle .code{display:block;font-size:.5em;color:var(--mut);margin-top:.25em;letter-spacing:.02em}
 @media (max-width:560px){#fm .tg b{font-size:1.2rem}#fm .lpnav b{font-size:1.25rem}}
 </style><main class="view" id="feuille-de-match" style="--acc:#12938a"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1 id="fmTitle">Ma feuille de match</h1><p class="lead">Notez vos points coup par coup, à 10 m, 25 m ou 50 m, au stand ou après le match : totaux, moyennes, statistiques par coup ou par cible et suivi de vos matchs, directement dans le navigateur. Une page PDF se crée en un clic, pour la partager ou l’imprimer.</p></div>
@@ -326,7 +363,16 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
   <!-- 3. Statistiques -->
   <div class="card blk" id="blkStats" aria-label="Chiffres">
     <div class="blkhead"><h2><span class="num">3</span>Statistiques</h2></div>
-    <div id="sqView" class="sqv" hidden><a href="sq-visu.html" target="sqvisu" class="sqv-main"><span class="sqv-ic">🎯</span><span><b>J’analyse mon match</b><small>Chaque cible et chaque coup, comme sur la SQ</small></span></a><a href="sq-visu.html#stats" target="sqvisu" class="sqv-alt">📊 Statistiques</a></div>
+    <div class="sqa-tabs" role="tablist" aria-label="Statistiques">
+      <button type="button" role="tab" data-st="resume" aria-selected="true">Résumé</button>
+      <button type="button" role="tab" data-st="cibles" aria-selected="false" class="sqa-only" hidden>🎯 Cibles</button>
+      <button type="button" role="tab" data-st="scores" aria-selected="false" class="sqa-only" hidden>Scores</button>
+      <button type="button" role="tab" data-st="series" aria-selected="false" class="sqa-only" hidden>Séries</button>
+      <button type="button" role="tab" data-st="position" aria-selected="false" class="sqa-only" hidden>Position des impacts</button>
+      <button type="button" role="tab" data-st="timings" aria-selected="false" class="sqa-only" hidden>Timings</button>
+    </div>
+    <div class="sqa-seg" id="sqaMode" role="group" aria-label="Affichage des points SQ" hidden><button type="button" data-dec="1">Décimal</button><button type="button" data-dec="0">Point entier</button></div>
+    <div id="stResume" class="sqa-pane">
       <div class="tiles">
         <div class="tile fm-hero"><div><b id="tTot">0</b><span id="tTotSub">points sur 0 coup</span></div></div>
         <div class="tile"><b id="tAvg">–</b><span>Moyenne par coup</span></div>
@@ -350,6 +396,9 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       </div>
       <h2 id="distTitle">Répartition des coups</h2>
       <svg id="dist" class="chart" viewBox="0 0 420 150" role="img" aria-label="Nombre de coups par valeur"></svg>
+      <p class="muted sqa-hint" id="sqaHint" style="margin:0">Importez un match depuis une cible SQ (bloc 1) : les onglets Cibles, Scores, Séries, Position des impacts et Timings s’ajoutent ici.</p>
+    </div>
+    <div id="stSq" class="sqa-pane" hidden></div>
     <div class="blkhead" style="margin-top:8px"><h2>Mes matchs</h2><a href="ma-progression.html" class="btnlink" style="text-decoration:none">📈 Ma progression</a></div>
     <svg id="prog" class="chart" viewBox="0 0 420 130" role="img" aria-label="Progression des totaux"></svg>
     <div class="hist" id="hist"></div>
@@ -513,6 +562,7 @@ var c=window.MTS_CONSENT;var valid=c&&((c.v==='yes'&&Date.now()-c.t<3.4e10)||(c.
 document.getElementById('ck-yes').addEventListener('click',function(){save('yes');});
 document.getElementById('ck-no').addEventListener('click',function(){save('no');});
 document.addEventListener('click',function(e){if(e.target.closest('[data-cookies]')){e.preventDefault();b.hidden=false;document.getElementById('ck-no').focus();}});})();</script>
+<script src="js/sq-analyse.js"></script>
 <script>
 (function(){
 'use strict';
@@ -688,7 +738,7 @@ function render(){
   $('#fBody').innerHTML=fb;
   $('#fTot').textContent=`${fmt(S.tot,D.dec)} / ${fmt(totMax(D),D.dec)}`;
 
-  drawSeries(S);drawDist();drawTargets();drawSerStats(S);renderHist();$('#sampleNote').hidden=!M.sample;
+  drawSeries(S);drawDist();drawTargets();drawSerStats(S);renderHist();sqaRender();$('#sampleNote').hidden=!M.sample;
 }
 function label(s){const D=d();if(s.g)return s.v?'●':'○';if(D.kind==='hit')return s.v?'●':'○';if(s.x)return '10<sup>X</sup>';return fmt(s.v,D.dec)}
 
@@ -803,13 +853,13 @@ function renderHist(){
 }
 $('#hist').addEventListener('click',e=>{
   const o=e.target.closest('[data-open]'),x=e.target.closest('[data-del]');
-  if(o){const h=H.find(h=>String(h.saved)===o.dataset.open);if(h){M={cat:h.cat||'S1',disc:h.disc,date:h.date,name:h.name,place:h.place,goal:h.goal,shots:h.shots.map(s=>({...s})),sample:false,from:h.saved};sel=null;save();syncMeta();buildPad();render();flash('Match ouvert : vos corrections seront enregistrées en touchant « Enregistrer ce match ».');window.scrollTo({top:0,behavior:'smooth'})}}
+  if(o){const h=H.find(h=>String(h.saved)===o.dataset.open);if(h){M={cat:h.cat||'S1',disc:h.disc,date:h.date,name:h.name,place:h.place,goal:h.goal,shots:h.shots.map(s=>({...s})),sample:false,from:h.saved};if(h.sqv)M.sqv=h.sqv;sel=null;save();syncMeta();buildPad();render();flash('Match ouvert : vos corrections seront enregistrées en touchant « Enregistrer ce match ».');window.scrollTo({top:0,behavior:'smooth'})}}
   if(x){if(x.dataset.armed!=='1'){x.dataset.armed='1';x.textContent='Confirmer';setTimeout(()=>{if(x.isConnected){x.dataset.armed='';x.textContent='Supprimer'}},3000);return}
     H=H.filter(h=>String(h.saved)!==x.dataset.del);store.set('mts-solo-hist',H);renderHist()}
 });
 $('#saveM').addEventListener('click',()=>{
   if(!M.shots.length){flash('Saisissez au moins un coup avant d’enregistrer.');return}
-  const S=stats(M);const rec={cat:M.cat||'S1',disc:M.disc,date:M.date,name:M.name,place:M.place,goal:M.goal,shots:M.shots.map(s=>({...s})),tot:S.tot,complete:S.complete,saved:M.from||Date.now()};
+  const S=stats(M);const rec={cat:M.cat||'S1',disc:M.disc,date:M.date,name:M.name,place:M.place,goal:M.goal,shots:M.shots.map(s=>({...s})),tot:S.tot,complete:S.complete,saved:M.from||Date.now()};if(M.sqv)rec.sqv=M.sqv;
   const i=H.findIndex(h=>h.saved===rec.saved);if(i>=0)H[i]=rec;else H.push(rec);
   M.from=rec.saved;M.sample=false;store.set('mts-solo-hist',H);save();render();flash('Match enregistré.');
 });
@@ -845,9 +895,8 @@ function sqApply(shots,card,src,all,start){
   if(all&&all.length){const xr=disc==='p10'?4.75:-1;
     const view={disc:disc,card:card||D.label,start:start||(isNaN(shots[0].ts)?Date.now():shots[0].ts),
       shots:all.map(p=>({e:!!p.e,s:p.e?0:p.s,o:p.o,sd:p.sd,x:p.x,y:p.y,t:p.ts,x10:Math.floor(p.sd+1e-9)===10&&Math.hypot(p.x,p.y)<=xr}))};
-    try{localStorage.setItem('mts-sq-view',JSON.stringify(view))}catch(e){}
-    $('#sqView').hidden=false;
-    if(!sqWin||sqWin.closed){try{sqWin=window.open('sq-visu.html','sqvisu')}catch(e){}}}
+    M.sqv=view;save();try{localStorage.setItem('mts-sq-view',JSON.stringify(view))}catch(e){}
+    stTab='cibles';sqaRender();}
   const extra=shots.length>N?` (${shots.length-N} coup(s) en trop ignoré(s))`:'';
   flash(`${list.length} coups importés depuis ${src}${extra}. Vérifiez l’épreuve et les coups, puis touchez « Enregistrer ce match ».`);
 }
@@ -889,7 +938,7 @@ async function sqLinkImport(link){
   shots.sort((a,c)=>a.ord-c.ord);
   sqApply(shots,'','le lien SQ',all,start);
 }
-$('#sqLinkBtn').addEventListener('click',()=>{const v=$('#sqLink').value;if(!v.trim()){flash('Collez d’abord le lien SQ dans le champ.');return}try{if(!sqWin||sqWin.closed)sqWin=window.open('sq-visu.html'+(/\/stats/.test(v)?'#stats':''),'sqvisu')}catch(e){}sqLinkImport(v).then(()=>{$('#sqLink').value=''}).catch(()=>flash('Import impossible : lien SQ illisible.'))});
+$('#sqLinkBtn').addEventListener('click',()=>{const v=$('#sqLink').value;if(!v.trim()){flash('Collez d’abord le lien SQ dans le champ.');return}sqLinkImport(v).then(()=>{$('#sqLink').value=''}).catch(()=>flash('Import impossible : lien SQ illisible.'))});
 /* ---------- Scanner le QR code de la SQ (appareil photo) ---------- */
 let scanStream=null,scanRaf=0,scanDet=null,jsqrP=null;
 function loadJsQR(){if(window.jsQR)return Promise.resolve();if(jsqrP)return jsqrP;
@@ -926,7 +975,7 @@ $('#sqScan').addEventListener('click',()=>{if(scanStream){scanStop();return}scan
 $('#scanClose').addEventListener('click',scanStop);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&scanStream)scanStop()});
 $('#sqLink').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#sqLinkBtn').click()}});
-try{if(localStorage.getItem('mts-sq-view'))$('#sqView').hidden=false}catch(e){}
+
 $('#sqImp').addEventListener('click',()=>$('#sqFile').click());
 $('#sqFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{sqImport(String(rd.result))}catch(err){flash('Import impossible : fichier SQ illisible.')}e.target.value=''};rd.readAsText(f,'utf-8')});
 function summary(){
@@ -951,6 +1000,22 @@ $('#shareM').addEventListener('click',async()=>{
   $('#sharePanel').hidden=false;$('#sharePanel').scrollIntoView({behavior:'smooth',block:'nearest'});
 });
 $('#shareClose').addEventListener('click',()=>{$('#sharePanel').hidden=true});
+/* ---------- Statistiques : Résumé + analyse SQ ---------- */
+let stTab='resume',sqaDec=store.get('mts-sq-dec',null);
+if(!M.sqv&&/^Import SQ/.test(M.name||'')){try{const v=JSON.parse(localStorage.getItem('mts-sq-view')||'null');if(v&&v.disc===M.disc)M.sqv=v}catch(e){}}
+function sqaRender(){
+  const v=M.sqv,has=!!(window.SQA&&v&&SQA.ok(v));
+  if(sqaDec===null&&v)sqaDec=v.disc==='c10';
+  document.querySelectorAll('#fm .sqa-only').forEach(b=>b.hidden=!has);
+  if(!has&&stTab!=='resume')stTab='resume';
+  document.querySelectorAll('#fm .sqa-tabs [data-st]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.st===stTab)));
+  $('#stResume').hidden=stTab!=='resume';$('#stSq').hidden=stTab==='resume';
+  $('#sqaHint').hidden=has;$('#sqaMode').hidden=!has||stTab==='resume'||stTab==='position';
+  document.querySelectorAll('#sqaMode [data-dec]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.dec==='1')===!!sqaDec)));
+  if(has&&stTab!=='resume')$('#stSq').innerHTML=SQA[stTab](v,!!sqaDec);
+}
+document.querySelector('#fm .sqa-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;stTab=b.dataset.st;sqaRender()});
+$('#sqaMode').addEventListener('click',e=>{const b=e.target.closest('[data-dec]');if(!b)return;sqaDec=b.dataset.dec==='1';store.set('mts-sq-dec',sqaDec);sqaRender()});
 /* ---------- QR code du lien ---------- */
 let qrP=null;
 function loadQR(){if(window.qrcode)return Promise.resolve();if(qrP)return qrP;
