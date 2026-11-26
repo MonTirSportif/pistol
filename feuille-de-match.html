@@ -205,6 +205,11 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .msg{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:50;max-width:min(560px,92vw);background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 16px;box-shadow:0 6px 20px rgba(0,0,0,.25);min-height:0}
 #fm .msg:empty{display:none}
 #fm .sqv{align-self:flex-start}
+#fm .dstab td,#fm .dstab th{padding:5px 4px;font-size:.92rem;min-width:2.4rem}
+#fm .dstab td:first-child,#fm .dstab th:first-child{text-align:left;width:1%;padding-right:10px}
+#fm .dstab td.c{font-family:var(--display);font-weight:700;font-size:1.05rem}
+#fm .dstab td.z{color:var(--muted);font-weight:400}
+#fm .dstab tfoot td{border-top:2px solid var(--line);font-size:1rem}
 #fm .sqa-pane{display:flex;flex-direction:column;gap:12px;min-width:0}#fm .sqa-pane[hidden]{display:none}
 #fm .sqa-tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:thin}
 #fm .sqa-tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;color:var(--muted);padding:8px 12px;white-space:nowrap;min-height:44px}
@@ -397,6 +402,11 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       </div>
       <h2 id="distTitle">Répartition des coups</h2>
       <svg id="dist" class="chart" viewBox="0 0 420 150" role="img" aria-label="Nombre de coups par valeur"></svg>
+      <div id="dsBox" hidden>
+        <h2>Répartition des coups par série</h2>
+        <p class="muted" style="margin:4px 0 8px">Nombre de coups de chaque valeur dans chaque série ; plus la case est foncée, plus il y en a.</p>
+        <div class="scroll"><table class="dstab"><thead id="dsHead"></thead><tbody id="dsBody"></tbody></table></div>
+      </div>
       <div id="stScoresSq" class="sqa-pane" hidden></div>
       <p class="muted sqa-hint" id="sqaHint" style="margin:0">Importez un match depuis une cible SQ (bloc 1) : les onglets Cibles, Séries, Position des impacts et Timings s’ajoutent ici.</p>
     </div>
@@ -816,12 +826,24 @@ function drawTargets(){
       <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${rad}" fill="none" stroke="${line}" stroke-width="7"/>${arc}<circle cx="32" cy="32" r="12" fill="#121212"/><circle cx="32" cy="32" r="4" fill="none" stroke="#f6f5f0" stroke-width="1"/></svg>
       <b>${val}</b><span>${sub}</span>${tag?`<em>${tag}</em>`:''}</div>`}).join('');
 }
-function drawDist(){
-  const D=d(),svg=$('#dist'),W=420,Hh=150;
+function distBins(D){
   let bins;
   if(D.kind==='hit')bins=[{l:'Touché',f:s=>s.v===1},{l:'Manqué',f:s=>s.v===0}];
   else if(D.kind==='dec')bins=[{l:'10,x',f:s=>s.v>=10},{l:'9,x',f:s=>s.v>=9&&s.v<10},{l:'8,x',f:s=>s.v>=8&&s.v<9},{l:'7,x',f:s=>s.v>=7&&s.v<8},{l:'< 7',f:s=>s.v<7}];
   else{bins=[];if(D.mouche)bins.push({l:'X',f:s=>s.x});bins.push({l:'10',f:s=>s.v===10&&!s.x});[9,8,7,6].forEach(v=>bins.push({l:String(v),f:s=>s.v===v}));bins.push({l:'< 6',f:s=>s.v<6})}
+  return bins;
+}
+function drawDistSer(bins){
+  const D=d(),per=D.shots,rows=[];
+  for(let i=0;i<D.n;i++){const sh=M.shots.slice(i*per,i*per+per).filter(s=>!s.g);if(kindAt(D,i)==='gong')continue;rows.push({i,sh})}
+  const box=$('#dsBox');box.hidden=!rows.some(r=>r.sh.length);if(box.hidden)return;
+  $('#dsHead').innerHTML='<tr><th>Série</th>'+bins.map(b=>`<th>${b.l}</th>`).join('')+'</tr>';
+  const ink=css('--ink')||'#1b2430';
+  $('#dsBody').innerHTML=rows.map(r=>{if(!r.sh.length)return `<tr><td>S${r.i+1}</td>${bins.map(()=>'<td class="z">·</td>').join('')}</tr>`;
+    return `<tr><td>S${r.i+1}${r.sh.length<per?` <span class="muted">(${r.sh.length})</span>`:''}</td>`+bins.map(b=>{const c=r.sh.filter(b.f).length,a=c/per;return c?`<td class="c" style="background:color-mix(in srgb,${ink} ${Math.round(a*70)}%,transparent);color:${a>=0.6?'var(--bg)':'var(--ink)'}">${c}</td>`:'<td class="z">0</td>'}).join('')+'</tr>'}).join('');
+}
+function drawDist(){
+  const D=d(),svg=$('#dist'),W=420,Hh=150,bins=distBins(D);drawDistSer(bins);
   const pool=M.shots.filter(s=>!s.g);const counts=bins.map(b=>pool.filter(b.f).length),mx=Math.max(1,...counts),n=pool.length;
   const L=8,R=8,T=18,B=24,bw=(W-L-R)/bins.length;
   $('#distTitle').textContent=D.kind==='hit'?'Touchés et manqués':'Répartition des coups';
