@@ -192,7 +192,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 <section class="first" id="feuille">
 <div id="fm">
   <div class="card" style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;padding:.8rem 1rem">
-    <div id="sqView" class="sqv" hidden><a href="sq-visu.html" target="sqvisu" class="sqv-main"><span class="sqv-ic">🎯</span><span><b>Voir mes impacts SQ</b><small>Chaque cible et chaque coup, comme sur la SQ</small></span></a><a href="sq-visu.html#stats" target="sqvisu" class="sqv-alt">📊 Statistiques</a></div>
+    <div id="sqView" class="sqv" hidden><a href="sq-visu.html" target="sqvisu" class="sqv-main"><span class="sqv-ic">🎯</span><span><b>J’analyse mon match</b><small>Chaque cible et chaque coup, comme sur la SQ</small></span></a><a href="sq-visu.html#stats" target="sqvisu" class="sqv-alt">📊 Statistiques</a></div>
     <button id="sqImp" class="primary" title="Importer l’export CSV de la cible électronique SQ (Sport Quantum)">📥 Importer un fichier SQ</button><input type="file" id="sqFile" accept=".csv,text/csv" hidden>
     <span class="muted" style="font-size:.9rem">Vous tirez sur une cible SQ ? Importez son export CSV, ou collez le lien de partage de la SQ (sqm.app) : la feuille se remplit toute seule.</span>
     <div style="display:flex;gap:.5rem;flex:1 1 100%;flex-wrap:wrap"><input id="sqLink" type="url" inputmode="url" placeholder="Collez ici le lien SQ (sqm.app/s?s=… ou sqm.app/stats?s=…)" aria-label="Lien de partage de la cible SQ" style="flex:1;min-width:220px;font:inherit;padding:.55rem .8rem;border:1px solid var(--line,#d5dbe3);border-radius:10px"><button id="sqLinkBtn" type="button">Importer le lien</button></div>
