@@ -190,19 +190,24 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .qrbox .qr{background:#fff;padding:12px;border-radius:12px;width:min(280px,80vw)}
 #fm .qrbox .qr svg{display:block;width:100%;height:auto}
 #fm .qrbox code{font-size:.85rem;word-break:break-all;color:var(--muted)}
+#fm .blkhead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+#fm .blk h2 .num{display:inline-flex;align-items:center;justify-content:center;width:1.6em;height:1.6em;border-radius:50%;background:var(--acc,#12938a);color:#fff;font-size:.85em;margin-right:.45em;vertical-align:.08em}
+#fm .sub3{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:4px 0 0;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+#fm .actions{border-top:1px solid var(--line);padding-top:12px}
+#fm .scanbox{position:relative;width:min(340px,100%);margin:0 auto;aspect-ratio:1;background:#000;border-radius:12px;overflow:hidden}
+#fm .scanbox video{width:100%;height:100%;object-fit:cover;display:block}
+#fm .scanframe{position:absolute;inset:18%;border:3px solid #fff;border-radius:10px;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
+#fm .msg{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:50;max-width:min(560px,92vw);background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 16px;box-shadow:0 6px 20px rgba(0,0,0,.25);min-height:0}
+#fm .msg:empty{display:none}
+#fm .sqv{align-self:flex-start}
 #fmTitle .code{display:block;font-size:.5em;color:var(--mut);margin-top:.25em;letter-spacing:.02em}
 @media (max-width:560px){#fm .tg b{font-size:1.2rem}#fm .lpnav b{font-size:1.25rem}}
 </style><main class="view" id="feuille-de-match" style="--acc:#12938a"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1 id="fmTitle">Ma feuille de match</h1><p class="lead">Notez vos points coup par coup, à 10 m, 25 m ou 50 m, au stand ou après le match : totaux, moyennes, statistiques par coup ou par cible et suivi de vos matchs, directement dans le navigateur. Une page PDF se crée en un clic, pour la partager ou l’imprimer.</p></div>
 <section class="first" id="feuille">
 <div id="fm">
-  <div class="card" style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;padding:.8rem 1rem">
-    <div id="sqView" class="sqv" hidden><a href="sq-visu.html" target="sqvisu" class="sqv-main"><span class="sqv-ic">🎯</span><span><b>J’analyse mon match</b><small>Chaque cible et chaque coup, comme sur la SQ</small></span></a><a href="sq-visu.html#stats" target="sqvisu" class="sqv-alt">📊 Statistiques</a></div>
-    <button id="sqImp" class="primary" title="Importer l’export CSV de la cible électronique SQ (Sport Quantum)">📥 Importer un fichier SQ</button><input type="file" id="sqFile" accept=".csv,text/csv" hidden>
-    <span class="muted" style="font-size:.9rem">Vous tirez sur une cible SQ ? Importez son export CSV, ou collez le lien de partage de la SQ (sqm.app) : la feuille se remplit toute seule.</span>
-    <div style="display:flex;gap:.5rem;flex:1 1 100%;flex-wrap:wrap"><input id="sqLink" type="url" inputmode="url" placeholder="Collez ici le lien SQ (sqm.app/s?s=… ou sqm.app/stats?s=…)" aria-label="Lien de partage de la cible SQ" style="flex:1;min-width:220px;font:inherit;padding:.55rem .8rem;border:1px solid var(--line,#d5dbe3);border-radius:10px"><button id="sqLinkBtn" type="button">Importer le lien</button></div>
-  </div>
-
-  <div class="card">
+  <!-- 1. Récupérer les scores -->
+  <div class="card blk" id="blkGet">
+    <div class="blkhead"><h2><span class="num">1</span>Récupérer les scores</h2><button id="newM">Nouveau match</button></div>
     <div class="meta">
       <label for="disc">Épreuve
         <select id="disc">
@@ -254,10 +259,25 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       <label for="mName">Match ou séance<input id="mName" type="text" placeholder="Championnat, entraînement…"></label>
     </div>
     <p class="fmt" id="fmtInfo"></p>
+    <h3 class="sub3">Depuis une cible SQ</h3>
+    <div class="row">
+      <button id="sqScan" class="primary" type="button">📷 Scanner le QR code de la SQ</button>
+      <button id="sqImp" title="Importer l’export CSV de la cible électronique SQ (Sport Quantum)">📥 Importer un fichier SQ</button><input type="file" id="sqFile" accept=".csv,text/csv" hidden>
+    </div>
+    <div style="display:flex;gap:.5rem;flex:1 1 100%;flex-wrap:wrap"><input id="sqLink" type="url" inputmode="url" placeholder="Collez ici le lien SQ (sqm.app/s?s=… ou sqm.app/stats?s=…)" aria-label="Lien de partage de la cible SQ" style="flex:1;min-width:220px;font:inherit;padding:.55rem .8rem;border:1px solid var(--line,#d5dbe3);border-radius:10px"><button id="sqLinkBtn" type="button">Importer le lien</button></div>
+    <p class="muted" style="margin:0">Scannez le QR code affiché par la cible SQ, importez son export CSV ou collez son lien de partage (sqm.app) : la feuille se remplit toute seule.</p>
+    <div id="scanPanel" class="sharep" hidden>
+      <div class="row" style="justify-content:space-between"><h3 class="sub3" style="margin:0">Visez le QR code de la SQ</h3><button id="scanClose" type="button">Fermer</button></div>
+      <div class="scanbox"><video id="scanVid" playsinline muted></video><span class="scanframe" aria-hidden="true"></span></div>
+      <p class="muted" id="scanInfo" style="margin:0" aria-live="polite">Autorisez l’appareil photo, puis cadrez le QR code dans le carré.</p>
+    </div>
+    <h3 class="sub3">À la main</h3>
+    <p class="muted" style="margin:0">Saisissez chaque coup avec le pavé, dans le bloc 2 ci-dessous.</p>
   </div>
 
-  <div class="two">
-    <div class="card" aria-label="Saisie">
+  <!-- 2. Afficher les scores -->
+  <div class="card blk" id="blkShow" aria-label="Saisie">
+    <div class="blkhead"><h2><span class="num">2</span>Ma feuille</h2></div>
       <div class="serhead"><div><b id="serTitle">Série 1</b> <span class="muted" id="serInfo"></span></div>
         <button id="loupe" class="loupebtn" aria-pressed="false"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2.4"/><line x1="15" y1="15" x2="21" y2="21" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg> Loupe</button></div>
       <div class="lpnav"><button id="lpPrev">◀ Série précédente</button><b id="lpTitle"></b><button id="lpNext">Série suivante ▶</button></div>
@@ -270,9 +290,38 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       </div>
       <p class="muted" style="margin:0">Touchez une case de la matrice pour la saisir ou la corriger, puis un point du pavé. Sur ordinateur, tapez les chiffres au clavier.</p>
       <p id="sampleNote" class="note" hidden>Match d'exemple : touchez « Nouveau match » pour saisir le vôtre.</p>
+    <div class="row actions">
+      <button id="saveM" class="primary">Enregistrer ce match</button>
+      <button id="shareM">Partager</button>
+      <button id="pdfM">PDF</button>
+      <button id="printM">Imprimer</button>
+      <button id="qrM" aria-expanded="false" aria-controls="qrPanel">▦ QR code du lien</button>
     </div>
+    <div id="sharePanel" class="sharep" hidden>
+      <div class="row" style="justify-content:space-between"><h2>Partager ce match</h2><button id="shareClose">Fermer</button></div>
+      <textarea id="shareTxt" readonly rows="8" aria-label="Texte du résumé"></textarea>
+      <div class="row">
+        <button id="shareCopy" class="primary">Copier le texte</button>
+        <a id="shareWa" class="btnlink" href="#">WhatsApp</a>
+        <a id="shareMail" class="btnlink" href="#">E-mail</a>
+      </div>
+      <p class="muted" style="margin:0">Si un lien ne s'ouvre pas, copiez le texte et collez-le dans votre messagerie.</p>
+    </div>
+    <div id="qrPanel" class="sharep" hidden>
+      <div class="row" style="justify-content:space-between"><h2>Scanner pour ouvrir la feuille de match</h2><button id="qrClose">Fermer</button></div>
+      <div class="qrbox">
+        <div class="qr" id="qrImg" role="img" aria-label="QR code du lien de la feuille de match"></div>
+        <code id="qrLink"></code>
+        <div class="row" style="justify-content:center"><button id="qrCopy" class="primary">Copier le lien</button></div>
+        <p class="muted" style="margin:0">Visez ce code avec l'appareil photo d'un autre téléphone : la feuille de match s'ouvre sur la même épreuve. Le match en cours reste sur cet appareil.</p>
+      </div>
+    </div>
+  </div>
 
-    <div class="card" aria-label="Chiffres">
+  <!-- 3. Statistiques -->
+  <div class="card blk" id="blkStats" aria-label="Chiffres">
+    <div class="blkhead"><h2><span class="num">3</span>Statistiques</h2></div>
+    <div id="sqView" class="sqv" hidden><a href="sq-visu.html" target="sqvisu" class="sqv-main"><span class="sqv-ic">🎯</span><span><b>J’analyse mon match</b><small>Chaque cible et chaque coup, comme sur la SQ</small></span></a><a href="sq-visu.html#stats" target="sqvisu" class="sqv-alt">📊 Statistiques</a></div>
       <div class="tiles">
         <div class="tile fm-hero"><div><b id="tTot">0</b><span id="tTotSub">points sur 0 coup</span></div></div>
         <div class="tile"><b id="tAvg">–</b><span>Moyenne par coup</span></div>
@@ -296,45 +345,11 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       </div>
       <h2 id="distTitle">Répartition des coups</h2>
       <svg id="dist" class="chart" viewBox="0 0 420 150" role="img" aria-label="Nombre de coups par valeur"></svg>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="row" style="justify-content:space-between">
-      <h2>Mes matchs</h2>
-      <div class="row">
-        <button id="saveM" class="primary">Enregistrer ce match</button>
-        <button id="newM">Nouveau match</button>
-        <button id="shareM">Partager</button>
-        <button id="qrM" aria-expanded="false" aria-controls="qrPanel">▦ QR code</button>
-        <button id="pdfM">PDF</button>
-        <button id="printM">Imprimer</button>
-        <a href="ma-progression.html" class="btnlink" style="text-decoration:none">📈 Ma progression</a>
-      </div>
-    </div>
-    <div class="msg" id="msg" aria-live="polite"></div>
-    <div id="sharePanel" class="sharep" hidden>
-      <div class="row" style="justify-content:space-between"><h2>Partager ce match</h2><button id="shareClose">Fermer</button></div>
-      <textarea id="shareTxt" readonly rows="8" aria-label="Texte du résumé"></textarea>
-      <div class="row">
-        <button id="shareCopy" class="primary">Copier le texte</button>
-        <a id="shareWa" class="btnlink" href="#">WhatsApp</a>
-        <a id="shareMail" class="btnlink" href="#">E-mail</a>
-      </div>
-      <p class="muted" style="margin:0">Si un lien ne s'ouvre pas, copiez le texte et collez-le dans votre messagerie.</p>
-    </div>
-    <div id="qrPanel" class="sharep" hidden>
-      <div class="row" style="justify-content:space-between"><h2>Scanner pour ouvrir la feuille de match</h2><button id="qrClose">Fermer</button></div>
-      <div class="qrbox">
-        <div class="qr" id="qrImg" role="img" aria-label="QR code du lien de la feuille de match"></div>
-        <code id="qrLink"></code>
-        <div class="row" style="justify-content:center"><button id="qrCopy" class="primary">Copier le lien</button></div>
-        <p class="muted" style="margin:0">Visez ce code avec l'appareil photo d'un autre téléphone : la feuille de match s'ouvre sur la même épreuve. Le match en cours reste sur cet appareil.</p>
-      </div>
-    </div>
+    <div class="blkhead" style="margin-top:8px"><h2>Mes matchs</h2><a href="ma-progression.html" class="btnlink" style="text-decoration:none">📈 Ma progression</a></div>
     <svg id="prog" class="chart" viewBox="0 0 420 130" role="img" aria-label="Progression des totaux"></svg>
     <div class="hist" id="hist"></div>
   </div>
+  <div class="msg" id="msg" aria-live="polite"></div>
 </div>
 </section><p class="print-src" style="margin-top:8mm;font-size:9pt;color:#444">MonTirSportif – https://pistol.montirsportif.com/feuille-de-match.html</p></main>
 
@@ -870,6 +885,41 @@ async function sqLinkImport(link){
   sqApply(shots,'','le lien SQ',all,start);
 }
 $('#sqLinkBtn').addEventListener('click',()=>{const v=$('#sqLink').value;if(!v.trim()){flash('Collez d’abord le lien SQ dans le champ.');return}try{if(!sqWin||sqWin.closed)sqWin=window.open('sq-visu.html'+(/\/stats/.test(v)?'#stats':''),'sqvisu')}catch(e){}sqLinkImport(v).then(()=>{$('#sqLink').value=''}).catch(()=>flash('Import impossible : lien SQ illisible.'))});
+/* ---------- Scanner le QR code de la SQ (appareil photo) ---------- */
+let scanStream=null,scanRaf=0,scanDet=null,jsqrP=null;
+function loadJsQR(){if(window.jsQR)return Promise.resolve();if(jsqrP)return jsqrP;
+  jsqrP=new Promise((ok,ko)=>{const s=document.createElement('script');s.src='js/vendor/jsqr.min.js';s.onload=()=>ok();s.onerror=()=>{jsqrP=null;ko(new Error('jsQR'))};document.head.appendChild(s)});return jsqrP}
+function scanStop(){cancelAnimationFrame(scanRaf);scanRaf=0;if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null}const v=$('#scanVid');v.srcObject=null;$('#scanPanel').hidden=true}
+async function scanStart(){
+  const info=$('#scanInfo'),v=$('#scanVid');
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){flash('Appareil photo indisponible sur ce navigateur : collez le lien SQ dans le champ.');return}
+  $('#scanPanel').hidden=false;info.textContent='Autorisez l’appareil photo, puis cadrez le QR code dans le carré.';
+  $('#scanPanel').scrollIntoView({behavior:'smooth',block:'nearest'});
+  try{scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false})}
+  catch(e){info.textContent='Accès à l’appareil photo refusé. Autorisez-le dans les réglages du navigateur, ou collez le lien SQ.';return}
+  v.srcObject=scanStream;try{await v.play()}catch(e){}
+  scanDet=null;try{if('BarcodeDetector' in window&&(await BarcodeDetector.getSupportedFormats()).includes('qr_code'))scanDet=new BarcodeDetector({formats:['qr_code']})}catch(e){}
+  if(!scanDet){try{await loadJsQR()}catch(e){info.textContent='Lecteur de QR code indisponible : collez le lien SQ.';return}}
+  const cv=document.createElement('canvas'),cx=cv.getContext('2d',{willReadFrequently:true});let busy=false;
+  const tick=async()=>{
+    if(!scanStream)return;scanRaf=requestAnimationFrame(tick);
+    if(busy||v.readyState<2)return;busy=true;
+    try{let txt=null;
+      if(scanDet){const r=await scanDet.detect(v);if(r&&r.length)txt=r[0].rawValue}
+      else{const w=v.videoWidth,hh=v.videoHeight,k=Math.min(1,640/Math.max(w,hh));cv.width=Math.round(w*k);cv.height=Math.round(hh*k);cx.drawImage(v,0,0,cv.width,cv.height);const r=jsQR(cx.getImageData(0,0,cv.width,cv.height).data,cv.width,cv.height,{inversionAttempts:'dontInvert'});if(r)txt=r.data}
+      if(txt)scanFound(txt.trim());
+    }catch(e){}busy=false;
+  };tick();
+}
+function scanFound(txt){
+  if(!/sqm\.app/i.test(txt)){$('#scanInfo').textContent='Ce QR code n’est pas un lien de partage SQ (sqm.app). Visez le QR code de la cible SQ.';return}
+  scanStop();try{navigator.vibrate&&navigator.vibrate(80)}catch(e){}
+  $('#sqLink').value=txt;flash('QR code SQ lu : import en cours…');
+  sqLinkImport(txt).then(()=>{$('#sqLink').value='';$('#blkShow').scrollIntoView({behavior:'smooth',block:'start'})}).catch(()=>flash('Import impossible : lien SQ illisible.'));
+}
+$('#sqScan').addEventListener('click',()=>{if(scanStream){scanStop();return}scanStart()});
+$('#scanClose').addEventListener('click',scanStop);
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&scanStream)scanStop()});
 $('#sqLink').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#sqLinkBtn').click()}});
 try{if(localStorage.getItem('mts-sq-view'))$('#sqView').hidden=false}catch(e){}
 $('#sqImp').addEventListener('click',()=>$('#sqFile').click());
