@@ -60,7 +60,7 @@ main{max-width:1500px;margin:0 auto;padding:.8rem}
 <body>
 <header><a href="feuille-de-match.html"><img src="img/logo.png" alt="MonTirSportif"></a><h1>Mes impacts SQ</h1>
 <div class="bar"><div class="seg" role="group" aria-label="Affichage des points"><button type="button" id="mDec">Décimal</button><button type="button" id="mInt">Point entier</button></div><button class="btn" type="button" onclick="window.print()">Imprimer</button><a class="btn" href="feuille-de-match.html" style="text-decoration:none">Ma feuille de match</a></div></header>
-<main><div class="tabs" role="tablist"><button type="button" role="tab" id="tbC" aria-selected="true">Cibles</button><button type="button" role="tab" id="tbS" aria-selected="false">Statistiques</button></div><div id="app"><div class="empty">Aucune donnée SQ : importez d’abord un fichier ou un lien SQ dans « Ma feuille de match ».</div></div><div id="stats" hidden></div></main>
+<main><div class="tabs" role="tablist"><button type="button" role="tab" id="tbC" aria-selected="true">Cibles</button><button type="button" role="tab" data-st="scores" aria-selected="false">Scores</button><button type="button" role="tab" data-st="series" aria-selected="false">Séries</button><button type="button" role="tab" data-st="position" aria-selected="false">Position des impacts</button><button type="button" role="tab" data-st="timings" aria-selected="false">Timings</button></div><div id="app"><div class="empty">Aucune donnée SQ : importez d’abord un fichier ou un lien SQ dans « Ma feuille de match ».</div></div><div id="stats" hidden></div></main>
 <script>
 (function(){
 'use strict';
@@ -160,20 +160,22 @@ function stats(){
     const sq=withT.slice().sort((a,b)=>a.t-b.t);g+=`<polyline fill="none" stroke="#e8577a" stroke-width="1.8" points="${sq.map(p=>X((p.t-t0)/60000)+','+Y(p.sd)).join(' ')}"/>`;
     sq.forEach(p=>g+=`<circle cx="${X((p.t-t0)/60000)}" cy="${Y(p.sd)}" r="2" fill="#e8577a"/>`);
     tim=`<div class="card chart"><h2>Score de chaque coup dans le temps</h2>${g}</svg><div class="leg"><span><i style="background:${BAND[0]}"></i>Essais</span>${sk.map((k,i)=>`<span><i style="background:${BAND[(i+1)%BAND.length]}"></i>Série ${k}</span>`).join('')}<span><i style="background:#555;height:2px"></i>Moyenne du match</span></div><p class="note" style="text-align:center">Durée totale : ${Math.round(tm)} min · temps moyen entre deux coups de match : ${Math.round(((Math.max(...m.map(p=>p.t))-Math.min(...m.map(p=>p.t)))/1000)/Math.max(1,m.length-1))} s</p></div>`}
-  el.innerHTML=`<h2 style="font-size:1rem;margin:.2rem 0 .6rem">Scores</h2><div class="card chart"><h2>Répartition des scores</h2>${hist}</div><div class="card chart"><h2>Évolution du score de chaque coup</h2>${evo}</div>
-<h2 style="font-size:1rem;margin:1rem 0 .6rem">Séries</h2><div class="card chart"><h2>Évolution des scores de série</h2>${serEvo}</div><div class="card chart"><h2>Score de chaque coup, série par série</h2>${leg}${over}</div>
-<h2 style="font-size:1rem;margin:1rem 0 .6rem">Position des impacts</h2>${pos}
-${tim?'<h2 style="font-size:1rem;margin:1rem 0 .6rem">Timings</h2>'+tim:''}`;
+  el.innerHTML=`<section data-sec="scores"><div class="card chart"><h2>Répartition des scores</h2>${hist}</div><div class="card chart"><h2>Évolution du score de chaque coup</h2>${evo}</div></section>
+<section data-sec="series"><div class="card chart"><h2>Évolution des scores de série</h2>${serEvo}</div><div class="card chart"><h2>Score de chaque coup, série par série</h2>${leg}${over}</div></section>
+<section data-sec="position">${pos}</section>
+<section data-sec="timings">${tim||'<div class="empty">Pas d’horodatage des coups dans ces données.</div>'}</section>`;
+  el.querySelectorAll('section[data-sec]').forEach(x=>x.hidden=x.dataset.sec!==curSt);
 }
-function showTab(st){document.getElementById('tbC').setAttribute('aria-selected',!st);document.getElementById('tbS').setAttribute('aria-selected',st);document.getElementById('app').hidden=st;document.getElementById('stats').hidden=!st;if(st)stats();try{history.replaceState(null,'',st?'#stats':location.pathname)}catch(e){}}
+let curSt='scores';
+function showTab(st){if(st===true)st='scores';document.getElementById('tbC').setAttribute('aria-selected',!st);document.querySelectorAll('[data-st]').forEach(b=>b.setAttribute('aria-selected',b.dataset.st===st));document.getElementById('app').hidden=!!st;document.getElementById('stats').hidden=!st;if(st){curSt=st;stats()}try{history.replaceState(null,'',st?'#'+st:location.pathname)}catch(e){}}
 document.getElementById('tbC').addEventListener('click',()=>showTab(false));
-document.getElementById('tbS').addEventListener('click',()=>showTab(true));
+document.querySelectorAll('[data-st]').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.st)));
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 document.getElementById('mDec').addEventListener('click',()=>{dec=true;try{localStorage.setItem('mts-sq-mode','dec')}catch(e){}render();if(!document.getElementById('stats').hidden)stats()});
 document.getElementById('mInt').addEventListener('click',()=>{dec=false;try{localStorage.setItem('mts-sq-mode','int')}catch(e){}render();if(!document.getElementById('stats').hidden)stats()});
 window.addEventListener('storage',e=>{if(e.key==='mts-sq-view'){try{data=JSON.parse(e.newValue||'null')}catch(_){}render();if(!document.getElementById('stats').hidden)stats()}});
 render();
-if(location.hash==='#stats')showTab(true);
+{const h=location.hash.slice(1);if(h==='stats')showTab('scores');else if(['scores','series','position','timings'].includes(h))showTab(h)}
 })();
 </script>
 </body>
