@@ -186,6 +186,10 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .msg{font-size:.9rem;color:var(--good);min-height:1.2em}
 #fm .note{font-size:.85rem;color:var(--warn);margin:0}
 #fm footer{font-size:.82rem;color:var(--muted)}
+#fm .qrbox{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+#fm .qrbox .qr{background:#fff;padding:12px;border-radius:12px;width:min(280px,80vw)}
+#fm .qrbox .qr svg{display:block;width:100%;height:auto}
+#fm .qrbox code{font-size:.85rem;word-break:break-all;color:var(--muted)}
 #fmTitle .code{display:block;font-size:.5em;color:var(--mut);margin-top:.25em;letter-spacing:.02em}
 @media (max-width:560px){#fm .tg b{font-size:1.2rem}#fm .lpnav b{font-size:1.25rem}}
 </style><main class="view" id="feuille-de-match" style="--acc:#12938a"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1 id="fmTitle">Ma feuille de match</h1><p class="lead">Notez vos points coup par coup, à 10 m, 25 m ou 50 m, au stand ou après le match : totaux, moyennes, statistiques par coup ou par cible et suivi de vos matchs, directement dans le navigateur. Une page PDF se crée en un clic, pour la partager ou l’imprimer.</p></div>
@@ -302,6 +306,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
         <button id="saveM" class="primary">Enregistrer ce match</button>
         <button id="newM">Nouveau match</button>
         <button id="shareM">Partager</button>
+        <button id="qrM" aria-expanded="false" aria-controls="qrPanel">▦ QR code</button>
         <button id="pdfM">PDF</button>
         <button id="printM">Imprimer</button>
         <a href="ma-progression.html" class="btnlink" style="text-decoration:none">📈 Ma progression</a>
@@ -317,6 +322,15 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
         <a id="shareMail" class="btnlink" href="#">E-mail</a>
       </div>
       <p class="muted" style="margin:0">Si un lien ne s'ouvre pas, copiez le texte et collez-le dans votre messagerie.</p>
+    </div>
+    <div id="qrPanel" class="sharep" hidden>
+      <div class="row" style="justify-content:space-between"><h2>Scanner pour ouvrir la feuille de match</h2><button id="qrClose">Fermer</button></div>
+      <div class="qrbox">
+        <div class="qr" id="qrImg" role="img" aria-label="QR code du lien de la feuille de match"></div>
+        <code id="qrLink"></code>
+        <div class="row" style="justify-content:center"><button id="qrCopy" class="primary">Copier le lien</button></div>
+        <p class="muted" style="margin:0">Visez ce code avec l'appareil photo d'un autre téléphone : la feuille de match s'ouvre sur la même épreuve. Le match en cours reste sur cet appareil.</p>
+      </div>
     </div>
     <svg id="prog" class="chart" viewBox="0 0 420 130" role="img" aria-label="Progression des totaux"></svg>
     <div class="hist" id="hist"></div>
@@ -882,6 +896,21 @@ $('#shareM').addEventListener('click',async()=>{
   $('#sharePanel').hidden=false;$('#sharePanel').scrollIntoView({behavior:'smooth',block:'nearest'});
 });
 $('#shareClose').addEventListener('click',()=>{$('#sharePanel').hidden=true});
+/* ---------- QR code du lien ---------- */
+let qrP=null;
+function loadQR(){if(window.qrcode)return Promise.resolve();if(qrP)return qrP;
+  qrP=new Promise((ok,ko)=>{const s=document.createElement('script');s.src='js/vendor/qrcode.min.js';s.onload=()=>ok();s.onerror=()=>{qrP=null;ko(new Error('qrcode'))};document.head.appendChild(s)});return qrP}
+const qrUrl=()=>'https://pistol.montirsportif.com/feuille-de-match.html?epreuve='+encodeURIComponent(M.disc);
+function qrShow(on){$('#qrPanel').hidden=!on;$('#qrM').setAttribute('aria-expanded',String(on))}
+$('#qrM').addEventListener('click',async()=>{
+  if(!$('#qrPanel').hidden){qrShow(false);return}
+  const url=qrUrl();$('#qrLink').textContent=url;$('#qrImg').innerHTML='';
+  $('#sharePanel').hidden=true;qrShow(true);$('#qrPanel').scrollIntoView({behavior:'smooth',block:'nearest'});
+  try{await loadQR();const q=qrcode(0,'M');q.addData(url);q.make();$('#qrImg').innerHTML=q.createSvgTag({cellSize:6,margin:2,scalable:true})}
+  catch(e){$('#qrImg').innerHTML='<p style="margin:0;color:#333">QR code indisponible : copiez le lien ci-dessous.</p>'}
+});
+$('#qrClose').addEventListener('click',()=>qrShow(false));
+$('#qrCopy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(qrUrl());flash('Lien copié.')}catch(e){flash('Copie refusée : recopiez le lien affiché.')}});
 /* ---------- PDF : partager ou imprimer ---------- */
 let jspdfP=null;
 function loadJsPDF(){if(window.jspdf)return Promise.resolve();if(jspdfP)return jspdfP;
