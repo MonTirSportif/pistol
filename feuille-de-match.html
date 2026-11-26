@@ -150,6 +150,16 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .sharep textarea{font:inherit;font-size:.9rem;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px;width:100%;resize:vertical}
 #fm .btnlink{display:inline-flex;align-items:center;min-height:42px;padding:8px 14px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;font-weight:500;background:var(--surface)}
 #fm .btnlink:hover{border-color:var(--ink)}
+#fm .sqv{flex:1 1 100%;width:100%;display:flex;gap:.6rem;flex-wrap:wrap}#fm .sqv[hidden]{display:none!important}
+#fm .sqv a{text-decoration:none;border-radius:12px;display:flex;align-items:center;gap:.8rem;transition:transform .12s,box-shadow .12s}
+#fm .sqv a:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(18,147,138,.35)}
+#fm .sqv-main{flex:4 1 260px;background:linear-gradient(135deg,#12938a,#0d6f68);color:#fff;padding:.9rem 1.2rem;box-shadow:0 3px 12px rgba(18,147,138,.3);animation:sqvp 1.6s ease-out 2}
+#fm .sqv-main b{display:block;font-size:1.15rem}#fm .sqv-main small{display:block;opacity:.9;font-size:.85rem}
+#fm .sqv-ic{font-size:2rem;line-height:1}
+#fm .sqv-alt{flex:1 0 auto;justify-content:center;max-width:100%;border:2px solid #12938a;color:#0d6f68;background:#e8f6f5;padding:.9rem 1.1rem;font-weight:700}
+@keyframes sqvp{0%{box-shadow:0 0 0 0 rgba(18,147,138,.55)}100%{box-shadow:0 0 0 14px rgba(18,147,138,0)}}
+@media(prefers-reduced-motion:reduce){#fm .sqv-main{animation:none}}
+
 #fm .tgts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 #fm .tg{border:1px solid var(--line);border-radius:10px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;text-align:center}
 #fm .tg.weak{border-color:var(--accent)}
@@ -182,7 +192,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 <section class="first" id="feuille">
 <div id="fm">
   <div class="card" style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;padding:.8rem 1rem">
-    <a id="sqView" href="sq-visu.html" target="sqvisu" class="btnlink" style="text-decoration:none" hidden>🎯 Voir mes impacts SQ</a>
+    <div id="sqView" class="sqv" hidden><a href="sq-visu.html" target="sqvisu" class="sqv-main"><span class="sqv-ic">🎯</span><span><b>Voir mes impacts SQ</b><small>Chaque cible et chaque coup, comme sur la SQ</small></span></a><a href="sq-visu.html#stats" target="sqvisu" class="sqv-alt">📊 Statistiques</a></div>
     <button id="sqImp" class="primary" title="Importer l’export CSV de la cible électronique SQ (Sport Quantum)">📥 Importer un fichier SQ</button><input type="file" id="sqFile" accept=".csv,text/csv" hidden>
     <span class="muted" style="font-size:.9rem">Vous tirez sur une cible SQ ? Importez son export CSV, ou collez le lien de partage de la SQ (sqm.app) : la feuille se remplit toute seule.</span>
     <div style="display:flex;gap:.5rem;flex:1 1 100%;flex-wrap:wrap"><input id="sqLink" type="url" inputmode="url" placeholder="Collez ici le lien SQ (sqm.app/s?s=… ou sqm.app/stats?s=…)" aria-label="Lien de partage de la cible SQ" style="flex:1;min-width:220px;font:inherit;padding:.55rem .8rem;border:1px solid var(--line,#d5dbe3);border-radius:10px"><button id="sqLinkBtn" type="button">Importer le lien</button></div>
