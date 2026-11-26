@@ -227,5 +227,6 @@ document.querySelectorAll('.vt-theme').forEach(function(g){g.hidden=!g.querySele
 q.addEventListener('input',run);
 document.querySelectorAll('.vt-chips button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.vt-chips button').forEach(function(x){x.classList.toggle('on',x===b)});f=b.dataset.f;run();});});})();</script>
 <script>(function(){var fs=document.querySelectorAll('#videotheque figure.vt');var ids={};fs.forEach(function(f){var y=f.querySelector('.yt');if(y)ids[y.dataset.id]=1;});var u=Object.keys(ids).length;var n=document.getElementById('vt-n');if(n)n.textContent=u;var lead=document.querySelector('#videotheque .lead');if(lead)lead.innerHTML=lead.innerHTML.replace(/Les \d+ vidéos/,'Les '+u+' vidéos');document.querySelectorAll('#videotheque .somm a[href^="#vt-"]').forEach(function(a){var s=document.querySelector(a.getAttribute('href'));var sp=a.nextElementSibling;if(s&&sp)sp.textContent=' — '+s.querySelectorAll('figure.vt').length+' vidéos';});})();</script>
+<script src="js/listen.js"></script>
 </body>
 </html>
