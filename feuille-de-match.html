@@ -255,6 +255,14 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 #fm .sqa-pbar{height:12px;border-radius:99px;background:var(--line);display:flex;overflow:hidden;margin:.3rem 0}
 #fm .sqa-pbar b{background:#2fd3b8}#fm .sqa-pbar span{background:#6b7684}
 #fm .sqa-prow{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+#fm .sqa-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+#fm .sqa-tile{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface)}
+#fm .sqa-tile b{display:block;font-family:var(--display);font-size:1.7rem;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+#fm .sqa-tile span{font-size:.8rem;color:var(--muted)}
+#fm .sqa-tt{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+#fm .sqa-tt th,#fm .sqa-tt td{padding:6px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+#fm .sqa-tt td:first-child,#fm .sqa-tt th:first-child{text-align:left}
+#fm .sqa-tt tr.e td{color:var(--muted);font-style:italic}
 #fm .sqa-note{color:var(--muted);font-size:.8rem;margin:.4rem 0 0}
 #fm .sqa-empty{padding:2rem;text-align:center;color:var(--muted)}
 @media(max-width:700px){#fm .sqa-top{grid-template-columns:1fr}#fm .sqa-big{font-size:2.4rem}}
@@ -385,7 +393,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       <button type="button" role="tab" data-st="resume" aria-selected="true">Détails</button>
       <button type="button" role="tab" data-st="series" aria-selected="false" class="sqa-only" hidden>Séries</button>
       <button type="button" role="tab" data-st="position" aria-selected="false" class="sqa-only" hidden>Position des impacts</button>
-      <button type="button" role="tab" data-st="timings" aria-selected="false" class="sqa-only" hidden>Timings</button>
+      <button type="button" role="tab" data-st="timings" aria-selected="false" class="sqa-only" hidden>Temps</button>
     </div>
     <div class="sqa-seg" id="sqaMode" role="group" aria-label="Affichage des points SQ" hidden><button type="button" data-dec="1">Décimal</button><button type="button" data-dec="0">Point entier</button></div>
     <div id="stResume" class="sqa-pane">
@@ -420,7 +428,7 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
         <div class="scroll"><table class="dstab"><thead id="dsHead"></thead><tbody id="dsBody"></tbody></table></div>
       </div>
       <div id="stScoresSq" class="sqa-pane" hidden></div>
-      <p class="muted sqa-hint" id="sqaHint" style="margin:0">Importez un match depuis une cible SQ (bloc 1) : les onglets Cibles, Séries, Position des impacts et Timings s’ajoutent ici.</p>
+      <p class="muted sqa-hint" id="sqaHint" style="margin:0">Importez un match depuis une cible SQ (bloc 1) : les onglets Cibles, Séries, Position des impacts et Temps s’ajoutent ici.</p>
     </div>
     <div id="stSq" class="sqa-pane" hidden></div>
     <div class="blkhead" style="margin-top:8px"><h2>Mes matchs</h2><a href="ma-progression.html" class="btnlink" style="text-decoration:none">📈 Ma progression</a></div>
