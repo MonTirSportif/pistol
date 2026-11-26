@@ -181,6 +181,10 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
 </style><main class="view" id="feuille-de-match" style="--acc:#12938a"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1 id="fmTitle">Ma feuille de match</h1><p class="lead">Notez vos points coup par coup, à 10 m, 25 m ou 50 m, au stand ou après le match : totaux, moyennes, statistiques par coup ou par cible et suivi de vos matchs, directement dans le navigateur. Une page PDF se crée en un clic, pour la partager ou l’imprimer.</p></div>
 <section class="first" id="feuille">
 <div id="fm">
+  <div class="card" style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;padding:.8rem 1rem">
+    <button id="sqImp" class="primary" title="Importer l’export CSV de la cible électronique SQ (Sport Quantum)">📥 Importer un fichier SQ</button><input type="file" id="sqFile" accept=".csv,text/csv" hidden>
+    <span class="muted" style="font-size:.9rem">Vous tirez sur une cible SQ ? Importez son export CSV : la feuille se remplit toute seule.</span>
+  </div>
 
   <div class="card">
     <div class="meta">
@@ -285,7 +289,6 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       <div class="row">
         <button id="saveM" class="primary">Enregistrer ce match</button>
         <button id="newM">Nouveau match</button>
-        <button id="sqImp" title="Importer l’export CSV de la cible électronique SQ (Sport Quantum)">Importer un fichier SQ</button><input type="file" id="sqFile" accept=".csv,text/csv" hidden>
         <button id="shareM">Partager</button>
         <button id="pdfM">PDF</button>
         <button id="printM">Imprimer</button>
