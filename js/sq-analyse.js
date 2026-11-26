@@ -10,6 +10,8 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const rad=(t,k)=>t.r10+(10-k)*t.pas;
 const iv=p=>Math.floor(p.sd+1e-9);
 const virg=v=>String(v).replace('.',',');
+const sdev=a=>{if(!a||a.length<2)return null;const m=a.reduce((x,y)=>x+y,0)/a.length;return Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)};
+const sdTxt=a=>{const s=sdev(a);return s==null?'':` · σ ${virg(s.toFixed(2))}`};
 function target(t,shots,view){
   const R=view,s=[];
   s.push(`<svg viewBox="${-R} ${-R} ${2*R} ${2*R}" role="img" aria-label="Cible et impacts">`);
@@ -42,13 +44,13 @@ function cibles(data,dec){
   const ds=d.toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'})+', '+d.toLocaleTimeString('fr-FR');
   const maxR=Math.max(...match.map(p=>Math.hypot(p.x,p.y)),rad(t,7))+t.pas*0.6;
   const f=v=>dec?virg(v.toFixed(1)):v;
-  let h=`<section class="sqa-card sqa-top"><div>${target(t,match,Math.min(rad(t,1)+1,Math.max(maxR,rad(t,6))))}</div><div class="sqa-info"><div class="sqa-cn">${esc(data.card||t.lab)}<br>${ds}</div><div class="sqa-big">${f(tot)} – ${nx}<span class="sqa-x">✱</span></div><div class="sqa-sers">${sers.map(v=>`<span>${f(v)}</span>`).join('')}</div><div class="sqa-avg">≈ ${virg(avgAll.toFixed(2))}</div></div></section><div class="sqa-grid">`;
+  let h=`<section class="sqa-card sqa-top"><div>${target(t,match,Math.min(rad(t,1)+1,Math.max(maxR,rad(t,6))))}</div><div class="sqa-info"><div class="sqa-cn">${esc(data.card||t.lab)}<br>${ds}</div><div class="sqa-big">${f(tot)} – ${nx}<span class="sqa-x">✱</span></div><div class="sqa-sers">${sers.map(v=>`<span>${f(v)}</span>`).join('')}</div><div class="sqa-avg">≈ ${virg(avgAll.toFixed(2))}${sdTxt(match.map(val))} par coup${sers.length>1?` · σ séries ${virg(sdev(sers).toFixed(2))}`:''}</div></div></section><div class="sqa-grid">`;
   groups.forEach(g=>{
     const st=g.shots.reduce((a,p)=>a+val(p),0),sx=g.shots.filter(p=>p.x10).length,av=g.shots.reduce((a,p)=>a+p.sd,0)/g.shots.length;
     const vr=Math.max(rad(t,6)+t.pas*0.3,Math.max(...g.shots.map(p=>Math.hypot(p.x,p.y)))+3);
-    h+=`<section class="sqa-card sqa-ser"><div>${target(t,g.shots,Math.min(vr,rad(t,1)+1))}</div><ul class="sqa-lst">${g.shots.map(p=>`<li><span class="n">#${p.o}</span><span>${virg(p.sd.toFixed(1))}</span>${arrow(p.x,p.y)}<span class="st">${p.x10?'✱':''}</span></li>`).join('')}</ul><div class="sqa-sum"><div class="t">${g.name}</div><div class="v">${f(st)}</div><div class="m">${sx?sx+' ✱':''}</div><div class="m">≈ ${virg(av.toFixed(2).replace(/0$/,''))}</div></div></section>`;
+    h+=`<section class="sqa-card sqa-ser"><div>${target(t,g.shots,Math.min(vr,rad(t,1)+1))}</div><ul class="sqa-lst">${g.shots.map(p=>`<li><span class="n">#${p.o}</span><span>${virg(p.sd.toFixed(1))}</span>${arrow(p.x,p.y)}<span class="st">${p.x10?'✱':''}</span></li>`).join('')}</ul><div class="sqa-sum"><div class="t">${g.name}</div><div class="v">${f(st)}</div><div class="m">${sx?sx+' ✱':''}</div><div class="m">≈ ${virg(av.toFixed(2).replace(/0$/,''))}</div><div class="m">${g.shots.length>1?'σ '+virg(sdev(g.shots.map(val)).toFixed(2)):''}</div></div></section>`;
   });
-  return h+'</div><p class="sqa-note">✱ : 10 intérieur (mouche). Les flèches indiquent la direction de chaque impact par rapport au centre.</p>';
+  return h+'</div><p class="sqa-note">✱ : 10 intérieur (mouche). σ : écart type, la dispersion des points autour de la moyenne (plus il est petit, plus le tir est régulier). Les flèches indiquent la direction de chaque impact par rapport au centre.</p>';
 }
 
 /* ---------- Graphiques ---------- */
@@ -72,7 +74,12 @@ function scores(data){
   ks.forEach((k,i)=>{const h=(H-P.t-P.b)*cnt[k]/top,x=P.l+i*bw+bw*0.15,y=H-P.b-h,ci=Math.max(0,Math.min(4,k-6));hist+=`<rect x="${x}" y="${y}" width="${bw*0.7}" height="${h}" fill="${bc[ci]}" stroke="${bs[ci]}"/><text x="${x+bw*0.35}" y="${H-8}" font-size="11" text-anchor="middle" fill="#6b7684">${k}</text><text x="${x+bw*0.35}" y="${y-5}" font-size="11" text-anchor="middle" fill="#1b2430">${cnt[k]}</text>`});
   hist+='</svg>';
   const seq=sg.concat(m),lo=Math.max(0,Math.floor(Math.min(...seq.map(p=>p.sd))-1));
-  return card('Répartition des scores (SQ)',hist)+card('Évolution du score de chaque coup',lineChart([{v:seq.map(p=>p.sd),c:'#2fd3b8'}],seq.map(p=>p.o),lo,11,1,{vgrid:true}));
+  return card('Répartition des scores (SQ)',hist)+evolution(data);
+}
+function evolution(data){
+  if(!ok(data))return '';
+  const all=data.shots,m=all.filter(p=>!p.e),sg=all.filter(p=>p.e),seq=sg.concat(m),lo=Math.max(0,Math.floor(Math.min(...seq.map(p=>p.sd))-1));
+  return card(`Évolution du score de chaque coup (SQ, décimal)${sdTxt(m.map(p=>p.sd)).replace(' · ',' · écart type ').replace('σ ','')}`,lineChart([{v:seq.map(p=>p.sd),c:'#2fd3b8'}],seq.map(p=>p.o),lo,11,1,{vgrid:true}));
 }
 function series(data,dec){
   if(!ok(data))return '';
@@ -81,8 +88,8 @@ function series(data,dec){
   const tots=sk.map(k=>bySer[k].reduce((a,p)=>a+(dec?p.sd:iv(p)),0)),tmin=Math.floor(Math.min(...tots))-1,tmax=Math.ceil(Math.max(...tots))+1;
   const maxLen=Math.max(...sk.map(k=>bySer[k].length));
   const leg='<div class="sqa-leg">'+sk.map((k,i)=>`<span><i style="background:${COL[i%COL.length]}"></i>Série ${k}</span>`).join('')+'</div>';
-  return card('Évolution des scores de série',lineChart([{v:tots,c:'#2fd3b8'}],sk,tmin,tmax,Math.max(1,Math.round((tmax-tmin)/6)),{vgrid:true,h:220}))
-    +card('Score de chaque coup, série par série',leg+lineChart(sk.map((k,i)=>({v:bySer[k].map(p=>p.sd),c:COL[i%COL.length],dots:false,w:2})),Array.from({length:maxLen},(_,i)=>i+1),lo,11,1,{vgrid:true}));
+  return card(`Évolution des scores de série${sdTxt(tots).replace(' · ',' · écart type ').replace('σ ','')}`,lineChart([{v:tots,c:'#2fd3b8'}],sk,tmin,tmax,Math.max(1,Math.round((tmax-tmin)/6)),{vgrid:true,h:220}))
+    +card('Score de chaque coup, série par série',leg+'<div class="sqa-leg">'+sk.map(k=>`<span>S${k}${sdTxt(bySer[k].map(p=>dec?p.sd:iv(p))).replace(' · ',' : ')}</span>`).join('')+'</div>'+lineChart(sk.map((k,i)=>({v:bySer[k].map(p=>p.sd),c:COL[i%COL.length],dots:false,w:2})),Array.from({length:maxLen},(_,i)=>i+1),lo,11,1,{vgrid:true}));
 }
 function position(data){
   if(!ok(data))return '';
@@ -91,7 +98,7 @@ function position(data){
   let heat='';m.forEach(p=>{heat+=`<circle cx="${p.x}" cy="${p.y}" r="${t.pas*0.9}" fill="url(#sqa-hg)"/>`});
   let tg=target(t,[],rad(t,1)+1);tg=tg.replace('</svg>',`<defs><radialGradient id="sqa-hg"><stop offset="0" stop-color="#ff3b1f" stop-opacity=".55"/><stop offset=".45" stop-color="#ffd21f" stop-opacity=".35"/><stop offset="1" stop-color="#2ecc40" stop-opacity="0"/></radialGradient></defs>${heat}</svg>`);
   const bar=(a,b,va)=>`<div class="sqa-prow"><span>${a}</span><span>${b}</span></div><div class="sqa-pbar"><b style="width:${va*100}%"></b><span style="width:${(1-va)*100}%"></span></div><div class="sqa-prow"><span>${pc(va)}</span><span>${pc(1-va)}</span></div>`;
-  return `<div class="sqa-pos">${card('Position des impacts',`<p class="sqa-pt">Latéral</p>${bar('Gauche','Droite',L)}<p class="sqa-pt">Hauteur</p>${bar('Haut','Bas',U)}<p class="sqa-note">Groupement moyen : ${virg((m.reduce((a,p)=>a+p.x,0)/m.length).toFixed(1))} mm horizontalement, ${virg((-m.reduce((a,p)=>a+p.y,0)/m.length).toFixed(1))} mm verticalement (positif : vers la droite / vers le haut).</p>`)}${card('',tg)}</div>`;
+  return `<div class="sqa-pos">${card('Position des impacts',`<p class="sqa-pt">Latéral</p>${bar('Gauche','Droite',L)}<p class="sqa-pt">Hauteur</p>${bar('Haut','Bas',U)}<p class="sqa-note">Groupement moyen : ${virg((m.reduce((a,p)=>a+p.x,0)/m.length).toFixed(1))} mm horizontalement, ${virg((-m.reduce((a,p)=>a+p.y,0)/m.length).toFixed(1))} mm verticalement (positif : vers la droite / vers le haut). Écart type : ${virg(sdev(m.map(p=>p.x)).toFixed(1))} mm horizontalement, ${virg(sdev(m.map(p=>p.y)).toFixed(1))} mm verticalement.</p>`)}${card('',tg)}</div>`;
 }
 function timings(data){
   if(!ok(data))return '';
@@ -108,8 +115,8 @@ function timings(data){
   const avg=m.reduce((a,p)=>a+p.sd,0)/m.length;g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${Y(avg)}" y2="${Y(avg)}" stroke="#555" stroke-width="1"/>`;
   const sq=withT.slice().sort((a,b)=>a.t-b.t);g+=`<polyline fill="none" stroke="#e8577a" stroke-width="1.8" points="${sq.map(p=>X((p.t-t0)/60000)+','+Y(p.sd)).join(' ')}"/>`;
   sq.forEach(p=>g+=`<circle cx="${X((p.t-t0)/60000)}" cy="${Y(p.sd)}" r="2" fill="#e8577a"/>`);
-  const mt=m.filter(p=>p.t).map(p=>p.t),gap=mt.length>1?Math.round(((Math.max(...mt)-Math.min(...mt))/1000)/(mt.length-1)):null;
-  return card('Score de chaque coup dans le temps',g+`</svg><div class="sqa-leg">${sg.length?`<span><i style="background:${BAND[0]}"></i>Essais</span>`:''}${sk.map((k,i)=>`<span><i style="background:${BAND[(i+(sg.length?1:0))%BAND.length]}"></i>Série ${k}</span>`).join('')}<span><i style="background:#555;height:2px"></i>Moyenne du match</span></div><p class="sqa-note" style="text-align:center">Durée totale : ${Math.round(tm)} min${gap!==null?` · temps moyen entre deux coups de match : ${gap} s`:''}</p>`);
+  const mt=m.filter(p=>p.t).map(p=>p.t).sort((a,b)=>a-b),ints=mt.slice(1).map((t,i)=>(t-mt[i])/1000),gsd=sdev(ints),gap=mt.length>1?Math.round(((Math.max(...mt)-Math.min(...mt))/1000)/(mt.length-1)):null;
+  return card('Score de chaque coup dans le temps',g+`</svg><div class="sqa-leg">${sg.length?`<span><i style="background:${BAND[0]}"></i>Essais</span>`:''}${sk.map((k,i)=>`<span><i style="background:${BAND[(i+(sg.length?1:0))%BAND.length]}"></i>Série ${k}</span>`).join('')}<span><i style="background:#555;height:2px"></i>Moyenne du match</span></div><p class="sqa-note" style="text-align:center">Durée totale : ${Math.round(tm)} min${gap!==null?` · temps moyen entre deux coups de match : ${gap} s${gsd!=null?` (écart type ${Math.round(gsd)} s)`:''}`:''}</p>`);
 }
-window.SQA={ok,cibles,scores,series,position,timings};
+window.SQA={ok,cibles,scores,evolution,series,position,timings};
 })();

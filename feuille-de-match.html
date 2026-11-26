@@ -364,9 +364,8 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
   <div class="card blk" id="blkStats" aria-label="Chiffres">
     <div class="blkhead"><h2><span class="num">3</span>Statistiques</h2></div>
     <div class="sqa-tabs" role="tablist" aria-label="Statistiques">
-      <button type="button" role="tab" data-st="resume" aria-selected="true">Résumé</button>
-      <button type="button" role="tab" data-st="cibles" aria-selected="false" class="sqa-only" hidden>🎯 Cibles</button>
-      <button type="button" role="tab" data-st="scores" aria-selected="false" class="sqa-only" hidden>Scores</button>
+      <button type="button" role="tab" data-st="cibles" aria-selected="false" class="sqa-only" hidden>Cibles</button>
+      <button type="button" role="tab" data-st="resume" aria-selected="true">Détails</button>
       <button type="button" role="tab" data-st="series" aria-selected="false" class="sqa-only" hidden>Séries</button>
       <button type="button" role="tab" data-st="position" aria-selected="false" class="sqa-only" hidden>Position des impacts</button>
       <button type="button" role="tab" data-st="timings" aria-selected="false" class="sqa-only" hidden>Timings</button>
@@ -381,6 +380,8 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
         <div class="tile"><b id="tBest">–</b><span id="tBestSub">Meilleure série</span></div>
         <div class="tile"><b id="tWorst">–</b><span id="tWorstSub">Moins bonne série</span></div>
         <div class="tile"><b id="tReg">–</b><span>Écart meilleure / moins bonne</span></div>
+        <div class="tile"><b id="tSdShot">–</b><span>Écart type par coup</span></div>
+        <div class="tile"><b id="tSdSer">–</b><span>Écart type des séries</span></div>
       </div>
       <h2>Séries</h2>
       <svg id="chart" class="chart" viewBox="0 0 420 180" role="img" aria-label="Total de chaque série"></svg>
@@ -396,7 +397,8 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});}
       </div>
       <h2 id="distTitle">Répartition des coups</h2>
       <svg id="dist" class="chart" viewBox="0 0 420 150" role="img" aria-label="Nombre de coups par valeur"></svg>
-      <p class="muted sqa-hint" id="sqaHint" style="margin:0">Importez un match depuis une cible SQ (bloc 1) : les onglets Cibles, Scores, Séries, Position des impacts et Timings s’ajoutent ici.</p>
+      <div id="stScoresSq" class="sqa-pane" hidden></div>
+      <p class="muted sqa-hint" id="sqaHint" style="margin:0">Importez un match depuis une cible SQ (bloc 1) : les onglets Cibles, Séries, Position des impacts et Timings s’ajoutent ici.</p>
     </div>
     <div id="stSq" class="sqa-pane" hidden></div>
     <div class="blkhead" style="margin-top:8px"><h2>Mes matchs</h2><a href="ma-progression.html" class="btnlink" style="text-decoration:none">📈 Ma progression</a></div>
@@ -689,6 +691,8 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ---------- Calculs ---------- */
+const sdev=a=>{if(!a||a.length<2)return null;const m=a.reduce((x,y)=>x+y,0)/a.length;return Math.sqrt(a.reduce((x,y)=>x+(y-m)*(y-m),0)/a.length)};
+const f2=v=>v==null?'–':v.toFixed(2).replace('.',',');
 function stats(m){
   const D=spec(m.disc,m.cat||'S1'),per=D.shots,ser=[];
   for(let i=0;i<D.n;i++){const part=m.shots.slice(i*per,i*per+per);ser.push({shots:part,tot:Math.round(part.reduce((a,s)=>a+s.v,0)*10)/10,full:part.length===per})}
@@ -696,7 +700,8 @@ function stats(m){
   const full=ser.filter(s=>s.full);
   let best=null,worst=null;
   ser.forEach((s,i)=>{if(!s.full)return;if(!best||s.tot>best.tot)best={tot:s.tot,i};if(!worst||s.tot<worst.tot)worst={tot:s.tot,i}});
-  return{ser,tot,n,avg:n?tot/n:null,proj:n?tot/n*D.n*D.shots:null,mo:m.shots.reduce((a,s)=>a+(s.x?1:0),0),best,worst,complete:n===D.n*D.shots};
+  const sdShot=sdev(m.shots.map(s=>s.v)),sdSer=sdev(full.map(s=>s.tot));
+  return{ser,tot,n,sdShot,sdSer,avg:n?tot/n:null,proj:n?tot/n*D.n*D.shots:null,mo:m.shots.reduce((a,s)=>a+(s.x?1:0),0),best,worst,complete:n===D.n*D.shots};
 }
 
 /* ---------- Rendu ---------- */
@@ -722,6 +727,7 @@ function render(){
   $('#tBest').textContent=S.best?fmt(S.best.tot,D.dec):'–';$('#tBestSub').textContent=S.best?`Meilleure série · S${S.best.i+1}`:'Meilleure série';
   $('#tWorst').textContent=S.worst?fmt(S.worst.tot,D.dec):'–';$('#tWorstSub').textContent=S.worst?`Moins bonne série · S${S.worst.i+1}`:'Moins bonne série';
   $('#tReg').textContent=S.best&&S.worst?fmt(S.best.tot-S.worst.tot,D.dec):'–';
+  $('#tSdShot').textContent=D.kind==='hit'?'–':f2(S.sdShot);$('#tSdSer').textContent=f2(S.sdSer);
   // feuille
   let fh='<tr><th style="text-align:left">Série</th>';for(let k=1;k<=per;k++)fh+=`<th>${k}</th>`;fh+='<th>Total</th></tr>';
   $('#fHead').innerHTML=fh;
@@ -757,7 +763,7 @@ function drawSeries(S){
   for(let k=0;k<=steps;k++){const v=lo+(hi-lo)*k/steps;g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${css('--line')}"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end" font-size="10" fill="${css('--muted')}">${fmt(v,D.dec&&(hi-lo)<10)}</text>`}
   for(let i=0;i<D.n;i++)g+=`<text x="${x(i)}" y="${Hh-8}" text-anchor="middle" font-size="11" fill="${css('--muted')}">S${i+1}</text>`;
   const avg=known.reduce((a,v)=>a+v,0)/known.length;
-  g+=`<line x1="${L}" x2="${W-R}" y1="${y(avg)}" y2="${y(avg)}" stroke="${css('--muted')}" stroke-dasharray="2 3"/><text x="${L+4}" y="${y(avg)-5}" font-size="10" fill="${css('--muted')}">moyenne ${fmt(avg,true)}</text>`;
+  g+=`<line x1="${L}" x2="${W-R}" y1="${y(avg)}" y2="${y(avg)}" stroke="${css('--muted')}" stroke-dasharray="2 3"/><text x="${L+4}" y="${y(avg)-5}" font-size="10" fill="${css('--muted')}">moy. ${fmt(avg,true)}${known.length>1?` · σ ${f2(sdev(known))}`:''}</text>`;
   const pts=vals.map((v,i)=>v===null?null:[x(i),y(v)]).filter(Boolean);
   if(pts.length>1){g+=`<path d="M${pts[0][0]},${y(lo)} L${pts.map(p=>p.join(',')).join(' L')} L${pts[pts.length-1][0]},${y(lo)} Z" fill="${css('--ink')}" fill-opacity=".07"/>`;
     g+=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="${css('--ink')}" stroke-width="2"/>`}
@@ -769,15 +775,15 @@ function drawSerStats(S){
   const D=d(),box=$('#serBox');box.hidden=!D.prec;if(!D.prec)return;
   const full=S.ser.filter(s=>s.full),avgSer=full.length?full.reduce((a,s)=>a+s.tot,0)/full.length:null;
   const ten=D.dec?10:10;
-  $('#sdHead').innerHTML=`<tr><th style="text-align:left">Série</th><th>Total</th><th>Moy./coup</th><th>10${D.mouche?' (X)':''}</th><th>Plus faible</th><th>Écart</th><th></th></tr>`;
+  $('#sdHead').innerHTML=`<tr><th style="text-align:left">Série</th><th>Total</th><th>Moy./coup</th><th>Écart type</th><th>10${D.mouche?' (X)':''}</th><th>Plus faible</th><th>Écart</th><th></th></tr>`;
   const lo=D.max*D.shots*0.8,hi=D.max*D.shots;
   $('#sdBody').innerHTML=S.ser.map((s,i)=>{
-    if(!s.shots.length)return `<tr><td style="text-align:left">S${i+1}</td><td colspan="6" class="muted">–</td></tr>`;
+    if(!s.shots.length)return `<tr><td style="text-align:left">S${i+1}</td><td colspan="7" class="muted">–</td></tr>`;
     const v=s.shots.map(x=>x.v),mn=Math.min(...v),mx=Math.max(...v),n10=v.filter(x=>x>=ten).length,nx=s.shots.filter(x=>x.x).length;
     const diff=s.full&&avgSer!==null?s.tot-avgSer:null;
     const w=Math.max(0,Math.min(1,(s.tot/s.shots.length*D.shots-lo)/(hi-lo)));
     const cls=s.full&&S.best&&S.best.i===i?'bestr':s.full&&S.worst&&S.worst.i===i&&S.best.i!==i?'worstr':'';
-    return `<tr class="${cls}"><td style="text-align:left">S${i+1}${s.full?'':' <span class="muted">('+s.shots.length+')</span>'}</td><td class="b">${fmt(s.tot,D.dec)}</td><td>${(s.tot/s.shots.length).toFixed(2).replace('.',',')}</td><td>${n10}${D.mouche?` (${nx})`:''}</td><td>${fmt(mn,D.dec)}</td><td class="${diff===null?'':diff>=0.05?'pos':diff<=-0.05?'neg':''}">${diff===null?'–':(diff>=0?'+':'−')+Math.abs(diff).toFixed(1).replace('.',',')}</td><td><span class="bar"><i style="width:${(w*100).toFixed(0)}%"></i></span></td></tr>`;
+    return `<tr class="${cls}"><td style="text-align:left">S${i+1}${s.full?'':' <span class="muted">('+s.shots.length+')</span>'}</td><td class="b">${fmt(s.tot,D.dec)}</td><td>${(s.tot/s.shots.length).toFixed(2).replace('.',',')}</td><td>${f2(sdev(v))}</td><td>${n10}${D.mouche?` (${nx})`:''}</td><td>${fmt(mn,D.dec)}</td><td class="${diff===null?'':diff>=0.05?'pos':diff<=-0.05?'neg':''}">${diff===null?'–':(diff>=0?'+':'−')+Math.abs(diff).toFixed(1).replace('.',',')}</td><td><span class="bar"><i style="width:${(w*100).toFixed(0)}%"></i></span></td></tr>`;
   }).join('');
 }
 function rankStats(){
@@ -981,9 +987,10 @@ $('#sqFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)retur
 function summary(){
   const D=d(),S=stats(M);
   const lines=[`${M.name||'Match'} · ${D.code} ${D.label} · ${CATN[M.cat||'S1']}${M.date?' · '+new Date(M.date).toLocaleDateString('fr-FR'):''}`];
-  S.ser.forEach((s,i)=>{if(s.shots.length)lines.push(`S${i+1} : ${fmt(s.tot,D.dec)}${D.prec?` · moy. ${(s.tot/s.shots.length).toFixed(2).replace('.',',')} · 10 : ${s.shots.filter(x=>x.v>=10).length}`:''}  (${s.shots.map(x=>D.kind==='hit'?(x.v?'T':'M'):x.x?'X':fmt(x.v,D.dec)).join(' ')})`)});
+  S.ser.forEach((s,i)=>{if(s.shots.length)lines.push(`S${i+1} : ${fmt(s.tot,D.dec)}${D.prec?` · moy. ${(s.tot/s.shots.length).toFixed(2).replace('.',',')}${s.shots.length>1?` · σ ${f2(sdev(s.shots.map(x=>x.v)))}`:''} · 10 : ${s.shots.filter(x=>x.v>=10).length}`:''}  (${s.shots.map(x=>D.kind==='hit'?(x.v?'T':'M'):x.x?'X':fmt(x.v,D.dec)).join(' ')})`)});
   lines.push(`Total : ${fmt(S.tot,D.dec)} / ${fmt(totMax(D),D.dec)}${S.complete?'':` (${S.n} coups sur ${N()})`}`);
-  if(S.avg!==null&&D.kind!=='hit')lines.push(`Moyenne par coup : ${S.avg.toFixed(2).replace('.',',')}`);
+  if(S.avg!==null&&D.kind!=='hit')lines.push(`Moyenne par coup : ${S.avg.toFixed(2).replace('.',',')}${S.sdShot!=null?` · écart type ${f2(S.sdShot)}`:''}`);
+  if(S.sdSer!=null)lines.push(`Écart type des séries : ${f2(S.sdSer)}`);
   if(D.mouche)lines.push(`Mouches : ${S.mo}`);
   if(M.shots.length){const rs=rankStats();
     if(D.ser)lines.push('Par gong : '+rs.map((r,k)=>`G${k+1} ${r.sum}/${r.tot}`).join(' · '));
@@ -1001,18 +1008,20 @@ $('#shareM').addEventListener('click',async()=>{
 });
 $('#shareClose').addEventListener('click',()=>{$('#sharePanel').hidden=true});
 /* ---------- Statistiques : Résumé + analyse SQ ---------- */
-let stTab='resume',sqaDec=store.get('mts-sq-dec',null);
+let stTab='resume',sqaDec=store.get('mts-sq-dec',null),stInit=false;
 if(!M.sqv&&/^Import SQ/.test(M.name||'')){try{const v=JSON.parse(localStorage.getItem('mts-sq-view')||'null');if(v&&v.disc===M.disc)M.sqv=v}catch(e){}}
 function sqaRender(){
   const v=M.sqv,has=!!(window.SQA&&v&&SQA.ok(v));
+  if(!stInit){stInit=true;if(has)stTab='cibles'}
   if(sqaDec===null&&v)sqaDec=v.disc==='c10';
   document.querySelectorAll('#fm .sqa-only').forEach(b=>b.hidden=!has);
   if(!has&&stTab!=='resume')stTab='resume';
   document.querySelectorAll('#fm .sqa-tabs [data-st]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.st===stTab)));
   $('#stResume').hidden=stTab!=='resume';$('#stSq').hidden=stTab==='resume';
-  $('#sqaHint').hidden=has;$('#sqaMode').hidden=!has||stTab==='resume'||stTab==='position';
+  $('#sqaHint').hidden=has;$('#sqaMode').hidden=!has||stTab==='resume'||stTab==='position'||stTab==='timings';
   document.querySelectorAll('#sqaMode [data-dec]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.dec==='1')===!!sqaDec)));
   if(has&&stTab!=='resume')$('#stSq').innerHTML=SQA[stTab](v,!!sqaDec);
+  $('#stScoresSq').hidden=!has||stTab!=='resume';if(has&&stTab==='resume')$('#stScoresSq').innerHTML=SQA.evolution(v);
 }
 document.querySelector('#fm .sqa-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-st]');if(!b)return;stTab=b.dataset.st;sqaRender()});
 $('#sqaMode').addEventListener('click',e=>{const b=e.target.closest('[data-dec]');if(!b)return;sqaDec=b.dataset.dec==='1';store.set('mts-sq-dec',sqaDec);sqaRender()});
@@ -1074,6 +1083,8 @@ async function buildPDF(){
   const full=S.ser.filter(s=>s.full),avgSer=full.length?full.reduce((a,s)=>a+s.tot,0)/full.length:null;
   const tiles=[];
   if(S.avg!==null&&D.kind!=='hit')tiles.push(['Moyenne par coup',S.avg.toFixed(2).replace('.',',')]);
+  if(S.sdShot!=null&&D.kind!=='hit')tiles.push(['Écart type par coup',f2(S.sdShot)]);
+  if(S.sdSer!=null)tiles.push(['Écart type des séries',f2(S.sdSer)]);
   if(!S.complete&&S.proj!==null)tiles.push(['Total projeté',fmt(Math.round(S.proj*10)/10,D.dec)]);
   if(D.mouche)tiles.push(['Mouches',String(S.mo)]);
   if(D.kind==='hit')tiles.push(['Touchés',`${S.tot} / ${S.n}`]);
