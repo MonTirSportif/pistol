@@ -28,9 +28,20 @@ function target(t,shots,view){
 }
 function arrow(x,y){const a=Math.atan2(y,x)*180/Math.PI;return `<svg viewBox="-8 -8 16 16" aria-hidden="true"><g transform="rotate(${a})"><line x1="-5" y1="0" x2="5" y2="0" stroke="#6b7684" stroke-width="1.6"/><path d="M5 0 L1 -3 L1 3 Z" fill="#6b7684"/></g></svg>`}
 const ok=d=>d&&d.shots&&d.shots.some(p=>!p.e);
+/* Séries numérotées 1, 2, 3… dans l'ordre de tir, quelle que soit la numérotation fournie par la SQ (0 ou 1 au départ, trous). */
+function norm(d){
+  if(!ok(d)||d._n)return d;
+  const m=d.shots.filter(p=>!p.e).slice().sort((a,b)=>(a.o||0)-(b.o||0)||(a.t||0)-(b.t||0));
+  const raw=[];m.forEach(p=>{if(!raw.includes(p.s))raw.push(p.s)});
+  const per=10;let map;
+  if(raw.length>=2&&raw.length<=12&&raw.every(v=>v!=null&&!isNaN(v)))map=p=>raw.indexOf(p.s)+1;
+  else{const idx=new Map(m.map((p,i)=>[p,i]));map=p=>Math.floor(idx.get(p)/per)+1}
+  return Object.assign({},d,{_n:1,shots:d.shots.map(p=>p.e?p:Object.assign({},p,{s:map(p)}))});
+}
 
 /* ---------- Cibles ---------- */
 function cibles(data,dec){
+  data=norm(data);
   if(!ok(data))return '<div class="sqa-empty">Aucune donnée SQ.</div>';
   const t=T[data.disc]||T.p10,val=p=>dec?p.sd:iv(p);
   const match=data.shots.filter(p=>!p.e),sight=data.shots.filter(p=>p.e);
@@ -65,6 +76,7 @@ function lineChart(series,labels,ymin,ymax,ystep,opt){opt=opt||{};const W=1000,H
 const card=(title,body)=>`<div class="sqa-card sqa-chart">${title?`<h3>${title}</h3>`:''}${body}</div>`;
 
 function scores(data){
+  data=norm(data);
   if(!ok(data))return '';
   const all=data.shots,m=all.filter(p=>!p.e),sg=all.filter(p=>p.e);
   const cnt={};m.forEach(p=>cnt[iv(p)]=(cnt[iv(p)]||0)+1);const ks=Object.keys(cnt).map(Number).sort((a,b)=>a-b);const mx=Math.max(...Object.values(cnt));
@@ -77,11 +89,13 @@ function scores(data){
   return card('Répartition des scores (SQ)',hist)+evolution(data);
 }
 function evolution(data){
+  data=norm(data);
   if(!ok(data))return '';
   const all=data.shots,m=all.filter(p=>!p.e),sg=all.filter(p=>p.e),seq=sg.concat(m),lo=Math.max(0,Math.floor(Math.min(...seq.map(p=>p.sd))-1));
   return card(`Évolution du score de chaque coup (SQ, décimal)${sdTxt(m.map(p=>p.sd)).replace(' · ',' · écart type ').replace('σ ','')}`,lineChart([{v:seq.map(p=>p.sd),c:'#2fd3b8'}],seq.map(p=>p.o),lo,11,1,{vgrid:true}));
 }
 function series(data,dec){
+  data=norm(data);
   if(!ok(data))return '';
   const all=data.shots,m=all.filter(p=>!p.e),lo=Math.max(0,Math.floor(Math.min(...all.map(p=>p.sd))-1));
   const bySer={};m.forEach(p=>{(bySer[p.s]=bySer[p.s]||[]).push(p)});const sk=Object.keys(bySer).sort((a,b)=>a-b);
@@ -92,6 +106,7 @@ function series(data,dec){
     +card('Score de chaque coup, série par série',leg+'<div class="sqa-leg">'+sk.map(k=>`<span>S${k}${sdTxt(bySer[k].map(p=>dec?p.sd:iv(p))).replace(' · ',' : ')}</span>`).join('')+'</div>'+lineChart(sk.map((k,i)=>({v:bySer[k].map(p=>p.sd),c:COL[i%COL.length],dots:false,w:2})),Array.from({length:maxLen},(_,i)=>i+1),lo,11,1,{vgrid:true}));
 }
 function position(data,dec,opt){
+  data=norm(data);
   if(!ok(data))return '';
   opt=opt||{};const m=data.shots.filter(p=>!p.e),t=T[data.disc]||T.p10;
   const zoom=opt.zoom||'cible',showI=opt.impacts!==false&&zoom!=='cible'||opt.impacts===true;
@@ -107,6 +122,7 @@ function position(data,dec,opt){
   return `<div class="sqa-pos">${card('Position des impacts',`<p class="sqa-pt">Latéral</p>${bar('Gauche','Droite',L)}<p class="sqa-pt">Hauteur</p>${bar('Haut','Bas',U)}<p class="sqa-note">Groupement moyen : ${virg((m.reduce((a,p)=>a+p.x,0)/m.length).toFixed(1))} mm horizontalement, ${virg((-m.reduce((a,p)=>a+p.y,0)/m.length).toFixed(1))} mm verticalement (positif : vers la droite / vers le haut). Écart type : ${virg(sdev(m.map(p=>p.x)).toFixed(1))} mm horizontalement, ${virg(sdev(m.map(p=>p.y)).toFixed(1))} mm verticalement.</p>`)}${card('Zoom',ctl+tg)}</div>`;
 }
 function timings(data){
+  data=norm(data);
   if(!ok(data))return '';
   const all=data.shots,m=all.filter(p=>!p.e),sg=all.filter(p=>p.e),withT=all.filter(p=>p.t);
   if(withT.length<2)return '<div class="sqa-empty">Pas d’horodatage des coups dans ces données.</div>';
