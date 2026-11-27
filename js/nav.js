@@ -60,6 +60,7 @@
     'feuille-de-match.html': ['Ma feuille de match', 'outils.html'],
     'reglage-clics.html': ['Mes clics de réglage', 'outils.html'],
     'annonce.html': ['Mon annonce', 'outils.html'],
+    'lecteur-scatt.html': ['Mon lecteur SCATT', 'outils.html'],
     'timer-match.html': ['Timer match', 'outils.html'],
     'ma-progression.html': ['Ma progression', 'outils.html'],
     'mon-plan-de-saison.html': ['Mon plan de saison', 'outils.html'],

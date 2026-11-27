@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}(function(){var c=null;try{c=JSON.parse(localStorage.getItem('mts-consent')||'null');}catch(e){}var ok=c&&c.v==='yes'&&(Date.now()-c.t)<3.4e10;window.MTS_CONSENT=c;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:ok?'granted':'denied'});window.mtsLoadGTM=function(){if(window.mtsGTM)return;window.mtsGTM=1;dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtm.js?id=GTM-5FBNSMQH';document.head.appendChild(s);};if(ok)window.mtsLoadGTM();})();</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mon lecteur SCATT – Pistolet ISSF – MonTirSportif</title>
+<meta name="description" content="Ouvrir un fichier SCATT (.scatt) dans le navigateur : la cible avec les impacts, la trace de visée de chaque coup, le temps de visée, la vitesse, les séries et le total. Rien n’est envoyé.">
+<link rel="canonical" href="https://pistol.montirsportif.com/lecteur-scatt.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MonTirSportif">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Mon lecteur SCATT – Pistolet ISSF – MonTirSportif">
+<meta property="og:description" content="Ouvrir un fichier SCATT (.scatt) dans le navigateur : la cible avec les impacts, la trace de visée de chaque coup, le temps de visée, la vitesse, les séries et le total. Rien n’est envoyé.">
+<meta property="og:url" content="https://pistol.montirsportif.com/lecteur-scatt.html">
+<meta property="og:image" content="https://pistol.montirsportif.com/img/partage/faire-le-point.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mon lecteur SCATT">
+<link rel="icon" type="image/png" href="img/coeur.png">
+<link rel="stylesheet" href="css/site.css?v=20261124b">
+<script src="js/routes.js" data-base=""></script>
+
+
+<link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pistol.montirsportif.com/img/partage/faire-le-point.jpg">
+
+
+<style>
+#ls{--accent:#2c6fb7;--amber:#e39a12;--hit:#d23b3b;--paper:#fbfbf7;--black:#1b1f23;--ringOnBlack:#e9ecef;--muted:#5b6876;--ink:#16202a;--mut2:#5b6876;font-variant-numeric:tabular-nums}
+#ls .card{background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem;min-width:0}
+#ls .drop-zone{border:2px dashed var(--line);border-radius:14px;padding:1.6rem 1rem;text-align:center;background:#fafbfc}
+#ls .drop-zone.over{border-color:var(--acc);background:#fff6f1}
+#ls .ls-btn{font:inherit;font-weight:600;padding:.5rem 1rem;border:1px solid var(--acc);border-radius:99px;background:var(--acc);color:#fff;cursor:pointer}
+#ls .ls-btn.ghost{background:#fff;color:var(--acc);padding:.3rem .8rem}
+#ls .ls-btn:focus-visible,#ls .seg button:focus-visible,#ls tr:focus-visible{outline:3px solid rgba(224,96,31,.35);outline-offset:2px}
+#ls .who{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:2rem;line-height:1.05;margin:0 0 .4rem}
+#ls .chips{display:flex;flex-wrap:wrap;gap:.35rem}
+#ls .chip{border:1px solid var(--line);border-radius:99px;padding:.1rem .6rem;font-size:.82rem;color:var(--mut2);background:#f6f7f9}
+#ls .chip b{color:inherit;color:#16202a;font-weight:600}
+#ls .note{font-size:.85rem;color:var(--mut2);margin:.5rem 0 0}
+#ls .note.warn{color:#a8650a}
+#ls .grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:1rem;margin-top:1rem}
+@media (max-width:860px){#ls .grid{grid-template-columns:minmax(0,1fr)}}
+#ls h3{margin:0 0 .6rem;font-family:"Barlow Condensed",sans-serif;font-size:1.25rem;text-transform:uppercase;letter-spacing:.03em;color:var(--mut2)}
+#ls .toolbar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+#ls .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+#ls .seg button{font:inherit;font-size:.85rem;background:#fff;color:#16202a;border:0;padding:.35rem .7rem;cursor:pointer}
+#ls .seg button[aria-pressed="true"]{background:var(--acc);color:#fff}
+#ls label.check{font-size:.85rem;color:var(--mut2);display:flex;gap:.35rem;align-items:center}
+#ls #ls-target{width:100%;aspect-ratio:1;display:block;border-radius:10px;background:#f4f6f8}
+#ls .legend{display:flex;flex-wrap:wrap;gap:.8rem;font-size:.78rem;color:var(--mut2);margin-top:.5rem}
+#ls .legend i{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+#ls .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+@media (max-width:420px){#ls .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#ls .tile{border:1px solid var(--line);border-radius:10px;padding:.45rem .6rem;background:#f6f7f9}
+#ls .tile .k{font-size:.75rem;color:var(--mut2)}
+#ls .tile .v{font-family:"Barlow Condensed",sans-serif;font-weight:600;font-size:1.6rem;line-height:1.1}
+#ls .tile .v small{font-family:inherit;font-size:.8rem;color:var(--mut2);font-weight:400}
+#ls .series{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.7rem}
+#ls .series .s{flex:1 1 80px;border-left:3px solid var(--acc);padding:.1rem .5rem;font-size:.8rem;color:var(--mut2)}
+#ls .series .s b{display:block;font-family:"Barlow Condensed",sans-serif;font-size:1.25rem;color:#16202a}
+#ls .shot{margin-top:.9rem;border-top:1px solid var(--line);padding-top:.8rem;display:grid;gap:.6rem}
+#ls .shot .head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap}
+#ls .shot .num{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:2.3rem;line-height:1}
+#ls .shot .num small{font-family:inherit;font-weight:400;font-size:.85rem;color:var(--mut2);margin-left:.4rem}
+#ls .pill{font-size:.75rem;border-radius:99px;padding:.1rem .5rem;border:1px solid var(--line);color:var(--mut2)}
+#ls .pill.sighter{border-color:var(--amber);color:#a8650a}
+#ls .pill.del{border-color:var(--hit);color:var(--hit)}
+#ls dl.kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.3rem .9rem;margin:0}
+@media (max-width:420px){#ls dl.kv{grid-template-columns:minmax(0,1fr)}}
+#ls dl.kv div{display:flex;justify-content:space-between;gap:.5rem;border-bottom:1px dashed var(--line);padding:.15rem 0}
+#ls dl.kv dt{color:var(--mut2);font-size:.82rem}
+#ls dl.kv dd{margin:0;font-weight:600}
+#ls .arrow{display:inline-block}
+#ls #ls-chart{width:100%;height:150px;display:block}
+#ls .tablewrap{overflow-x:auto}
+#ls table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:720px}
+#ls th,#ls td{padding:.35rem .5rem;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+#ls th{font-weight:600;color:var(--mut2);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em}
+#ls th:first-child,#ls td:first-child{text-align:left}
+#ls tbody tr{cursor:pointer}
+#ls tbody tr:hover{background:#fff4ee}
+#ls tbody tr.sel{background:#ffe6d9}
+#ls tbody tr.muted td{color:var(--mut2)}
+#ls td.low{color:var(--hit);font-weight:600}
+#ls .err{border:1px solid var(--hit);color:var(--hit);border-radius:10px;padding:.6rem .8rem;display:none;margin-top:.8rem}
+#ls .foot{font-size:.8rem;color:var(--mut2);margin-top:.8rem}
+@media print{#ls .drop-zone,#ls .toolbar,#ls .ls-btn{display:none}}
+</style>
+</head>
+<body>
+<header><div class="bar"><a class="logo" href="index.html" aria-label="MonTirSportif — accueil"><img src="img/logo.png" alt="MonTirSportif"></a>
+<nav id="nav"><a data-v="accueil" href="index.html" data-c="#e5473d">Accueil</a><a data-v="epreuves" href="disciplines.html" data-c="#2c6fb7">Disciplines</a><button type="button" id="prep-btn" aria-haspopup="true" aria-expanded="false" aria-controls="prep-menu">Préparation du tireur ▾</button><a data-v="infos" href="infos-pratiques.html" data-c="#5a6676">Sécurité</a><a data-v="faq" href="questions-frequentes.html" data-c="#44546a">Questions fréquentes</a><a data-v="a-propos" href="a-propos.html" data-c="#44546a">À propos</a></nav><button type="button" class="srch-btn" id="srch-btn" aria-label="Rechercher dans le site" title="Rechercher (touche /)"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span>Rechercher</span></button><div class="prep-menu" id="prep-menu" role="menu"><a role="menuitem" href="preparation-technique.html"><span style="background:#e0601f">1</span>Préparation technique</a><a role="menuitem" href="preparation-mentale.html"><span style="background:#7656d6">2</span>Préparation mentale</a><a role="menuitem" href="preparation-materielle.html"><span style="background:#12938a">3</span>Préparation matérielle</a><a role="menuitem" href="preparation-physique.html"><span style="background:#3d8f2a">4</span>Préparation physique</a><a role="menuitem" href="preparation-tactique.html"><span style="background:#8a5f00">5</span>Préparation tactique</a><a role="menuitem" class="sub" href="faire-le-point.html">Faire le point sur ma pratique</a><a role="menuitem" class="sub" href="outils.html">Mes outils : minuteries, carnet…</a><a role="menuitem" class="sub" href="annonce.html">Mon annonce</a><a role="menuitem" class="sub" href="timer-match.html">Timer match</a></div><script>(function(){var b=document.getElementById("prep-btn"),m=document.getElementById("prep-menu");if(!b||!m)return;
+function close(){m.classList.remove("open");b.setAttribute("aria-expanded","false");}
+function place(){var bar=m.parentNode.getBoundingClientRect(),r=b.getBoundingClientRect(),w=m.offsetWidth||260;var x=r.left-bar.left+r.width/2;x=Math.max(w/2+8,Math.min(bar.width-w/2-8,x));m.style.left=x+"px";}
+b.addEventListener("click",function(e){e.stopPropagation();var o=m.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");if(o)place();});
+window.addEventListener("resize",function(){if(m.classList.contains("open"))place();});
+m.addEventListener("click",function(e){if(e.target.closest("a"))close();});
+document.addEventListener("click",function(e){if(!m.contains(e.target)&&e.target!==b)close();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});})();</script></div></header>
+
+<main class="view" id="lecteur-scatt" style="--acc:#e0601f"><div class="theme-head"><a class="back" href="outils.html">← Retour</a><div class="kicker">Préparation du tireur › Les outils</div><h1>Mon lecteur SCATT</h1><p class="lead">Ouvrez une séance enregistrée avec SCATT (fichier .scatt) : la cible avec tous les impacts, la trace de visée de chaque coup, le temps de visée, la vitesse de la trace, les séries et le total. Le fichier est lu sur votre appareil : rien n’est envoyé.</p></div>
+<section class="first" id="lecteur"><div id="ls">
+<div class="drop-zone" id="ls-dropzone">
+<p style="margin:0 0 .7rem"><b>Ouvrez ou déposez ici un fichier .scatt</b></p>
+<input type="file" id="ls-file" accept=".scatt" hidden>
+<button class="ls-btn" id="ls-open" type="button">Choisir un fichier .scatt</button>
+<p class="note" style="margin-top:.7rem">Pistolet et carabine, 10 m et 50 m. Format des fichiers .scatt du logiciel SCATT (pas les .scatt-expert de SCATT Expert, dont les traces sont chiffrées).</p>
+</div>
+<div class="err" id="ls-err" role="alert"></div>
+<div id="ls-empty" class="note" style="margin-top:.8rem">Aucune séance ouverte.</div>
+<div id="ls-app" hidden>
+<div class="card" style="margin-top:1rem"><p class="who" id="ls-who">—</p><div class="chips" id="ls-chips"></div><p class="note" id="ls-note"></p></div>
+<div class="grid">
+<div class="card">
+<div class="toolbar"><div class="seg" role="group" aria-label="Vue de la cible"><button type="button" id="ls-vGroup" aria-pressed="true">Groupement</button><button type="button" id="ls-vShot" aria-pressed="false">Coup sélectionné</button><button type="button" id="ls-vFull" aria-pressed="false">Cible entière</button></div>
+<label class="check"><input type="checkbox" id="ls-showAll" checked> Tous les impacts</label></div>
+<svg id="ls-target" role="img" aria-label="Cible avec impacts et trace de visée"></svg>
+<div class="legend"><span><i style="background:#2e9e44"></i>jusqu’à 1 s avant</span><span><i style="background:#e3b60b"></i>de 1 s à 0,2 s</span><span><i style="background:#2f6fd6"></i>0,2 dernière s (lâcher)</span><span><i style="background:#d63a2f"></i>après le coup</span><span><i style="background:#e0601f;width:10px;height:10px;border-radius:50%"></i>impact</span><span>+ visée moyenne (1 s)</span></div>
+</div>
+<div class="card"><h3>Résultat</h3><div class="tiles" id="ls-tiles"></div><div class="series" id="ls-series"></div><div class="shot" id="ls-shot"></div></div>
+</div>
+<div class="card" style="margin-top:1rem"><h3>Coup par coup</h3><svg id="ls-chart" role="img" aria-label="Valeur estimée de chaque coup"></svg></div>
+<div class="card" style="margin-top:1rem"><div class="tablewrap"><table><thead><tr><th>N°</th><th>Série</th><th>Valeur*</th><th>Dir.</th><th>Temps de visée</th><th>Tenue dans le 10</th><th>Vitesse 1 s</th><th>Vitesse 250 ms</th><th>Écart visée–impact</th></tr></thead><tbody id="ls-rows"></tbody></table></div></div>
+<p class="foot">* Valeur estimée à partir de la trace : en général à 0,1 près du rapport SCATT, parfois 0,2. Le temps de visée, les vitesses et les trajectoires correspondent au rapport. Flèches ← → du clavier : coup précédent ou suivant.</p>
+</div>
+</div></section>
+<section id="lecteur-aide"><div class="kicker">Lire l’écran</div><h2>Ce que montre le lecteur</h2>
+<div class="grid2"><div class="card"><h3>La trace de visée</h3><ul class="check"><li>Les couleurs de SCATT : <b>vert</b> jusqu’à 1 s avant le coup, <b>jaune</b> de 1 s à 0,2 s (la stabilité), <b>bleu</b> les 0,2 dernières secondes (le lâcher), <b>rouge</b> après le coup (la continuation).</li><li>La <b>croix</b> marque la visée moyenne de la dernière seconde. Plus l’impact en est loin, plus le lâcher a déplacé l’arme.</li></ul></div>
+<div class="card"><h3>Les mesures</h3><ul class="check"><li><b>Temps de visée</b> : durée de la trace avant le départ du coup.</li><li><b>Vitesse</b> : chemin parcouru par le point de visée en une seconde (ou sur les 250 dernières ms), en mm/s. Plus elle est basse, plus la tenue est stable.</li><li><b>Tenue dans le 10</b> : part de la dernière seconde passée dans la zone du 10.</li></ul><p>Pour apprendre à lire ces traces : <a href="scatt.html">SCATT : lire ses erreurs de tir</a>.</p></div></div></section>
+<p class="print-src" style="margin-top:8mm;font-size:9pt;color:#444">MonTirSportif – https://pistol.montirsportif.com/lecteur-scatt.html</p></main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer>
+  <img class="footlogo" src="img/logo.png" alt="MonTirSportif">
+  <p><b>MonTirSportif</b> — La passion du tir et du partage. Nous écrire : <a href="mailto:contact@MonTirSportif.fr">contact@MonTirSportif.fr</a></p>
+  <p class="foot-links"><a href="a-propos.html">À propos</a> · <a href="bensport.html">bensport</a> · <a href="questions-frequentes.html">Questions fréquentes</a> · <a href="plan-du-site.html">Plan du site</a> · <a href="https://rifle.montirsportif.com/" target="_blank" rel="noopener">Site Carabine</a> · <a href="https://edt.montirsportif.com/" target="_blank" rel="noopener">Site École de tir</a> · <a href="https://thot.montirsportif.com/" target="_blank" rel="noopener">Site Thot</a> · <a href="https://handi.montirsportif.com/" target="_blank" rel="noopener">Site Handi</a> · <a href="https://club.montirsportif.com/" target="_blank" rel="noopener">Site Club</a> · <a href="https://sq.montirsportif.com/" target="_blank" rel="noopener">SQ</a> · <a href="videotheque.html">Vidéothèque</a> · <a href="c-est-nouveau.html">C'est nouveau</a> · <a href="hors-pistolet/index.html">Hors pistolet</a> · <a href="a-propos.html#cookies" data-cookies>Cookies</a> · 
+    <a href="https://www.montirsportif.fr/" target="_blank" rel="noopener">montirsportif.fr</a> ·
+    <a href="https://www.montirsportif.com/" target="_blank" rel="noopener">montirsportif.com</a> ·
+    <a href="https://entrainement.montirsportif.fr/" target="_blank" rel="noopener">entrainement.montirsportif.fr</a>
+  </p>
+  <p class="foot-links">
+    <a href="https://www.youtube.com/@montirsportif" target="_blank" rel="noopener">YouTube</a> ·
+    <a href="https://www.facebook.com/montirsportif" target="_blank" rel="noopener">Facebook</a> ·
+    <a href="https://www.instagram.com/montirsportif/" target="_blank" rel="noopener">Instagram</a> ·
+    <a href="https://www.tiktok.com/@montirsportif" target="_blank" rel="noopener">TikTok</a>
+  </p>
+  <p class="foot-sub"><a class="yt-sub" href="https://www.youtube.com/@montirsportif?sub_confirmation=1" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .6 12a31 31 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .4-4.8 31 31 0 0 0-.4-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg>S'abonner à la chaîne YouTube</a></p>
+  <p class="foot-partner">Partenaire principal<br><a href="https://sportquantum.com/" target="_blank" rel="noopener"><img src="img/sportquantum.png" alt="Sport Quantum"></a></p>
+  <p style="margin-top:1rem">Ce site est un support pédagogique : il ne remplace pas l'encadrement d'un entraîneur diplômé. (<a href="entraineurs.html">Mon entraîneur</a>)</p>
+</footer>
+
+<script>
+  function openTab(id){
+    var panel=document.getElementById(id); if(!panel) return;
+    var sec=panel.closest('section');
+    sec.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on', x.dataset.p===id)});
+    sec.querySelectorAll('.panel').forEach(function(x){x.classList.toggle('on', x===panel)});
+  }
+  document.querySelectorAll('.tabs button').forEach(function(b){ b.addEventListener('click',function(){ openTab(b.dataset.p); }); });
+  document.querySelectorAll('[data-go]').forEach(function(a){ a.addEventListener('click',function(){ openTab(a.dataset.go); }); });
+
+  /* Navigation entre les thèmes */
+  var navLinks=[].slice.call(document.querySelectorAll('#nav a'));
+  function route(){
+    var fv=document.querySelector('.view');var h=(location.hash||'').slice(1)||(fv&&fv.id)||'accueil';
+    var el=null; try{ el=document.getElementById(h); }catch(e){}
+    if(!el) el=document.querySelector('.view');
+    var view=el.classList.contains('view')?el:el.closest('.view');
+    if(!view){ view=document.querySelector('.view'); el=view; }
+    document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('on', v===view); });
+    navLinks.forEach(function(a){
+      var parent={'dopage':'physique','scatt':'technique','sentrainer':'technique','cibles':'materiel','cible-electronique':'materiel','autres-disciplines':'epreuves','plan':'a-propos'};
+      var on=a.dataset.v===(parent[view.id]||view.id); a.classList.toggle('on',on);
+      if(on){ document.getElementById('nav').style.setProperty('--navc',a.dataset.c);
+        var n=document.getElementById('nav'); var x=a.offsetLeft-n.offsetLeft; if(x<n.scrollLeft||x+a.offsetWidth>n.scrollLeft+n.clientWidth) n.scrollLeft=a.offsetLeft-n.offsetLeft-20; }
+    });
+    if(el===view){ window.scrollTo({top:0,left:0,behavior:'instant'}); }
+    else { var p=el.closest('.panel'); if(p && !p.classList.contains('on')) openTab(p.id);
+           setTimeout(function(){ el.scrollIntoView({behavior:'auto',block:'start'}); },0); }
+  }
+  (function(){var _r=route;route=function(){_r();var v=document.querySelector('.view.on');var cols={technique:'#e0601f',mental:'#7656d6',materiel:'#12938a',physique:'#3d8f2a',tactique:'#8a5f00',dopage:'#3d8f2a',scatt:'#e0601f',sentrainer:'#e0601f',cibles:'#12938a','cible-electronique':'#12938a'};
+    var bt=document.getElementById('prep-btn');if(!bt||!v)return;var t=cols[v.id];bt.classList.toggle('on',!!t);if(t){document.getElementById('nav').style.setProperty('--navc',t);navLinks.forEach(function(a){a.classList.remove('on');});}};})();
+  window.addEventListener('hashchange',route);
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href^="#"]'); if(!a) return;
+    if(a.getAttribute('href')===location.hash){ e.preventDefault(); route(); }
+  });
+  route();
+
+  /* Bilan */
+  var labels={
+    position:['La position','trouver votre point naturel, sans forcer avec le bras','#position'],
+    prise:['La prise en main','une pression modérée et identique','#prise'],
+    visee:['La visée','la netteté sur le guidon, pas sur la cible','#visee'],
+    respiration:['La respiration','des visées plus courtes, dans une pause calme','#respiration'],
+    lacher:['Le lâcher','une pression continue, sans coup de doigt','#lacher'],
+    routine:['La routine','la même séquence à chaque coup','#routine'],
+    mental:['La préparation mentale','penser au geste, pas au score','#mental'],
+    reglages:['Le réglage de l’arme','centrer son groupement avec le cran de mire','#reglages'],
+    physique:['La préparation physique','renforcer la tenue et l’endurance du bras','#physique'],
+    tactique:['La préparation tactique','gérer son temps et ses émotions en match','#tactique']
+  };
+  var order=['position','prise','visee','respiration','lacher','routine','mental','reglages','physique','tactique'];
+  document.querySelectorAll('#bilan input').forEach(function(c){
+    c.addEventListener('change',function(){
+      var on={}; document.querySelectorAll('#bilan input:checked').forEach(function(x){on[x.dataset.s]=1});
+      var keys=order.filter(function(k){return on[k]});
+      var box=document.getElementById('reco');
+      if(!keys.length){ box.innerHTML='<p style="color:var(--mut)">Cochez une ou plusieurs cases : les rubriques à travailler en priorité s’afficheront ici.</p>'; return; }
+      box.innerHTML='<p>Travaillez dans cet ordre :</p>'+keys.map(function(k,i){var l=labels[k];return '<a href="'+l[2]+'"><span>'+(i+1)+'. '+l[0]+'</span> — '+l[1]+'</a>';}).join('');
+    });
+  });
+
+  /* FAQ */
+  (function(){
+    var cat='all', q=document.getElementById('faq-search'); if(!q) return;
+    function norm(t){return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+    function apply(){
+      var term=norm(q.value.trim()), any=false;
+      document.querySelectorAll('.faq-group').forEach(function(g){
+        var vis=0, okcat=(cat==='all'||g.dataset.cat===cat);
+        g.querySelectorAll('.faq-item').forEach(function(it){
+          var ok=okcat && (!term || norm(it.textContent).indexOf(term)>=0);
+          it.style.display=ok?'':'none'; if(ok){vis++; if(term) it.open=true;}
+        });
+        g.style.display=vis?'':'none'; if(vis) any=true;
+      });
+      document.getElementById('faq-empty').style.display=any?'none':'block';
+    }
+    q.addEventListener('input',apply);
+    document.querySelectorAll('.faq-cats button').forEach(function(b){
+      b.addEventListener('click',function(){ cat=b.dataset.cat;
+        document.querySelectorAll('.faq-cats button').forEach(function(x){x.classList.toggle('on',x===b)}); apply(); });
+    });
+  })();
+
+  /* Plan de match */
+  var btn=document.getElementById('copyplan');
+  if(btn) btn.addEventListener('click',function(){
+    var t='MON PLAN DE MATCH\n'; document.querySelectorAll('#planform label').forEach(function(l){
+      var f=l.querySelector('input,textarea'); if(f) t+='\n'+l.firstChild.textContent.trim()+' : '+(f.value.trim()||'—');
+    });
+    var msg=document.getElementById('copied');
+    try{ navigator.clipboard.writeText(t).then(function(){msg.textContent='Copié !';},function(){msg.textContent='Copie impossible ici : sélectionnez le texte à la main.';}); }
+    catch(e){ msg.textContent='Copie impossible ici : sélectionnez le texte à la main.'; }
+  });
+</script>
+<script>(function(){var n=0;window.addEventListener("hashchange",function(){n++;});
+document.addEventListener("click",function(e){var a=e.target.closest("a.back");if(!a)return;
+if(n>0){e.preventDefault();history.back();return;}
+try{var r=document.referrer&&new URL(document.referrer);if(r&&r.host===location.host&&r.pathname!==location.pathname){e.preventDefault();history.back();}}catch(x){}});})();</script>
+<div id="ck" class="ck" role="dialog" aria-live="polite" aria-label="Cookies" hidden>
+<p><b>Cookies de mesure d'audience</b><br>Nous aimerions mesurer la fréquentation du site (Google) pour l'améliorer. Rien n'est déposé sans votre accord. <a href="a-propos.html#cookies">En savoir plus</a></p>
+<div class="ck-act"><button type="button" class="ck-btn ck-sec" id="ck-no">Tout refuser</button><button type="button" class="ck-btn" id="ck-yes">Accepter</button></div>
+</div>
+
+<script>(function(){var b=document.getElementById('ck');function save(v){try{localStorage.setItem('mts-consent',JSON.stringify({v:v,t:Date.now()}));}catch(e){}
+gtag('consent','update',{analytics_storage:v==='yes'?'granted':'denied'});if(v==='yes')window.mtsLoadGTM();b.hidden=true;}
+var c=window.MTS_CONSENT;var valid=c&&((c.v==='yes'&&Date.now()-c.t<3.4e10)||(c.v==='no'&&Date.now()-c.t<1.58e10));if(!valid)b.hidden=false;
+document.getElementById('ck-yes').addEventListener('click',function(){save('yes');});
+document.getElementById('ck-no').addEventListener('click',function(){save('no');});
+document.addEventListener('click',function(e){if(e.target.closest('[data-cookies]')){e.preventDefault();b.hidden=false;document.getElementById('ck-no').focus();}});})();</script>
+
+
+<script src="js/share.js"></script>
+<script src="js/nav.js?v=20261126handi"></script>
+<script src="js/search.js" data-base=""></script>
+<script src="js/listen.js"></script>
+<script src="js/scatt-lecteur.js"></script>
+</body>
+</html>
